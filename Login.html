@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERP - Estoques </title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Login.css">
 </head>
 <body>
     
@@ -19,7 +19,7 @@
         <input type="text" required placeholder="Cnpj ou CPF">
         <input type="password" required placeholder="********">
         <div class="Login">
-            <button class="btn-login" id="btn-login">Logar</button>
+            <button class="btn-login" id="btn-login" >Logar</button>
         </div>
         <div class="Criar-conta"><p>Ainda não possui conta? Vá para a página de <a href="#" onclick="Aviso()">Cadastrar</a> </p></div>
     </div>
@@ -27,6 +27,9 @@
     <script>
         function Aviso() {
             alert("Redirecionando para a página de cadastro...");
+        }
+        function click() {
+            alert("Logando...");
         }
     </script>
 </body>
