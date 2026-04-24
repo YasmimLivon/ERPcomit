@@ -73,11 +73,13 @@ body {
     flex-direction: column;
 }
 
-.content-header {
+.content-area {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
+
+    width: 100%;
 }
 
 .content-header h1 {
@@ -98,4 +100,104 @@ body {
 
 .btn-adicionar:hover {
     background-color: #070C96;
+}
+.section-container {
+    width: 100%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: auto;
+}
+
+
+.form-box {
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+}
+
+.title {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Estrutura de Grupos e Linhas */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.group-label {
+    display: block;
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.row {
+    display: flex;
+    gap: 15px;
+}
+
+/* Estilo Geral dos Inputs */
+.input-field {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 25px; /* Formato pílula das imagens */
+    background: #f8f8f8;
+    outline: none;
+    font-size: 14px;
+}
+
+/* Linha Divisória sutil */
+.divider {
+    height: 1px;
+    background: #eee;
+    margin: 20px 0;
+    position: relative;
+}
+
+/* Centralização específica para o bloco de quantidade */
+.center-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Estilo para o campo de destaque roxo/azul escuro */
+.pill-dark {
+    background-color: #070C96;
+    color: white;
+    max-width: 250px;
+    text-align: center;
+}
+
+.pill-dark::placeholder {
+    color: #ccc;
+}
+
+/* Botão Principal */
+.btn-main {
+    width: 100%;
+    max-width: 300px;
+    padding: 14px;
+    background-color: #070C96;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: opacity 0.2s;
+}
+
+.btn-main:hover {
+    opacity: 0.9;
 }

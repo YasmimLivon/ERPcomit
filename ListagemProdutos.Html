@@ -1,12 +1,118 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listagem de Produtos</title>
-    <link rel="stylesheet" href="Style.css">
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tela de Produtos</title>
+    <link rel="stylesheet" href="Listagem.css" />
+  </head>
+  <body>
+    <div class="app-card">
+      <nav class="sidebar">
+        <div class="logo-winx">
+          <img src="img/Logo.png" alt="Logo Winxs" />
+        </div>
+
+        <a href="#" class="nav-item ">Fornecedores e Clientes</a>
+        <a href="#" class="nav-item">Vendas</a>
+        <a href="#" class="nav-item">Estoque</a>
+        <a href="#" class="nav-item">Funcionários</a>
+        <a href="#" class="nav-item">Folha de Pagamento</a>
+        <a href="#" class="nav-item">Financeiro</a>
+        <a href="#" class="nav-item active">Produtos</a>
+        <a href="#" class="nav-item">Vendas Simples</a>
+      </nav>
+
+      <div class="content-area">
+        <header class="content-header">
+          <h1>Produtos</h1>
+          <div class="Buttons-adfil">
+            <button class="btn-filtrar">Filtrar</button>
+       <a href="Inicio.Html" class="btn-adicionar">Adicionar Produto</a>
+          </div>
+        </header>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr id="cabecalho">
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="produto">Camisa Branca</div></td>
+                <td><div class="preco">R$ 45,00</div></td>
+                <td><div class="estoque">120</div></td>
+                <td>
+                  <div class="acao">
+                    <button class="btn-edit">Editar</button>
+                    <button class="btn-delete">🗑️</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="produto">Calça Jeans Azul</div></td>
+                <td><div class="preco">R$ 129,90</div></td>
+                <td><div class="estoque">75</div></td>
+                <td>
+                  <div class="acao">
+                    <button class="btn-edit">Editar</button>
+                    <button class="btn-delete">🗑️</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="produto">Tênis Esportivo</div></td>
+                <td><div class="preco">R$ 179,90</div></td>
+                <td><div class="estoque">200</div></td>
+                <td>
+                  <div class="acao">
+                    <button class="btn-edit">Editar</button>
+                    <button class="btn-delete">🗑️</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="produto">Chapéu de Palha</div></td>
+                <td><div class="preco">R$ 35,00</div></td>
+                <td><div class="estoque">50</div></td>
+                <td>
+                  <div class="acao">
+                    <button class="btn-edit">Editar</button>
+                    <button class="btn-delete">🗑️</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="produto">Mochila Executiva</div></td>
+                <td><div class="preco">R$ 159,90</div></td>
+                <td><div class="estoque">35</div></td>
+                <td>
+                  <div class="acao">
+                    <button class="btn-edit">Editar</button>
+                    <button class="btn-delete">🗑️</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><div class="produto">Óculos</div></td>
+                <td><div class="preco">R$ 89,90</div></td>
+                <td><div class="estoque">50</div></td>
+                <td>
+                  <div class="acao">
+                    <button class="btn-edit">Editar</button>
+                    <button class="btn-delete">🗑️</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

@@ -26,15 +26,49 @@
 
         <a href="#" class="nav-item active icon-produtos">Produtos </a>
 
-        <a href="#" class="nav-item icon-vendas-simple">Vendas</a>
+            <a href="#" class="nav-item icon-vendas-simple">Vendas Simples</a>
 
             </nav>
       
-      <div class="content-area">
-        <header class="content-header">
-          <h1>Produtos</h1>
-        </header>
-       </div>
+      
+<section class="section-container">
+    <div class="form-box">
+        <h1 class="title">Crie seu Produto</h1>
+        
+        <form class="form-content">
+            <div class="input-group">
+                <span class="group-label">Dados do Produto</span>
+                <div class="row">
+                    <input type="text" class="input-field" placeholder="Nome do Produto">
+                    <input type="text" class="input-field" placeholder="Código do Produto">
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="input-group">
+                <span class="group-label">Vendas</span>
+                <div class="row">
+                    <input type="text" class="input-field" placeholder="Preço de Venda">
+                    
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="input-group center-items">
+                <input type="text" class="input-field pill-dark" placeholder="quantidade produto" readonly>
+                <div class="select-container">
+                      <input type="number" class="input-field" placeholder="0">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-main">Registrar</button>
+        </form>
+    </div>
+</section>
+
 
   </body>
+  
 </html>
