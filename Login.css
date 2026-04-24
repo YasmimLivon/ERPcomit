@@ -2,16 +2,27 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'open sans', sans-serif;
 }
-.navbar{
+.Container{
+    width: 700px;
+    height: 700px;
+    background-color: #F0F0F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 250px auto ;
+    border-radius: 20px;
+    border: 2px solid #C4C3C9;
+}
+.Center{
     display: flex;
     align-items: center;
     justify-content: space-around;
     flex-direction: column;
-    margin-top: 340px;
     gap: 4px;
 }
-.navbar-logo{
+.Center-logo{
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -29,6 +40,7 @@ input{
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 20px;
+    background-color: white;
 }
 .btn-login{
     width: 500px;
@@ -42,5 +54,5 @@ input{
 }
 .Criar-conta{
     margin-top: 26px;
-    font-size: 14px;
+    font-size: 20px;
 }
