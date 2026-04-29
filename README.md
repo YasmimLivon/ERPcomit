@@ -31,4 +31,4 @@ Para rodar este projeto localmente, você precisará de:
 
 1. Clone este repositório na branch específica:
    ```bash
-   git clone -b Flauzino [https://github.com/YasmimLivon/ERPcomit.git](https://github.com/YasmimLivon/ERPcomit.git)
+   git clone -b Flauzino [https://github.com/YasmimLivon/ERPcomit.git]
