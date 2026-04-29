@@ -18,8 +18,6 @@ O **ERPcomit** é um sistema de gestão empresarial (Enterprise Resource Plannin
 
 As seguintes ferramentas foram fundamentais na construção deste projeto:
 
-- **Linguagem:** [Python](https://www.python.org/)
-- **Framework Web:** [Django](https://www.djangoproject.com/)
 - **Banco de Dados:** [PostgreSQL / SQLite]
 - **Frontend:** [Bootstrap / HTML5 / CSS3]
 - **Versionamento:** Git
@@ -28,7 +26,6 @@ As seguintes ferramentas foram fundamentais na construção deste projeto:
 
 Para rodar este projeto localmente, você precisará de:
 - [Git](https://git-scm.com)
-- [Python 3.x](https://www.python.org/downloads/)
 - Gerenciador de pacotes `pip`
 
 ## 🔧 Instalação e Execução
