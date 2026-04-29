@@ -1,6 +1,5 @@
 # ERPcomit 🚀
 
-![Badge](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
 ![Badge](https://img.shields.io/badge/Branch-Flauzino-blue?style=for-the-badge)
 ![Badge](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow?style=for-the-badge)
 
