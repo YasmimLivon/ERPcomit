@@ -1,0 +1,100 @@
+/* Reset básico e fonte */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background-color: #f0f0f0; /* Fundo cinza claro da página */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.Center {
+    background-color: #ededed; /* Cor do card interno */
+    padding: 40px;
+    border-radius: 15px; /* Bordas arredondadas */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.Center-logo img {
+    width: 120px; /* Ajuste conforme o tamanho da sua logo */
+    margin-bottom: 10px;
+}
+
+.Center-logo h1 {
+    font-size: 22px;
+    color: #000;
+    margin-bottom: 25px;
+}
+
+.Center-logo h1 span {
+    color: #2b00d4; /* Roxo/Azul do Winx's */
+}
+
+/* Estilização dos Inputs */
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #d1d9e6;
+    border-radius: 5px;
+    background-color: #e8f0fe; /* Cor azulada clara dos inputs na imagem */
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #2b00d4;
+    background-color: #fff;
+}
+
+/* Botão de Login */
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background-color: #1a008c; /* Azul escuro/roxo profundo */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #2b00d4;
+}
+
+/* Texto debaixo */
+.Criar-conta {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #333;
+}
+
+.Criar-conta a {
+    color: #2b00d4;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.Login {
+    margin-top: 10px;
+}
