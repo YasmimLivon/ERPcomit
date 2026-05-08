@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Winx</title>
+    <link rel="stylesheet" href="estoque.css">
+</head>
+<body>
+
+<div class="app-card">
+
+    <nav class="sidebar">
+        <div class="logo-winx">
+            <img src="img/Logo.png">
+        </div>
+
+     <a href="#" class="nav-item ">Fornecedores e Clientes</a>
+        <a href="#" class="nav-item">Vendas</a>
+        <a href="#" class="nav-item active">Estoque</a>
+        <a href="#" class="nav-item">Funcionários</a>
+        <a href="#" class="nav-item">Folha de Pagamento</a>
+        <a href="#" class="nav-item">Financeiro</a>
+        <a href="ListagemProdutos.Html" class="nav-item ">Produtos</a>
+        <a href="#" class="nav-item">Vendas Simples</a>
+    </nav>
+
+    <div class="content-area">
+
+        <div class="area-login">
+            <button class="btn-sair">Sair</button>
+        </div>
+
+        <header class="content-header">
+            <h1>Estoque</h1>
+
+            <div class="Buttons-adfil">
+                <button class="btn-filtrar">Filtrar</button>
+                <button class="btn-adicionar">Adicionar</button>
+            </div>
+        </header>
+
+       <div class="table-container">
+    <table>
+        <thead>
+            <tr id="cabecalho">
+                <th>Produtos</th>
+                <th>Quantidade</th>
+                <th>Valor Un</th>
+                <th>Codigo</th>
+                <th>Fornecedores</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-corpo"></tbody>
+
+    </table>
+</div>
+
+        <!-- NOVOS BOTÕES -->
+        <div class="footer-actions">
+            <button class="btn-entrada">+ Entrada</button>
+            <button class="btn-saida">- Saída</button>
+        </div>
+
+    </div>
+</div>
+<script src="Estoque.js"></script>
+</body>
+</html>
