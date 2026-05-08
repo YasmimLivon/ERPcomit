@@ -32,7 +32,7 @@ if (loginForm) {
     const loginButton = document.getElementById("btn-login");
 
     if (localStorage.getItem(TOKEN_KEY)) {
-        window.location.href = "Forne&Cli.html";
+        window.location.href = "Pages/Forne&Cli.html";
     }
 
     loginForm.addEventListener("submit", async (event) => {
@@ -57,7 +57,7 @@ if (loginForm) {
             if(dados.token) {
                 localStorage.setItem(TOKEN_KEY, dados.token);
                 showMessage("Login bem-sucedido!", "success");
-                window.location.href = "Forne&Cli.html";
+                window.location.href = "Pages/Forne&Cli.html";
             }
         } catch (error) {
             showMessage(error.message || "Erro ao tentar entrar");
