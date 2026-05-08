@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winxs - Estoques </title>
+    <link rel="stylesheet" href="Login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="Container">
+    <div class="Center">
+        <div class="Center-logo">
+        <img src="Img/Logo.png" alt="Winx Logo">
+        <div>
+            <h1>Entre na sua conta <span>Winx's</span></h1>
+        </div>
+        </div>
+        <input type="email" required placeholder="*****@gmail.com">
+        <input type="text" required placeholder="Cnpj ou CPF">
+        <input type="password" required placeholder="********">
+        <div class="Login">
+            <button class="btn-login" id="btn-login">Logar</button>
+        </div>
+        <div class="Criar-conta"><p>Ainda não possui conta? Vá para a página de <a href="#" onclick="Aviso()">Cadastrar</a> </p></div>
+    </div>
+    </div>
+    
+    <script>
+        function Aviso() {
+            alert("Redirecionando para a página de cadastro...");
+        }
+
+        const btnLogin = document.getElementById('btn-login');
+        btnLogin.addEventListener('click', function() {
+            alert('Logando...');
+        });
+    </script>
+</body>
+</html>

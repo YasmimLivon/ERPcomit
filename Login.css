@@ -1,0 +1,58 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'open sans', sans-serif;
+}
+.Container{
+    width: 700px;
+    height: 700px;
+    background-color: #F0F0F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 250px auto ;
+    border-radius: 20px;
+    border: 2px solid #C4C3C9;
+}
+.Center{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    gap: 4px;
+}
+.Center-logo{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+span{
+    color: blue;
+}
+
+input{
+    width: 500px;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: white;
+}
+.btn-login{
+    width: 500px;
+    height: 50px;
+    border-radius: 8px;
+    border: none;
+    background-color: #070C96;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+.Criar-conta{
+    margin-top: 26px;
+    font-size: 20px;
+}
