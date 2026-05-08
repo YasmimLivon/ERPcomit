@@ -32,38 +32,46 @@ if (loginForm) {
     const loginButton = document.getElementById("btn-login");
 
     if (localStorage.getItem(TOKEN_KEY)) {
-        window.location.href = "Forne&Cli.html";
+        window.location.href = "Pages/Forne&Cli.html";
     }
 
-    loginForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        try{
-            loginButton.disabled = true;
-            loginButton.textContent = "Entrando...";
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    try {
+        loginButton.disabled = true;
+        loginButton.textContent = "Entrando...";
 
-            const response = await fetch(`${API_URL}/Login/entrar`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email: loginEmail.value,
-                    password: loginPassword.value
-                })
-            });
-            const dados = await response.json();
-
-            if(!response.ok) throw new Error(dados.message || "Erro desconhecido");
-            
-
-            if(dados.token) {
-                localStorage.setItem(TOKEN_KEY, dados.token);
-                showMessage("Login bem-sucedido!", "success");
-                window.location.href = "Forne&Cli.html";
-            }
-        } catch (error) {
-            showMessage(error.message || "Erro ao tentar entrar");
-        } finally {
-            loginButton.disabled = false;
-            loginButton.textContent = "Entrar";
-        }
+        const response = await fetch(`${API_URL}/Login/entrar`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: loginEmail.value,
+                password: loginPassword.value
+            })
         });
+
+        const dados = await response.json();
+
+        // Verificação específica para erro de credenciais
+        if (!response.ok) {
+            if (response.status === 401) {
+                alert("❌ Senha incorreta ou usuário não encontrado!"); // O ALERT QUE VOCÊ PEDIU
+            }
+            throw new Error(dados.message || "Erro ao fazer login");
+        }
+
+        if (dados.token) {
+            localStorage.setItem(TOKEN_KEY, dados.token);
+            window.location.href = "Pages/Forne&Cli.html";
+        }
+
+    } catch (error) {
+        // Exibe o erro na sua função de mensagem customizada, se houver
+        if (typeof showMessage === "function") {
+            showMessage(error.message, "error");
+        }
+    } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = "Entrar";
     }
+})};
