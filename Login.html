@@ -11,32 +11,26 @@
 </head>
 <body>
     <div class="Container">
-    <div class="Center">
-        <div class="Center-logo">
+<div class="Center">
+    <div class="Center-logo">
         <img src="Img/Logo.png" alt="Winx Logo">
         <div>
             <h1>Entre na sua conta <span>Winx's</span></h1>
         </div>
-        </div>
-        <input type="email" required placeholder="*****@gmail.com">
-        <input type="text" required placeholder="Cnpj ou CPF">
-        <input type="password" required placeholder="********">
-        <div class="Login">
-            <button class="btn-login" id="btn-login">Logar</button>
-        </div>
-        <div class="Criar-conta"><p>Ainda não possui conta? Vá para a página de <a href="#" onclick="Aviso()">Cadastrar</a> </p></div>
-    </div>
     </div>
     
-    <script>
-        function Aviso() {
-            alert("Redirecionando para a página de cadastro...");
-        }
+    <form id="form-login">
+        <input type="email" id="login-email" required placeholder="*****@gmail.com">
+        <input type="password" id="login-senha" required placeholder="********">
+        
+        <div class="Login">
+            <button type="submit" class="btn-login" id="btn-login">Logar</button>
+        </div>
+    </form>
 
-        const btnLogin = document.getElementById('btn-login');
-        btnLogin.addEventListener('click', function() {
-            alert('Logando...');
-        });
-    </script>
+</div>
+    </div>
+    
+<script src="Login.js"></script>
 </body>
 </html>
