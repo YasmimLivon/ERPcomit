@@ -15,84 +15,125 @@ body {
 
 .app-card {
     background-color: #ffffff;
-    width: 95%;
-    max-width: 1200px;
-    height: 90vh;
-    border-radius: 15px;
+    width: 100%;
+    max-width: 1100px;
+    height: 100%;
+    max-height: 800px;
+    /* Aumentei um pouco para caber a tabela melhor */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     display: flex;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     overflow: hidden;
 }
-.area-sair {
-    display: flex;
-    justify-content: flex-end;
-    padding: 20px;
-}
 
-/* SIDEBAR */
+/* Sidebar */
 .sidebar {
-    width: 260px;
+    width: 240px;
     background-color: #f8f9fa;
     border-right: 1px solid #eee;
     display: flex;
     flex-direction: column;
-    padding: 20px 0;
+    padding-top: 30px;
 }
 
 .logo-winx {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .logo-winx img {
-    max-width: 100px;
+    max-width: 120px;
 }
+
+/* --- NAVEGAÇÃO COM EFEITO DE MOVIMENTO --- */
 
 .nav-item {
     padding: 15px 25px;
     text-decoration: none;
     color: #666;
     font-size: 14px;
-    transition: 0.2s;
+    display: block;
+    /* Garante que o padding funcione em toda a área */
+    position: relative;
+    transition: all 0.3s ease;
+    /* Transição suave para todas as propriedades */
+    z-index: 1;
+}
+
+.nav-item:hover {
+    background-color: #f0f0f0;
+    color: #070C96;
+    padding-left: 35px;
+    /* Efeito de "empurrão" para a direita ao passar o mouse */
 }
 
 .nav-item.active {
-    background-color: #ececf6;
+    background-color: #e9ecef;
     color: #070C96;
     font-weight: bold;
-    border-left: 5px solid #070C96;
+    border-left: 4px solid #070C96;
+    padding-left: 30px;
+    /* Mantém um leve recuo por estar ativo */
 }
 
-.btn-sair {
-    margin: auto 20px 20px;
-    padding: 10px;
-    background: #ff4d4d;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100px;
-
+/* Animação adicional: barra lateral interna que cresce no hover */
+.nav-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(7, 12, 150, 0.05);
+    transition: width 0.3s ease;
+    z-index: -1;
 }
 
-/* CONTEÚDO PRINCIPAL */
+.nav-item:hover::before {
+    width: 100%;
+}
+
+/* Área de Conteúdo */
 .content-area {
     flex: 1;
     padding: 40px;
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
+    /* Permite scroll se a tabela for grande */
 }
 
 .content-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .content-header h1 {
-    font-size: 24px;
+    font-size: 26px;
     color: #333;
+}
+
+.area-sair {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.btn-sair {
+    padding: 8px 16px;
+    background-color: #ff002b;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-sair:hover {
+    background-color: #070C96;
 }
 
 .buttons-actions {
@@ -101,22 +142,33 @@ body {
 }
 
 .btn-filtrar {
-    background: #bfbfbf;
+    padding: 10px 20px;
+    background-color: #BFBFBF;
+    color: black;
     border: none;
-    padding: 8px 20px;
     border-radius: 20px;
+    font-weight: bold;
     cursor: pointer;
-    font-weight: 500;
+}
+
+.btn-filtrar:hover {
+    background-color: #ff002b;
+    color: white;
 }
 
 .btn-adicionar {
-    background: #070C96;
+    padding: 10px 20px;
+    background-color: #070C96;
     color: white;
     border: none;
-    padding: 8px 25px;
     border-radius: 20px;
+    font-weight: bold;
     cursor: pointer;
-    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-adicionar:hover {
+    background-color: #ff002b;
 }
 
 /* TABELA ESTILO FORNECEDORES */
@@ -177,9 +229,11 @@ td {
 .modal-overlay {
     display: none;
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     justify-content: center;
     align-items: center;
@@ -197,15 +251,22 @@ td {
 
 .close-modal {
     position: absolute;
-    top: 15px; right: 20px;
+    top: 15px;
+    right: 20px;
     font-size: 25px;
     cursor: pointer;
     color: #999;
 }
 
-.form-modal h2 { margin-bottom: 25px; color: #333; }
+.form-modal h2 {
+    margin-bottom: 25px;
+    color: #333;
+}
 
-.input-group { margin-bottom: 20px; text-align: left; }
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
 
 .input-group label {
     display: block;
@@ -215,7 +276,10 @@ td {
     text-transform: uppercase;
 }
 
-.row { display: flex; gap: 10px; }
+.row {
+    display: flex;
+    gap: 10px;
+}
 
 .input-pill {
     width: 100%;
@@ -246,4 +310,27 @@ td {
     font-weight: bold;
     cursor: pointer;
     margin-top: 10px;
+}
+
+/* Animação Suave de Entrada */
+@keyframes smoothPageIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.98) translateY(15px);
+        filter: blur(5px);
+        /* Começa levemente embaçado */
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+.app-card {
+    /* Usando cubic-bezier para um movimento mais 'elástico' e elegante */
+    animation: smoothPageIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    will-change: transform, opacity;
+    /* Otimiza a performance do navegador */
 }
