@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item pedido</title>
+    <link rel="stylesheet" href="itempedido.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" 
+    rel="stylesheet">
+
+</head>
+<body>
+    <div class="app-card">
+      <nav class="sidebar">
+        <div class="logo-winx"><img src="img/Logo.png" alt="Logo Winxs"></div>
+        <a href="#" class="nav-item active">Contatos</a>
+        <a href="#" class="nav-item">Estoque</a>
+        <a href="#" class="nav-item">Funcionários</a>
+        <a href="#" class="nav-item" id="folhadepagamento">Folha de Pagamento</a>
+        <a href="#" class="nav-item" id="produtos">Produtos</a>
+        <a href="#" class="nav-item" id="financeiro">Financeiro</a>
+        <a href="#" class="nav-item">Configurações</a>
+      </nav>
+
+      <section id="financeiro">
+
+      <div class="content-area">
+
+        <header class="content-header">
+        <img src="./img/carrinho azul.png" alt="carrinho">
+        <H1>Modulo Vendas</H1>
+        </header>
+
+        <div class="container-listitenspedidos">
+        <p>Listagem de itens (Edição/Delete)</p>
+
+         <div class="table-container">
+                <table>
+                    <thead>
+                        <tr id="cabecalho">
+                            <th>Item Id</th>
+                            <th>Produto/Serviço</th>
+                            <th>Preço unitário</th>
+                            <th>Quantidade</th>
+                            <th>Total</th>
+                            <th>Ações Rápidas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                                                <tr>
+                            <td><div class="itemid" id="itemid">101</div></td>
+                            <td><div class="produto-servico" id="produto-servico">Produto/Serviço</div></td>
+                            <td><div class="preco" id="preco">R$ 10,00</div></td>
+                            <td><div class="quantidade" id="quantidade">3</div></td>
+                            <td><div class="total" id="total">R$ 30,00</div></td>
+                            <td>
+                                <div class="acao">
+                                    <button class="btn-edit" id="btn-edit">Editar</button>
+                                    <button class="btn-delete" id="btn-delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                                    
+                        
+                                                <tr>
+                            <td><div class="item" id="itemid">102</div></td>
+                            <td><div class="produto-servico" id="produto-servico">Produto/Serviço</div></td>
+                            <td><div class="preco" id="preco">R$ 100,00</div></td>
+                            <td><div class="quantidade" id="quantidade">6</div></td>
+                            <td><div class="total" id="total">R$ 600,00</div></td>
+                            <td>
+                                <div class="acao">
+                                    <button class="btn-edit" id="btn-edit">Editar</button>
+                                    <button class="btn-delete" id="btn-delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        
+                                                <tr>
+                            <td><div class="itemid" id="itemid">103</div></td>
+                            <td><div class="produto-servico" id="produto-servico">Produto/Serviço</div></td>
+                            <td><div class="preco" id="preco">R$ 300,00</div></td>
+                            <td><div class="quantidade" id="quantidade">10</div></td>
+                            <td><div class="total" id="total">R$ 3000,00</div></td>
+                            <td>
+                                <div class="acao">
+                                    <button class="btn-edit" id="btn-edit">Editar</button>
+                                    <button class="btn-delete" id="btn-delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+
+        <div class="info-itens">
+        <div class="container-novoitem">
+        <P>Cadastro de novo item</P>
+
+        <label for="nomeitem">Nome do Item</label>
+        <input type="text" id="nomeitem">
+
+        <div class="preco-categoria">
+        
+        <div class="preco">
+        <label for="preco">Preço Unitário</label>
+        <input type="number" id="preco">
+        </div>
+
+        <div class="option">
+        <label for="categoria">Categoria</label>
+        <select name="categoria" id="categoria-option">
+        <option value="">Cosmético</option>
+        <option value="">Alimento</option>
+        <option value="">Bebida</option>
+        </select>
+        </div>
+
+        </div>
+
+        <button id="Cadastro">Cadastrar novo item de pedido</button>
+        </div>
+
+
+        <div class="container-detalhes">
+        <p>Detalhes do item que vc clicar :
+        Código (SKU): MON-UW29-FLX
+        Categoria: Eletrônicos / Informática
+        Descrição Técnica: > Painel IPS com resolução Full HD (2560x1080), taxa de atualização de 75Hz e tempo de resposta de 5ms. Possui tecnologia HDR10 e 99% de cobertura sRGB. Ideal para multitarefas e edição de vídeo.
+        Conectividade: 2x HDMI 2.0, 1x DisplayPort 1.4, Saída para fone de ouvido.
+        Dimensões: 698.1 x 410.9 x 209.4 mm (com base).
+        Peso: 4.9 kg.
+        </p>
+        </div>
+
+        </div>
+        
+        </div>
+
+        </div>
+        </section>
+</body>
+</html>
