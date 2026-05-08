@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout Folha de Pagamento</title>
+    <link rel="stylesheet" href="pagamentostyle.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" 
+    rel="stylesheet">
+
+</head>
+<body>
+     <div class="app-card">
+      <nav class="sidebar">
+        <div class="logo-winx"><img src="img/Logo.png" alt="Logo Winxs"></div>
+        <a href="#" class="nav-item active">Contatos</a>
+        <a href="#" class="nav-item">Estoque</a>
+        <a href="#" class="nav-item">Funcionários</a>
+        <a href="#" class="nav-item" id="folhadepagamento">Folha de Pagamento</a>
+        <a href="#" class="nav-item" id="produtos">Produtos</a>
+        <a href="#" class="nav-item" id="financeiro">Financeiro</a>
+        <a href="#" class="nav-item">Configurações</a>
+      </nav>
+
+      <div class="content-area">
+        <header class="content-header">
+          <h1>Contatos</h1>
+          <button class="btn-adicionar">Adicionar Novo</button>
+        </header>
+
+
+        <section id="folhadepagamento">
+        
+        <div class="container-folhapagamento">
+        <div class="left">
+        
+        <header>
+        <h2>Folha de Pagamento</h2>
+        </header>
+
+        <div class="itens">
+        
+        <h3>Dados colaborador</h3>
+
+        <input type="number" placeholder="Digite seu CPF">
+
+        <select name="departamento" id="departamento">Selecione seu departamento</select>
+        <select name="cargo" id="cargo">Selecione seu cargo</select>
+
+        
+
+        <h3>Salário</h3>
+
+        <div class="salario">
+        
+        <div>
+        <input type="number" placeholder="Salário Base">
+        <input type="number" placeholder="Horas Extra">
+        </div>
+        <div>
+        <input type="number" placeholder="Total de Imposto">
+        <input type="number" placeholder="Salário Total">
+        </div>
+        </div>
+
+        <h3>Impostos/Descontos</h3>
+        
+        <div class="imposto">
+        <div>
+        <input type="number" placeholder="INSS">
+        <input type="number" placeholder="IRRF">
+        </div>
+        
+        <div>
+        <input type="number" placeholder="Benefícios">
+        <input type="number" placeholder="Faltas">
+        </div>
+        </div>
+        
+        </div>
+        </div>
+
+        <div class="right">
+        <div class="right-up">
+        <h4>Resumo da folha</h4>
+
+        <div class="info-rightup">
+        <p>Nome: Miguel</p>
+        <p>Cargo: Free-lancer</p>
+        <p>Faltas: 0</p>
+        <p>Salário bruto: R$ 1.200,00</p>
+        <div>
+        <button id="desconto">Descontos</button>
+        </div>
+        </div>
+        
+        </div>
+
+        
+         <div class="right-down">
+        <h4>Total</h4>
+
+        <div class="total">
+        <div>
+        <p>Salário bruto: R$ 12.000</p>
+        </div>
+        <div>
+        <p>Salário líquido: R$ 15.000</p>
+        </div>
+        </div>
+
+        <button id="btn-despesa">
+        Lançar Despesa no Financeiro
+        </button>
+        
+        </div>
+        </div>
+        
+      
+
+        </div>
+
+        </div>
+        </section>
+       </div>
+
+</body>
+</html>
