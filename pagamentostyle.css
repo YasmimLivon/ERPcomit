@@ -101,7 +101,7 @@ body {
 }
 
 .container-folhapagamento{
- border: 1px solid #C4C3C9;
+ border: 1px solid #ddd;
  border-radius: 20px;
  height: 65%;
  display: flex;
@@ -114,7 +114,8 @@ body {
 h2{
     font-weight: bold;
     font-size: 30px;
-    padding: 10px;
+    padding-top: 10px;
+    padding-left: 20px;
 }
 
 .itens{
@@ -151,6 +152,7 @@ input{
     background-color: #E6E6E6;
     border-color: transparent;
     border-radius: 20px;
+    padding: 10px;
 }
 
 select{
