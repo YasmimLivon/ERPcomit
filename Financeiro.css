@@ -158,146 +158,100 @@ body {
     color: white;
 }
 
-/* Estilização da Tabela */
-.table-container {
-    width: 100%;
+/* Estilização da área Financeira */
+
+.finance-form-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.form-card {
+    background: #fff;
+    border: 2px solid #ccc;
     border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #ddd;
-}
-
-table {
+    padding: 20px;
     width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    text-align: center;
+    max-width: 550px;
 }
 
-#cabecalho {
-    background-color: #070C96;
-    color: #FFFFFF;
-}
+.form-card h3 { font-size: 18px; margin-bottom: 5px; }
+.subtitle { font-size: 14px; color: #666; margin-bottom: 20px; }
 
-th {
-    padding: 15px;
-    font-weight: 600;
-}
-
-td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    background-color: #bfbfbf23;
-    color: #444;
-}
-
-tr:hover {
-    background-color: #f9f9f9;
-}
-
-/* Ações e Estilos Internos */
-.acao {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.btn-edit,
-.btn-delete {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 5px;
-}
-
-.btn-edit {
-    color: #070C96;
-    font-weight: bold;
-}
-
-.btn-edit:hover {
-    text-decoration: underline;
-}
-
-.btn-delete:hover {
-    transform: scale(1.2);
-}
-
-/* HIDDENN */
-/* --- Estilos do Modal (Mini Tela) --- */
-.modal-overlay {
-    display: none; /* Hidden por padrão */
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(3px);
-}
-
-.modal-content {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    width: 100%;
-    max-width: 450px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-}
-
-.modal-content h2 {
-    margin-bottom: 20px;
-    color: #070C96;
-}
-
-.input-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-}
-
-.input-row {
-    display: flex;
-    gap: 15px;
-}
-
-.input-row .input-group { flex: 1; }
-
-.input-group label {
+.form-body label {
+    display: block;
     font-size: 13px;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-.input-group input, .input-group select {
+.form-body input, .form-body select {
+    width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    outline-color: #070C96;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #ffffff;
+    margin-bottom: 15px;
 }
 
-.modal-actions {
+.form-row {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 15px;
 }
 
-.btn-salvar {
-    background: #070C96;
-    color: white;
+.form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.btn-cadastrar {
+    background-color: #bcbcbc;
+    color: #000;
     border: none;
-    padding: 10px 25px;
-    border-radius: 20px;
+    padding: 12px 20px;
+    border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
+    margin-bottom: 15px;
 }
 
-.btn-cancelar {
-    background: #eee;
-    padding: 10px 20px;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
+.btn-cadastrar:hover { background-color: #a0a0a0; }
+
+/* Tabela de Contas */
+.finance-list-container {
+    background-color: #ededed;
+    padding: 20px;
+    border-radius: 10px;
 }
+
+.finance-list-container h3 { margin-bottom: 20px; font-size: 16px; }
+
+.finance-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.finance-table th { padding: 10px; border-bottom: 1px solid #ddd; color: #444; }
+.finance-table td { padding: 15px 10px; border-bottom: 1px solid #ddd; }
+
+/* Status Badges */
+.badge {
+    padding: 5px 15px;
+    border-radius: 20px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.pago { background-color: #070C96; }
+.pendente { background-color: #bcbcbc; color: #333; }
+
+.actions {
+    font-size: 12px;
+    cursor: pointer;
+    color: #444;
+}
+
+.actions span { margin-right: 10px; }
