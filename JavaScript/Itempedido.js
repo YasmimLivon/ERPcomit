@@ -44,3 +44,51 @@ window.onclick = (event) => {
         fecharModais();
     }
 };
+
+
+const btnAdd = document.getElementById("btn-add-produto");
+const container = document.getElementById("produtos-container");
+
+btnAdd.addEventListener("click", () => {
+  const novoItem = document.createElement("div");
+  novoItem.classList.add("produto-item");
+
+  novoItem.innerHTML = `
+    <div class="input-row">
+      <div class="input-group">
+        <label>Produto / Serviço</label>
+        <input type="text" name="produto[]" required />
+      </div>
+
+      <div class="input-group">
+        <label>Quantidade</label>
+        <input type="number" name="quantidade[]" required placeholder="0" />
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label>Preço Unitario</label>
+      <input type="text" name="preco[]" required placeholder="R$ 0,00" />
+    </div>
+
+    <button type="button" class="remover-produto" style="
+      background:#ff002b;
+      color:white;
+      border:none;
+      padding:5px 10px;
+      border-radius:10px;
+      cursor:pointer;
+      margin-bottom:10px;
+    ">
+      Remover
+    </button>
+  `;
+
+  container.appendChild(novoItem);
+});
+
+container.addEventListener("click", function(e) {
+  if (e.target.classList.contains("remover-produto")) {
+    e.target.parentElement.remove();
+  }
+});
