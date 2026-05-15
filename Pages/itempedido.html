@@ -28,6 +28,7 @@
 
       <div class="content-area">
                     <div class="area-login">
+                    
                 <button class="btn-sair" id="btn-sair">Sair</button>
             </div>
 
@@ -37,7 +38,10 @@
         </header>
 
         <div class="container-listitenspedidos">
+        <div class="buttons-actions">
         <p>Listagem de itens (Edição/Delete)</p>
+        <button id="openModalBtn" class="btn-adicionar">Adicionar</button>
+        </div>
 
          <div class="table-container">
                 <table>
@@ -100,48 +104,45 @@
                 </table>
             </div>
 
+        <div id="modal-container" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Cadastrar Nova Venda</h2>
+            <form id="form-cadastro">
+                <div class="input-group">
+                    <label>Cliente Id</label>
+                    <input type="number" id="Id" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Descrição</label>
+                    <input type="text" id="Descrição" required>
+                </div>
 
-        <div class="info-itens">
-        <div class="container-novoitem">
-        <P>Cadastro de novo item</P>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label id="label-doc">Produto/Serviço</label>
+                        <input type="text" id="produto-servico" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Quantidade</label>
+                        <input type="number" id="Quantidade" required>
+                    </div>
+                </div>
 
-        <label for="nomeitem">Nome do Item</label>
-        <input type="text" id="nomeitem">
+                <div class="input-group">
+                    <label>Preço Unitário</label>
+                    <input type="number" id="preco" required>
+                </div>
 
-        <div class="preco-categoria">
-        
-        <div class="preco">
-        <label for="preco">Preço Unitário</label>
-        <input type="number" id="preco">
+                <input type="hidden" id="role" value="User">
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar" id="btn-fechar-modal">Cancelar</button>
+                    <button type="submit" class="btn-salvar">Salvar</button>
+                </div>
+            </form>
         </div>
-
-        <div class="option">
-        <label for="categoria">Categoria</label>
-        <select name="categoria" id="categoria-option">
-        <option value="">Cosmético</option>
-        <option value="">Alimento</option>
-        <option value="">Bebida</option>
-        </select>
-        </div>
-
-        </div>
-
-        <button id="Cadastro">Cadastrar novo item de pedido</button>
-        </div>
-
-
-        <div class="container-detalhes">
-        <p>Detalhes do item que vc clicar :
-        Código (SKU): MON-UW29-FLX
-        Categoria: Eletrônicos / Informática
-        Descrição Técnica: > Painel IPS com resolução Full HD (2560x1080), taxa de atualização de 75Hz e tempo de resposta de 5ms. Possui tecnologia HDR10 e 99% de cobertura sRGB. Ideal para multitarefas e edição de vídeo.
-        Conectividade: 2x HDMI 2.0, 1x DisplayPort 1.4, Saída para fone de ouvido.
-        Dimensões: 698.1 x 410.9 x 209.4 mm (com base).
-        Peso: 4.9 kg.
-        </p>
-        </div>
-
-        </div>
+    </div>
         
         </div>
 
