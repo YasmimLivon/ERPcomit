@@ -334,3 +334,21 @@ td {
     will-change: transform, opacity;
     /* Otimiza a performance do navegador */
 }
+#inputFiltro {
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    width: 200px;
+}
+
+#productForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#productForm input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
