@@ -374,3 +374,26 @@ tr:hover {
 .btn-delete:hover {
     transform: scale(1.2);
 }
+
+/* Animação Suave de Entrada */
+@keyframes smoothPageIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.98) translateY(15px);
+        filter: blur(5px);
+        /* Começa levemente embaçado */
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+.app-card {
+    /* Usando cubic-bezier para um movimento mais 'elástico' e elegante */
+    animation: smoothPageIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    will-change: transform, opacity;
+    /* Otimiza a performance do navegador */
+}
