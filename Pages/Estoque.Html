@@ -1,67 +1,110 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Winx - Estoque</title>
-    <link rel="stylesheet" href="../css/Estoque.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/Estoque.css" />
+  </head>
 
-<div class="app-card">
-
-    <nav class="sidebar">
+  <body>
+    <div class="app-card">
+      <nav class="sidebar">
         <div class="logo-winx">
-            <img src="../img/Logo.png">
+          <img src="../img/Logo.png" />
         </div>
 
-     <a href="Forne&Cli.html" class="nav-item ">Fornecedores e Clientes</a>
+        <a href="Forne&Cli.html" class="nav-item">Fornecedores e Clientes</a>
         <a href="itempedido.html" class="nav-item">Vendas</a>
         <a href="Estoque.Html" class="nav-item active">Estoque</a>
         <a href="Funcionario.html" class="nav-item">Funcionários</a>
         <a href="folhadepagamento.html" class="nav-item">Folha de Pagamento</a>
         <a href="Financeiro.html" class="nav-item">Financeiro</a>
-        <a href="ListagemProdutos.Html" class="nav-item ">Produtos</a>
-    </nav>
+        <a href="ListagemProdutos.Html" class="nav-item">Produtos</a>
+      </nav>
 
-    <div class="content-area">
-
+      <div class="content-area">
         <div class="area-login">
-                <button class="btn-sair" id="btn-sair">Sair</button>
+          <button class="btn-sair" id="btn-sair">Sair</button>
         </div>
 
         <header class="content-header">
-            <h1>Estoque</h1>
+          <h1>Estoque</h1>
 
-            <div class="Buttons-adfil">
-                <button class="btn-filtrar">Filtrar</button>
-                <button class="btn-adicionar">Adicionar</button>
-            </div>
+          <div class="Buttons-adfil">
+            <input
+              type="text" id="inputFiltro" placeholder="Buscar produto..." />
+          
+          </div>
         </header>
 
-       <div class="table-container">
-    <table>
-        <thead>
-            <tr id="cabecalho">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr id="cabecalho">
                 <th>Produtos</th>
                 <th>Quantidade</th>
                 <th>Valor Un</th>
                 <th>Codigo</th>
                 <th>Fornecedores</th>
-            </tr>
-        </thead>
-        <tbody id="tabela-corpo"></tbody>
-
-    </table>
-</div>
+              </tr>
+            </thead>
+            <tbody id="tabela-corpo"></tbody>
+          </table>
+        </div>
 
         <!-- NOVOS BOTÕES -->
         <div class="footer-actions">
-            <button class="btn-entrada">+ Entrada</button>
-            <button class="btn-saida">- Saída</button>
+          <button class="btn-entrada">+ Entrada</button>
+          <button class="btn-saida">- Saída</button>
+        </div>
+      </div>
+    </div>
+    <div id="modalMovimentacao" class="modal hidden">
+      <div class="modal-box">
+        <h2 id="modalTitulo">Movimentação</h2>
+
+        <div class="form-grid">
+          <div class="input-group">
+            <label>Produto</label>
+            <select id="produtoId"></select>
+          </div>
+
+          <div class="input-group">
+            <label>Tipo</label>
+            <select id="tipo">
+              <option value="0">Entrada</option>
+              <option value="1">Saída</option>
+              <option value="2">Devolução</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label>Quantidade</label>
+            <input type="number" id="quantidade" />
+          </div>
+
+          <div class="input-group">
+            <label>Preço Unitário</label>
+            <input type="number" id="precoUnitario" />
+          </div>
+
+          <div class="input-group">
+            <label>Data</label>
+            <input type="datetime-local" id="data" />
+          </div>
+
+          <div class="input-group">
+            <label>Pedido ID (opcional)</label>
+            <input type="number" id="pedidoId" />
+          </div>
         </div>
 
+        <div class="modal-actions">
+          <button id="cancelarMov" class="btn-cancelar">Cancelar</button>
+          <button id="confirmarMov" class="btn-salvar">Salvar</button>
+        </div>
+      </div>
     </div>
-</div>
-<script src="../JavaScript/Estoque.js"></script>
-</body>
+    <script src="../JavaScript/Estoque.js"></script>
+  </body>
 </html>

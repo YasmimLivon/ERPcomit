@@ -14,6 +14,12 @@ body {
     height: 100vh;
     padding: 20px;
 }
+#inputFiltro {
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+}
 
 .app-card {
     background-color: #ffffff;
@@ -227,14 +233,7 @@ tr:hover {
 }
 
 /* MODAL */
-.modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-}
+
 
 .modal-content {
     background: white;
@@ -311,4 +310,100 @@ tr:hover {
     animation: smoothPageIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     will-change: transform, opacity;
     /* Otimiza a performance do navegador */
+}
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+
+    width: 100%;
+    max-width: 500px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-box h2 {
+    color: #070C96;
+    margin-bottom: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 13px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.input-group input,
+.input-group select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.modal-actions {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-cancelar {
+    background: #e0e0e0;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.btn-salvar {
+    background: #070C96;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.btn-salvar:hover {
+    background: #ff002b;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
