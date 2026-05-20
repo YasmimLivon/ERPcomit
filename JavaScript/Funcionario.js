@@ -48,7 +48,7 @@ export async function carregarTabeladeFuncionarios() {
                 <td>${func.id}</td>
                 <td>${func.nome}</td>
                 <td>${func.salario}</td>
-                <td>${func.horaExtra || 0}</td>
+                <td>${func.telefone}</td>
                 <td>${func.cargo}</td>
                 <td>
                     <button onclick="editarFuncionario(${func.id})">Editar</button>
@@ -66,6 +66,7 @@ export async function enviarNovoFuncionario() {
     const payload = {
         Nome: document.getElementById('nome').value,
         Email: document.getElementById('email').value,
+        Telefone: document.getElementById('telefone').value,
         Password: document.getElementById('senha').value,
         Cargo: document.getElementById('cargo-select').value,
         Salario: parseFloat(document.getElementById('salario').value)
@@ -89,6 +90,7 @@ export async function atualizarDadosFuncionario(id) {
     const dados = {
         nome: document.getElementById('nome').value,
         email: document.getElementById('email').value,
+        telefone: document.getElementById('telefone').value,
         cargo: document.getElementById('cargo').value,
         salario: parseFloat(document.getElementById('salario').value)
     };
