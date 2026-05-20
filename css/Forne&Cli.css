@@ -1,10 +1,12 @@
-/* RESET CORRIGIDO */
+/* Reset e Base */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Arial, sans-serif;
 }
+
+
 
 body {
     background-color: #f1f3f6;
@@ -15,6 +17,7 @@ body {
     padding: 20px;
 }
 
+
 /* Layout do Card Principal */
 .app-card {
     background-color: #ffffff;
@@ -22,6 +25,7 @@ body {
     max-width: 1100px;
     height: 100%;
     max-height: 800px;
+    /* Aumentei um pouco para caber a tabela melhor */
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     display: flex;
@@ -47,17 +51,26 @@ body {
     max-width: 120px;
 }
 
+/* --- NAVEGAÇÃO COM EFEITO DE MOVIMENTO --- */
+
 .nav-item {
     padding: 15px 25px;
     text-decoration: none;
     color: #666;
     font-size: 14px;
-    transition: 0.2s;
+    display: block;
+    /* Garante que o padding funcione em toda a área */
+    position: relative;
+    transition: all 0.3s ease;
+    /* Transição suave para todas as propriedades */
+    z-index: 1;
 }
 
 .nav-item:hover {
     background-color: #f0f0f0;
     color: #070C96;
+    padding-left: 35px;
+    /* Efeito de "empurrão" para a direita ao passar o mouse */
 }
 
 .nav-item.active {
@@ -65,6 +78,25 @@ body {
     color: #070C96;
     font-weight: bold;
     border-left: 4px solid #070C96;
+    padding-left: 30px;
+    /* Mantém um leve recuo por estar ativo */
+}
+
+/* Animação adicional: barra lateral interna que cresce no hover */
+.nav-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(7, 12, 150, 0.05);
+    transition: width 0.3s ease;
+    z-index: -1;
+}
+
+.nav-item:hover::before {
+    width: 100%;
 }
 
 /* Área de Conteúdo */
@@ -74,14 +106,14 @@ body {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    /* Permite scroll se a tabela for grande */
 }
 
-/* HEADER */
 .content-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 .content-header h1 {
@@ -89,11 +121,10 @@ body {
     color: #333;
 }
 
-/* LOGIN */
 .area-login {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .btn-sair {
@@ -111,7 +142,15 @@ body {
     background-color: #070C96;
 }
 
-/* BOTÕES SUPERIORES */
+.user {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #070C96;
+}
+
+/* Botões Superiores */
 .Buttons-adfil {
     display: flex;
     gap: 10px;
@@ -125,6 +164,7 @@ body {
     border-radius: 20px;
     font-weight: bold;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 .btn-adicionar:hover {
@@ -133,14 +173,20 @@ body {
 
 .btn-filtrar {
     padding: 10px 20px;
-    background-color: #e4e4e4;
+    background-color: #BFBFBF;
+    color: black;
     border: none;
     border-radius: 20px;
     font-weight: bold;
     cursor: pointer;
 }
 
-/* TABELA */
+.btn-filtrar:hover {
+    background-color: #ff002b;
+    color: white;
+}
+
+/* Estilização da Tabela */
 .table-container {
     width: 100%;
     border-radius: 8px;
@@ -151,29 +197,32 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
+    background-color: #fff;
     text-align: center;
 }
 
 #cabecalho {
     background-color: #070C96;
-    color: white;
+    color: #FFFFFF;
 }
 
 th {
-    padding: 14px;
+    padding: 15px;
+    font-weight: 600;
 }
 
 td {
     padding: 12px;
     border-bottom: 1px solid #eee;
-    background-color: #fafafa;
+    background-color: #bfbfbf23;
+    color: #444;
 }
 
 tr:hover {
-    background-color: #f5f5f5;
+    background-color: #f9f9f9;
 }
 
-/* BOTÕES DE AÇÃO */
+/* Ações e Estilos Internos */
 .acao {
     display: flex;
     justify-content: center;
@@ -185,20 +234,38 @@ tr:hover {
     background: none;
     border: none;
     cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
 }
 
 .btn-edit {
     color: #070C96;
+    font-weight: bold;
 }
 
-/* MODAL */
+.btn-edit:hover {
+    text-decoration: underline;
+}
+
+.btn-delete:hover {
+    transform: scale(1.2);
+}
+
+/* HIDDENN */
+/* --- Estilos do Modal (Mini Tela) --- */
 .modal-overlay {
     display: none;
+    /* Hidden por padrão */
     position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
     justify-content: center;
     align-items: center;
+    backdrop-filter: blur(3px);
 }
 
 .modal-content {
@@ -207,6 +274,12 @@ tr:hover {
     border-radius: 12px;
     width: 100%;
     max-width: 450px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    color: #070C96;
 }
 
 .input-group {
@@ -217,39 +290,71 @@ tr:hover {
 
 .input-row {
     display: flex;
-    gap: 10px;
+    gap: 15px;
 }
 
-.input-group input, .input-group select {
+.input-row .input-group {
+    flex: 1;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-group input,
+.input-group select {
     padding: 10px;
-    border-radius: 6px;
     border: 1px solid #ddd;
+    border-radius: 6px;
+    outline-color: #070C96;
 }
 
-/* BOTÕES FINAIS (NOVO) */
-.footer-actions {
-    margin-top: auto;
-    padding-top: 20px;
+.modal-actions {
     display: flex;
-    justify-content: center;
-    gap: 20px;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
 }
 
-.btn-entrada,
-.btn-saida {
-    padding: 12px 30px;
-    border-radius: 25px;
+.btn-salvar {
+    background: #070C96;
+    color: white;
     border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
     font-weight: bold;
     cursor: pointer;
 }
 
-.btn-entrada {
-    background-color: #070C96;
-    color: white;
+.btn-cancelar {
+    background: #eee;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
 }
 
-.btn-saida {
-    background-color: #ff002b;
-    color: white;
+/* Animação Suave de Entrada */
+@keyframes smoothPageIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.98) translateY(15px);
+        filter: blur(5px);
+        /* Começa levemente embaçado */
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+.app-card {
+    /* Usando cubic-bezier para um movimento mais 'elástico' e elegante */
+    animation: smoothPageIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    will-change: transform, opacity;
+    /* Otimiza a performance do navegador */
 }
