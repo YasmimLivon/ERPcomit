@@ -221,6 +221,11 @@ tr:hover {
     cursor: pointer;
 }
 
+#tabela-corpo button{
+     background: none;
+    border: none;
+    cursor: pointer;
+}
 .btn-edit {
     color: #070C96;
 }

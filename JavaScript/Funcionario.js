@@ -45,14 +45,14 @@ export async function carregarTabeladeFuncionarios() {
         funcionarios.forEach(func => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${func.id}</td>
                 <td>${func.nome}</td>
-                <td>${func.salario}</td>
+                <td>${func.email}</td>
                 <td>${func.telefone}</td>
                 <td>${func.cargo}</td>
+                <td>${func.salario}</td>
                 <td>
-                    <button onclick="editarFuncionario(${func.id})">Editar</button>
-                    <button onclick="excluirFuncionario(${func.id})">Excluir</button>
+                    <button class="btn-edit" onclick="editarFuncionario(${func.id})">Editar</button>
+                    <button onclick="excluirFuncionario(${func.id})">🗑️</button>
                 </td>
             `;
             corpoTabela.appendChild(tr);
