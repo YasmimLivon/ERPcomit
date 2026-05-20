@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Item pedido</title>
-    <link rel="stylesheet" href="itempedido.css">
+    <title>Winx -Item pedido</title>
+    <link rel="stylesheet" href="../css/itempedido.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" 
@@ -14,27 +14,34 @@
 <body>
     <div class="app-card">
       <nav class="sidebar">
-        <div class="logo-winx"><img src="img/Logo.png" alt="Logo Winxs"></div>
-        <a href="#" class="nav-item active">Contatos</a>
-        <a href="#" class="nav-item">Estoque</a>
-        <a href="#" class="nav-item">Funcionários</a>
-        <a href="#" class="nav-item" id="folhadepagamento">Folha de Pagamento</a>
-        <a href="#" class="nav-item" id="produtos">Produtos</a>
-        <a href="#" class="nav-item" id="financeiro">Financeiro</a>
-        <a href="#" class="nav-item">Configurações</a>
+        <div class="logo-winx"><img src="../img/Logo.png" alt="Logo Winxs"></div>
+     <a href="Forne&Cli.html" class="nav-item ">Fornecedores e Clientes</a>
+        <a href="itempedido.html" class="nav-item active">Vendas</a>
+        <a href="Estoque.Html" class="nav-item ">Estoque</a>
+        <a href="Funcionario.html" class="nav-item">Funcionários</a>
+        <a href="folhadepagamento.html" class="nav-item">Folha de Pagamento</a>
+        <a href="Financeiro.html" class="nav-item">Financeiro</a>
+        <a href="ListagemProdutos.Html" class="nav-item ">Produtos</a>
       </nav>
 
       <section id="financeiro">
 
       <div class="content-area">
+                    <div class="area-login">
+                    
+                <button class="btn-sair" id="btn-sair">Sair</button>
+            </div>
 
         <header class="content-header">
-        <img src="./img/carrinho azul.png" alt="carrinho">
+        <img src="../img/carrinho azul.png" alt="carrinho">
         <H1>Modulo Vendas</H1>
         </header>
 
         <div class="container-listitenspedidos">
+        <div class="buttons-actions">
         <p>Listagem de itens (Edição/Delete)</p>
+        <button id="openModalBtn" class="btn-adicionar">Adicionar</button>
+        </div>
 
          <div class="table-container">
                 <table>
@@ -97,52 +104,50 @@
                 </table>
             </div>
 
+        <div id="modal-container" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Cadastrar Nova Venda</h2>
+            <form id="form-cadastro">
+                <div class="input-group">
+                    <label>Cliente Id</label>
+                    <input type="number" id="Id" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Descrição</label>
+                    <input type="text" id="Descrição" required>
+                </div>
 
-        <div class="info-itens">
-        <div class="container-novoitem">
-        <P>Cadastro de novo item</P>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label id="label-doc">Produto/Serviço</label>
+                        <input type="text" id="produto-servico" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Quantidade</label>
+                        <input type="number" id="Quantidade" required>
+                    </div>
+                </div>
 
-        <label for="nomeitem">Nome do Item</label>
-        <input type="text" id="nomeitem">
+                <div class="input-group">
+                    <label>Preço Unitário</label>
+                    <input type="number" id="preco" required>
+                </div>
 
-        <div class="preco-categoria">
-        
-        <div class="preco">
-        <label for="preco">Preço Unitário</label>
-        <input type="number" id="preco">
+                <input type="hidden" id="role" value="User">
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar" id="btn-fechar-modal">Cancelar</button>
+                    <button type="submit" class="btn-salvar">Salvar</button>
+                </div>
+            </form>
         </div>
-
-        <div class="option">
-        <label for="categoria">Categoria</label>
-        <select name="categoria" id="categoria-option">
-        <option value="">Cosmético</option>
-        <option value="">Alimento</option>
-        <option value="">Bebida</option>
-        </select>
-        </div>
-
-        </div>
-
-        <button id="Cadastro">Cadastrar novo item de pedido</button>
-        </div>
-
-
-        <div class="container-detalhes">
-        <p>Detalhes do item que vc clicar :
-        Código (SKU): MON-UW29-FLX
-        Categoria: Eletrônicos / Informática
-        Descrição Técnica: > Painel IPS com resolução Full HD (2560x1080), taxa de atualização de 75Hz e tempo de resposta de 5ms. Possui tecnologia HDR10 e 99% de cobertura sRGB. Ideal para multitarefas e edição de vídeo.
-        Conectividade: 2x HDMI 2.0, 1x DisplayPort 1.4, Saída para fone de ouvido.
-        Dimensões: 698.1 x 410.9 x 209.4 mm (com base).
-        Peso: 4.9 kg.
-        </p>
-        </div>
-
-        </div>
+    </div>
         
         </div>
 
         </div>
         </section>
+        <script src="../JavaScript/itempedido.js"></script>
 </body>
 </html>

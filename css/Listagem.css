@@ -1,0 +1,354 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f1f3f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.app-card {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 1100px;
+    height: 100%;
+    max-height: 800px;
+    /* Aumentei um pouco para caber a tabela melhor */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+}
+
+.logo-winx {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.logo-winx img {
+    max-width: 120px;
+}
+
+/* --- NAVEGAÇÃO COM EFEITO DE MOVIMENTO --- */
+
+.nav-item {
+    padding: 15px 25px;
+    text-decoration: none;
+    color: #666;
+    font-size: 14px;
+    display: block;
+    /* Garante que o padding funcione em toda a área */
+    position: relative;
+    transition: all 0.3s ease;
+    /* Transição suave para todas as propriedades */
+    z-index: 1;
+}
+
+.nav-item:hover {
+    background-color: #f0f0f0;
+    color: #070C96;
+    padding-left: 35px;
+    /* Efeito de "empurrão" para a direita ao passar o mouse */
+}
+
+.nav-item.active {
+    background-color: #e9ecef;
+    color: #070C96;
+    font-weight: bold;
+    border-left: 4px solid #070C96;
+    padding-left: 30px;
+    /* Mantém um leve recuo por estar ativo */
+}
+
+/* Animação adicional: barra lateral interna que cresce no hover */
+.nav-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background-color: rgba(7, 12, 150, 0.05);
+    transition: width 0.3s ease;
+    z-index: -1;
+}
+
+.nav-item:hover::before {
+    width: 100%;
+}
+
+/* Área de Conteúdo */
+.content-area {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    /* Permite scroll se a tabela for grande */
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.content-header h1 {
+    font-size: 26px;
+    color: #333;
+}
+
+.area-sair {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.btn-sair {
+    padding: 8px 16px;
+    background-color: #ff002b;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-sair:hover {
+    background-color: #070C96;
+}
+
+.buttons-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-filtrar {
+    padding: 10px 20px;
+    background-color: #BFBFBF;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-filtrar:hover {
+    background-color: #ff002b;
+    color: white;
+}
+
+.btn-adicionar {
+    padding: 10px 20px;
+    background-color: #070C96;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-adicionar:hover {
+    background-color: #ff002b;
+}
+
+/* TABELA ESTILO FORNECEDORES */
+.table-container {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead tr {
+    background-color: #070C96;
+    color: white;
+}
+
+th {
+    padding: 15px;
+    text-align: center;
+    font-weight: 500;
+}
+
+td {
+    padding: 12px;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #eee;
+    color: #555;
+    font-size: 14px;
+}
+
+.acao-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+}
+
+.btn-edit {
+    color: #070C96;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+/* MODAL */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+}
+
+.modal-content {
+    background: white;
+    width: 450px;
+    padding: 30px;
+    border-radius: 15px;
+    position: relative;
+    text-align: center;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 25px;
+    cursor: pointer;
+    color: #999;
+}
+
+.form-modal h2 {
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.row {
+    display: flex;
+    gap: 10px;
+}
+
+.input-pill {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: 1px solid #eee;
+    background: #f8f8f8;
+    outline: none;
+}
+
+.label-destaque {
+    background: #070C96;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.btn-registrar {
+    background: #070C96;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Animação Suave de Entrada */
+@keyframes smoothPageIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.98) translateY(15px);
+        filter: blur(5px);
+        /* Começa levemente embaçado */
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+.app-card {
+    /* Usando cubic-bezier para um movimento mais 'elástico' e elegante */
+    animation: smoothPageIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    will-change: transform, opacity;
+    /* Otimiza a performance do navegador */
+}
+#inputFiltro {
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    width: 200px;
+}
+
+#productForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#productForm input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
