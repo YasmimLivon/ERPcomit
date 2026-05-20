@@ -1,200 +1,165 @@
 const TOKEN_KEY = "app_auth_token";
+const apifuncionarios = "http://localhost:5243/api/Funcionarios";
 
-const API_GET = "http://localhost:5243/api/Funcionarios/Get-Funcionarios";
-const API_POST = "http://localhost:5243/api/Funcionarios/Register-Funcionario";
-const API_DELETE = "http://localhost:5243/api/Funcionarios/Delete-Funcionario";
-const API_PUT = "http://localhost:5243/api/Funcionarios/Update-Funcionario";
 
-// 🔹 CONTROLE DE EDIÇÃO
-let editandoId = null;
-
-// 🔹 LOGOUT
-document.getElementById("btn-sair")?.addEventListener("click", () => {
-    localStorage.removeItem(TOKEN_KEY);
-    window.location.href = "../Login.html";
-});
-
-// 🔹 ELEMENTOS
-const modal = document.getElementById("modal-container");
-const btnAbrir = document.querySelector(".btn-adicionar");
-const btnFechar = document.getElementById("btn-fechar-modal");
-const form = document.getElementById("form-cadastro");
-const tabela = document.getElementById("tabela-corpo");
-const btnFiltrar = document.querySelector(".btn-filtrar");
-
-// 🔹 INPUTS
-const nomeInput = document.getElementById("nome");
-const emailInput = document.getElementById("email");
-const cargoInput = document.querySelector("select[name='cargo']");
-const salarioInput = document.getElementById("salario");
-const senhaInput = document.getElementById("senha");
-
-// 🔹 HEADER
-function getAuthHeaders() {
-    return {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + localStorage.getItem(TOKEN_KEY)
+export async function apiFetch(endpoint, method = 'GET', data = null) {
+    const config = {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json'
+        }
     };
-}
 
-// 🔹 MODAL
-btnAbrir.addEventListener("click", () => {
-    editandoId = null; 
-    form.reset();
-    modal.style.display = "flex";
-});
+    if (data !== null) {
+        config.body = JSON.stringify(data);
+    }
 
-btnFechar.addEventListener("click", () => {
-    modal.style.display = "none";
-});
-
-// 🔹 LISTA
-let listaFuncionarios = [];
-
-async function carregarFuncionarios() {
     try {
-        const res = await fetch(API_GET, {
-            headers: getAuthHeaders()
-        });
+        const response = await fetch(`${apifuncionarios}/${endpoint}`, config);
 
-        if (!res.ok) throw new Error("Erro ao carregar funcionários");
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.mensagem || `Erro HTTP: ${response.status}`);
+        }
 
-        listaFuncionarios = await res.json();
-        renderTabela(listaFuncionarios);
+        if (response.status === 204) {
+            return null;
+        }
 
+        return await response.json();
     } catch (error) {
-        console.error(error);
-        alert("Erro ao carregar funcionários");
+        console.error(`Erro na requisição para ${endpoint}:`, error);
+        throw error;
     }
 }
 
-// 🔹 RENDER
-function renderTabela(lista) {
-    tabela.innerHTML = "";
 
-    lista.forEach(f => {
-        tabela.innerHTML += `
-            <tr>
-                <td>${f.nome}</td>
-                <td>${f.cpfCnpj ?? "-"}</td>
-                <td>${f.cidade ?? "-"}</td>
-                <td>${f.telefone ?? "-"}</td>
-                <td>${f.cargo ?? "-"}</td>
-                <td class="acao">
-                    <button onclick="editarFuncionario(${f.id})">✏️</button>
-                    <button onclick="excluirFuncionario(${f.id})">🗑️</button>
+export async function carregarTabeladeFuncionarios() {
+    try {
+        const funcionarios = await apiFetch('Get-Funcionarios', 'GET');
+        const corpoTabela = document.getElementById('tabela-corpo');
+
+        if (!corpoTabela) return;
+        corpoTabela.innerHTML = '';
+
+        funcionarios.forEach(func => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${func.nome}</td>
+                <td>${func.email}</td>
+                <td>${func.telefone}</td>
+                <td>${func.cargo}</td>
+                <td>${func.salario}</td>
+                <td>
+                    <button class="btn-edit" onclick="editarFuncionario(${func.id})">Editar</button>
+                    <button onclick="excluirFuncionario(${func.id})">🗑️</button>
                 </td>
-            </tr>
-        `;
-    });
-}
-
-// 🔹 FILTRO
-btnFiltrar.addEventListener("click", () => {
-    const termo = prompt("Digite o nome do funcionário:");
-
-    if (!termo) {
-        renderTabela(listaFuncionarios);
-        return;
+            `;
+            corpoTabela.appendChild(tr);
+        });
+    } catch (error) {
+        alert('Falha ao carregar os funcionários: ' + error.message);
     }
-
-    const filtrados = listaFuncionarios.filter(f =>
-        f.nome?.toLowerCase().includes(termo.toLowerCase())
-    );
-
-    renderTabela(filtrados);
-});
-
-// 🔹 EDITAR (ABRE MODAL)
-function editarFuncionario(id) {
-    const func = listaFuncionarios.find(f => f.id === id);
-
-    if (!func) return;
-
-    editandoId = id;
-
-    nomeInput.value = func.nome || "";
-    emailInput.value = func.email || "";
-    cargoInput.value = func.cargo || "";
-    salarioInput.value = func.salario || 0;
-    senhaInput.value = ""; // Senha geralmente não retorna por segurança
-
-    modal.style.display = "flex";
 }
 
-// 🔹 SALVAR (POST ou PUT)
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    // Montando o body conforme a exigência da sua API
-    const body = {
-        nome: nomeInput.value.trim(),
-        email: emailInput.value.trim(),
-        password: senhaInput.value,    // Alterado para 'password'
-        role: "funcionarios",          // Valor fixo solicitado
-        cargo: cargoInput.value,
-        salario: parseFloat(salarioInput.value) || 0
+export async function enviarNovoFuncionario() {
+    const payload = {
+        Nome: document.getElementById('nome').value,
+        Email: document.getElementById('email').value,
+        Telefone: document.getElementById('telefone').value,
+        Password: document.getElementById('senha').value,
+        Cargo: document.getElementById('cargo-select').value,
+        Salario: parseFloat(document.getElementById('salario').value)
     };
 
-    // Se for edição, precisamos enviar o ID no corpo
-    if (editandoId) {
-        body.id = editandoId;
-    }
-
-    const url = editandoId ? API_PUT : API_POST;
-
     try {
-        const res = await fetch(url, {
-            method: editandoId ? "PUT" : "POST",
-            headers: getAuthHeaders(),
-            body: JSON.stringify(body)
-        });
-
-        if (!res.ok) {
-            const erro = await res.text();
-            alert("Erro na API: " + erro);
-            return;
-        }
-
-        alert(editandoId ? "Funcionário atualizado!" : "Funcionário cadastrado!");
-
-        modal.style.display = "none";
-        form.reset();
-        editandoId = null;
-
-        carregarFuncionarios();
-
+        const resposta = await apiFetch('Register-Funcionario', 'POST', payload);
+        alert('Funcionário registrado com sucesso!');
+        
+        const form = document.getElementById('form-cadastro');
+        if (form) form.reset();
+        
+        carregarTabeladeFuncionarios();
+        return resposta;
     } catch (error) {
-        console.error(error);
-        alert("Erro inesperado: " + error.message);
-    }
-});
-
-// 🔹 EXCLUIR
-async function excluirFuncionario(id) {
-    if (!confirm("Deseja excluir este funcionário?")) return;
-
-    try {
-        const res = await fetch(`${API_DELETE}?id=${id}`, {
-            method: "DELETE",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem(TOKEN_KEY)
-            }
-        });
-
-        if (!res.ok) {
-            const erro = await res.text();
-            throw new Error(erro);
-        }
-
-        alert("Funcionário excluído!");
-        carregarFuncionarios();
-
-    } catch (error) {
-        console.error(error);
-        alert("Erro: " + error.message);
+        alert('Erro ao cadastrar: ' + error.message);
     }
 }
 
-// 🔹 INIT
-carregarFuncionarios();
+export async function atualizarDadosFuncionario(id) {
+    const dados = {
+        nome: document.getElementById('nome').value,
+        email: document.getElementById('email').value,
+        telefone: document.getElementById('telefone').value,
+        cargo: document.getElementById('cargo').value,
+        salario: parseFloat(document.getElementById('salario').value)
+    };
+
+    try {
+        await apiFetch(`Update-Funcionario/${id}`, 'PUT', dados);
+        alert('Cadastro atualizado com sucesso!');
+        carregarTabeladeFuncionarios();
+    } catch (error) {
+        alert('Erro ao atualizar: ' + error.message);
+    }
+}
+
+export async function excluirFuncionario(id) {
+    if (confirm('Tem certeza que deseja excluir esse funcionário?')) {
+        try {
+            await apiFetch(`Delete-Funcionario/${id}`, 'DELETE');
+            alert('Cadastro excluído com sucesso!');
+            carregarTabeladeFuncionarios();
+        } catch (error) {
+            alert('Erro ao excluir: ' + error.message);
+        }
+    }
+}
+
+window.editarFuncionario = (id) => console.log('Editar ID:', id);
+window.excluirFuncionario = excluirFuncionario;
+
+document.addEventListener('DOMContentLoaded', () => {
+    carregarTabeladeFuncionarios();
+    
+    const btnsalvar = document.getElementById('btn-salvar');
+    if (btnsalvar) {
+        btnsalvar.addEventListener('click', enviarNovoFuncionario);
+    }
+});
+
+// Para o Model "caixinha de adicionar novo funcionário"
+
+const modal = document.getElementById('modal-container');
+const btnAbrir = document.getElementById('btn-abrir-modal');
+const btnFechar = document.getElementById('btn-fechar-modal');
+const formCadastro = document.getElementById('form-cadastro');
+
+// Para abrir
+btnAbrir.addEventListener('click', () => {
+    modal.style.display = 'flex';
+});
+
+// Para fechar
+btnFechar.addEventListener('click', () => {
+    modal.style.display = 'none';
+    formCadastro.reset(); // Limpa o form ao fechar
+});
+
+// Fechar se clicar fora da caixa branca
+window.addEventListener('click', (event) => {
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+
+// Salvar
+formCadastro.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const sucesso = await enviarNovoFuncionario();
+    
+    if (sucesso) {
+        modal.style.display = 'none'; // Fecha o pop-up após cadastrar
+    }
+});
