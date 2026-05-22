@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Open Sans";
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 body {
@@ -116,10 +116,11 @@ body {
     color: #333;
 }
 
+/* LOGIN */
 .area-login {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .btn-sair {
@@ -137,6 +138,12 @@ body {
     background-color: #070C96;
 }
 
+/* BOTÕES SUPERIORES */
+.Buttons-adfil {
+    display: flex;
+    gap: 10px;
+}
+
 .btn-adicionar {
     padding: 10px 20px;
     background-color: #070C96;
@@ -152,164 +159,233 @@ body {
     background-color: #ff002b;
 }
 
-.container-folhapagamento {
-    border: 1px solid #C4C3C9;
+.btn-filtrar {
+    padding: 10px 20px;
+    background-color: #BFBFBF;
+    color: black;
+    border: none;
     border-radius: 20px;
-    height: 65%;
-    display: flex;
-}
-
-.container-folhapagamento {
-    height: 550px;
-}
-
-h2 {
     font-weight: bold;
-    font-size: 30px;
-    padding: 10px;
+    cursor: pointer;
 }
 
-.itens {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.btn-filtrar:hover {
+    background-color: #ff002b;
+    color: white;
 }
 
-.left {
-    width: 50%;
+/* TABELA */
+.table-container {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
 }
 
-h3 {
-    display: flex;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 12px;
-    align-items: center;
-    color: #f0f0f0;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+#cabecalho {
     background-color: #070C96;
-    border-radius: 20px;
-    width: 200px;
-    height: 25px;
-    margin: 20px;
+    color: white;
 }
 
-input {
+th {
+    padding: 14px;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    background-color: #fafafa;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* BOTÕES DE AÇÃO */
+.acao {
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 200px;
-    height: 25px;
-    margin: 5px;
-    background-color: #E6E6E6;
-    border-color: transparent;
-    border-radius: 20px;
+    gap: 10px;
 }
 
-select {
+.btn-edit,
+.btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#tabela-corpo button{
+     background: none;
+    border: none;
+    cursor: pointer;
+}
+.btn-edit {
+    color: #070C96;
+}
+
+/* HIDDENN */
+/* --- Estilos do Modal (Mini Tela) --- */
+/* Fundo escuro atrás do modal */
+.modal-overlay {
+    /* 1. Fixa o elemento na tela, ignorando onde ele está no HTML */
+    position: fixed; 
+    
+    /* 2. Estica para as 4 pontas da janela do navegador */
+    top: 0;
+    left: 0;
+    width: 100vw;  /* Largura total da janela */
+    height: 100vh; /* Altura total da janela */
+    
+    /* 3. Cor do fundo (Preto com 50% de transparência) */
+    background-color: rgba(0, 0, 0, 0.5); 
+    
+    /* 4. Centraliza a caixa branca do formulário no meio da tela */
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 200px;
-    height: 25px;
-    margin: 5px;
-    background-color: #E6E6E6;
-    border-color: transparent;
-    border-radius: 20px;
+    align-items: center;
+    
+    /* 5. Garante que fique na frente de TUDO (sidebar, tabelas, etc) */
+    z-index: 9999; 
 }
 
-.salario {
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    color: #070C96;
+}
+
+.input-group {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-}
-
-.salario input {
-    width: 150px;
-}
-
-.imposto {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-}
-
-.imposto input {
-    width: 150px;
-}
-
-.right {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
+    margin-bottom: 15px;
 }
 
-h4 {
+.input-row {
     display: flex;
+    gap: 15px;
+}
+
+.input-row .input-group {
+    flex: 1;
+}
+
+.input-group label {
+    font-size: 13px;
     font-weight: bold;
-    font-size: 20px;
-    align-items: center;
+    margin-bottom: 5px;
+}
+
+.input-group input,
+.input-group select {
     padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline-color: #070C96;
 }
 
-.info-rightup p {
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-salvar {
+    background: #070C96;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
     font-weight: bold;
-    font-size: 16px;
+    cursor: pointer;
 }
 
-.info-rightup {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 10px;
-    flex-direction: column;
-    background-color: #E6E6E6;
+.btn-cancelar {
+    background: #eee;
+    padding: 10px 20px;
     border-radius: 20px;
-    width: 350px;
-    height: 150px;
-    margin-bottom: 25px;
-
+    border: none;
+    cursor: pointer;
 }
 
-#desconto {
-    width: 150px;
-    height: 25px;
+/* Estilização da Tabela */
+.table-container {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    text-align: center;
+}
+
+#cabecalho {
     background-color: #070C96;
-    margin-top: 10px;
-    border-radius: 20px;
-    border-color: transparent;
-    color: #e9ecef;
+    color: #FFFFFF;
 }
 
-.right-down {
+th {
+    padding: 15px;
+    font-weight: 600;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    background-color: #bfbfbf23;
+    color: #444;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Ações e Estilos Internos */
+.acao {
     display: flex;
-    align-items: center;
     justify-content: center;
-    flex-direction: column;
+    gap: 10px;
 }
 
-.right-down p {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #E6E6E6;
-    border-radius: 20px;
-    margin: 10px;
-    height: 40px;
-    width: 300px;
+.btn-edit,
+.btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
 }
 
-#btn-despesa {
-    width: 300px;
-    background-color: #070C96;
-    height: 40px;
-    border-color: transparent;
-    border-radius: 20px;
-    color: #E6E6E6;
-    font-size: 12px;
+.btn-edit {
+    color: #070C96;
     font-weight: bold;
+}
+
+.btn-edit:hover {
+    text-decoration: underline;
+}
+
+.btn-delete:hover {
+    transform: scale(1.2);
 }
 
 /* Animação Suave de Entrada */
@@ -334,20 +410,3 @@ h4 {
     will-change: transform, opacity;
     /* Otimiza a performance do navegador */
 }
-
- /* Animação Suave de Entrada */
-@keyframes smoothPageIn {
-    0% {
-        opacity: 0;
-        transform: scale(0.98) translateY(15px);
-        filter: blur(5px);
-        /* Começa levemente embaçado */
-    }
-
-    100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-        filter: blur(0);
-    }
-}
-

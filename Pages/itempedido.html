@@ -14,17 +14,18 @@
         </div>
         <a href="Forne&Cli.html" class="nav-item">Fornecedores e Clientes</a>
         <a href="itempedido.html" class="nav-item active">Vendas</a>
-        <a href="Estoque.Html" class="nav-item">Estoque</a>
-        <a href="#" class="nav-item">Funcionários</a>
+        <a href="Estoque.Html" class="nav-item ">Estoque</a>
+        <a href="Funcionario.html" class="nav-item">Funcionários</a>
         <a href="folhadepagamento.html" class="nav-item">Folha de Pagamento</a>
         <a href="Financeiro.html" class="nav-item">Financeiro</a>
         <a href="ListagemProdutos.Html" class="nav-item">Produtos</a>
       </nav>
 
       <div class="content-area">
-        <div class="area-login">
-          <button class="btn-sair" id="btn-sair">Sair</button>
-        </div>
+                    <div class="area-login">
+                    
+                <button class="btn-sair" id="btn-sair">Sair</button>
+            </div>
 
         <header class="content-header">
           <h1>Vendas</h1>
@@ -36,162 +37,117 @@
           </div>
         </header>
 
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr id="cabecalho">
-                <th>Nome Cliente</th>
-                <th>Produto</th>
-                <th>Preço Unitario</th>
-                <th>Quantidade</th>
-                <th>Descrição</th>
-                <th>Status</th>
-                <th>Total</th>
-                <th>Ação</th>
-              </tr>
-            </thead>
-            <tbody id="tabela-corpo"></tbody>
-          </table>
+        <div class="container-listitenspedidos">
+        <div class="buttons-actions">
+        <p>Listagem de itens (Edição/Delete)</p>
+        <button id="openModalBtn" class="btn-adicionar">Adicionar</button>
         </div>
-      </div>
-    </div>
 
-    <div id="modal-container" class="modal-overlay" style="display: none">
-      <div class="modal-content">
-        <h2>Cadastrar Novo Venda</h2>
-        <form id="form-cadastro">
-          <div class="input-group">
-            <label>Nome Cliente</label>
-            <input type="text" id="nome" required />
-          </div>
+         <div class="table-container">
+                <table>
+                    <thead>
+                        <tr id="cabecalho">
+                            <th>Item Id</th>
+                            <th>Produto/Serviço</th>
+                            <th>Preço unitário</th>
+                            <th>Quantidade</th>
+                            <th>Total</th>
+                            <th>Ações Rápidas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                                                <tr>
+                            <td><div class="item" id="itemid">101</div></td>
+                            <td><div class="produto-servico" id="produto-servico">Produto/Serviço</div></td>
+                            <td><div class="preco" id="preco">R$ 10,00</div></td>
+                            <td><div class="quantidade" id="quantidade">3</div></td>
+                            <td><div class="total" id="total">R$ 30,00</div></td>
+                            <td>
+                                <div class="acao">
+                                    <button class="btn-edit" id="btn-edit">Editar</button>
+                                    <button class="btn-delete" id="btn-delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                                    
+                        
+                                                <tr>
+                            <td><div class="item" id="itemid">102</div></td>
+                            <td><div class="produto-servico" id="produto-servico">Produto/Serviço</div></td>
+                            <td><div class="preco" id="preco">R$ 100,00</div></td>
+                            <td><div class="quantidade" id="quantidade">6</div></td>
+                            <td><div class="total" id="total">R$ 600,00</div></td>
+                            <td>
+                                <div class="acao">
+                                    <button class="btn-edit" id="btn-edit">Editar</button>
+                                    <button class="btn-delete" id="btn-delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
 
-          <div class="input-group">
-            <label>Descrição Do pedido</label>
-            <input
-              type="Texto"
-              id="Descricao-Pedido"
-              placeholder="Aqui você pode adicionar detalhes do pedido, como quantidade, cor, etc."
-            />
-          </div>
+                        
+                                                <tr>
+                            <td><div class="item" id="itemid">103</div></td>
+                            <td><div class="produto-servico" id="produto-servico">Produto/Serviço</div></td>
+                            <td><div class="preco" id="preco">R$ 300,00</div></td>
+                            <td><div class="quantidade" id="quantidade">10</div></td>
+                            <td><div class="total" id="total">R$ 3000,00</div></td>
+                            <td>
+                                <div class="acao">
+                                    <button class="btn-edit" id="btn-edit">Editar</button>
+                                    <button class="btn-delete" id="btn-delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
 
-          <div id="produtos-container">
-            <div class="produto-item">
-              <div class="input-row">
+                    </tbody>
+                </table>
+            </div>
+
+        <div id="modal-container" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Cadastrar Nova Venda</h2>
+            <form id="form-cadastro">
                 <div class="input-group">
-                  <label>Produto / Serviço</label>
-                  <input type="text" name="produto[]" required />
+                    <label>Cliente Id</label>
+                    <input type="number" id="Id" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Descrição</label>
+                    <input type="text" id="Descrição" required>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label id="label-doc">Produto/Serviço</label>
+                        <input type="text" id="produto-servico" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Quantidade</label>
+                        <input type="number" id="Quantidade" required>
+                    </div>
                 </div>
 
                 <div class="input-group">
-                  <label>Quantidade</label>
-                  <input
-                    type="number"
-                    name="quantidade[]"
-                    required
-                    placeholder="0"
-                  />
+                    <label>Preço Unitário</label>
+                    <input type="number" id="preco" required>
                 </div>
-              </div>
 
-              <div class="input-group">
-                <label>Preço Unitario</label>
-                <input
-                  type="text"
-                  name="preco[]"
-                  required
-                  placeholder="R$ 0,00"
-                />
-              </div>
-            </div>
-          </div>
+                <input type="hidden" id="role" value="User">
 
-          <button
-            type="button"
-            id="btn-add-produto"
-            style="
-              margin-top: 10px;
-              background: #070c96;
-              color: white;
-              border: none;
-              padding: 8px 15px;
-              border-radius: 20px;
-              cursor: pointer;
-            "
-          >
-            + Adicionar Produto
-          </button>
-
-          <input type="hidden" id="role" value="User" />
-
-          <div class="modal-actions">
-            <button type="button" class="btn-cancelar" id="btn-fechar-modal">
-              Cancelar
-            </button>
-            <button type="submit" class="btn-salvar">Salvar</button>
-          </div>
-        </form>
-      </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar" id="btn-fechar-modal">Cancelar</button>
+                    <button type="submit" class="btn-salvar">Salvar</button>
+                </div>
+            </form>
+        </div>
     </div>
+        
+        </div>
 
-    <div id="modal-filtro" class="modal-overlay" style="display: none">
-      <div class="modal-content">
-        <h2>Filtrar Registros</h2>
-        <form id="form-filtro">
-          <div class="input-group">
-            <label>Nome do Parceiro</label>
-            <input
-              type="text"
-              id="filtro-nome"
-              placeholder="Digite o nome..."
-            />
-          </div>
-
-          <div class="input-row">
-            <div class="input-group">
-              <label>Tipo</label>
-              <select id="filtro-tipo">
-                <option value="Todos">Todos</option>
-                <option value="Cliente">Cliente</option>
-                <option value="Fornecedor">Fornecedor</option>
-              </select>
-            </div>
-            <div class="input-group">
-              <label>Cidade</label>
-              <input type="text" id="filtro-cidade" placeholder="Cidade..." />
-            </div>
-          </div>
-
-          <div
-            class="modal-actions"
-            style="justify-content: space-between; align-items: center"
-          >
-            <button
-              type="button"
-              id="btn-resetar-filtro"
-              style="
-                background: none;
-                border: none;
-                color: #ff002b;
-                font-weight: bold;
-                cursor: pointer;
-                text-decoration: underline;
-                font-size: 13px;
-              "
-            >
-              Limpar Filtros
-            </button>
-
-            <div style="display: flex; gap: 10px">
-              <button type="button" class="btn-cancelar" id="btn-fechar-filtro">
-                Cancelar
-              </button>
-              <button type="submit" class="btn-salvar">Aplicar</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <script src="../JavaScript/Itempedido.js"></script>
-  </body>
+        </div>
+        </section>
+        <script src="../JavaScript/itempedido.js"></script>
+</body>
 </html>
