@@ -11,11 +11,10 @@ O **ERPcomit Web** é a interface de usuário (Front-end) do sistema de ERP. Des
 
 O ecossistema visual e estrutural do projeto conta com as seguintes tecnologias:
 
-* **Framework/Biblioteca Principal:** [React](https://react.dev/) / [Angular](https://angular.io/) / [Vue.js](https://vuejs.org/) *(Ajustar para o utilizado)*
 * **Linguagem:** TypeScript / JavaScript
-* **Estilização:** Tailwind CSS / Styled Components / Bootstrap
+* **Estilização:** CSS 
 * **Consumo de API:** Axios / Fetch API
-* **Gerenciamento de Estado:** Context API / Redux / Pinia
+* **Gerenciamento de Estado:** Context API
 
 ---
 
@@ -23,11 +22,10 @@ O ecossistema visual e estrutural do projeto conta com as seguintes tecnologias:
 
 A organização dos arquivos segue um padrão limpo e escalável focado em componentes reutilizáveis:
 
-* `src/assets`: Imagens, ícones e arquivos de estilo globais.
-* `src/components`: Componentes visuais menores e reutilizáveis (botões, cards, inputs).
+* `src/css`: Imagens, ícones e arquivos de estilo globais.
+* `src/img`: Componentes visuais menores e reutilizáveis (botões, cards, inputs).
 * `src/pages`: Telas completas da aplicação (Dashboard, Login, Cadastro de Produtos).
-* `src/services`: Configuração do cliente HTTP (Axios) e integração direta com os endpoints da API.
-* `src/routes`: Gerenciamento e proteção de rotas (páginas públicas vs. páginas privadas).
+* `src/javascript`: Scripts, funções utilitárias e lógica geral da aplicação (Validações, Máscaras, Requisições API).
 
 ---
 
