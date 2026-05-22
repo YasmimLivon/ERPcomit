@@ -222,3 +222,9 @@ formCadastro.addEventListener('submit', async (e) => {
         alert("Erro ao processar: " + error.message);
     }
 });
+
+const btnsair = document.getElementById('btn-sair');
+btnsair.addEventListener('click', () => {
+  localStorage.removeItem(TOKEN_KEY);
+  location.href = "../Login.html";
+});
