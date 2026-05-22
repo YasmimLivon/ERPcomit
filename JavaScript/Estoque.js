@@ -65,7 +65,7 @@ function renderTabela(produtos) {
                 <td>${prod.estoqueAtual}</td>
                 <td>${prod.precoUnitario ?? 0}</td>
                 <td>${prod.codigo ?? "-"}</td>
-                <td>${prod.fornecedor ?? "-"}</td>
+              
             </tr>
         `;
     });
