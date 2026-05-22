@@ -52,7 +52,7 @@ export async function carregarTabeladeFuncionarios() {
                 <td>${func.salario}</td>
                 <td>
                     <button class="btn-edit" onclick="editarFuncionario(${func.id})">Editar</button>
-                    <button onclick="excluirFuncionario(${func.id})">🗑️</button>
+                    <button class="btn-delete" onclick="excluirFuncionario(${func.id})">🗑️</button>
                 </td>
             `;
             corpoTabela.appendChild(tr);
@@ -63,6 +63,18 @@ export async function carregarTabeladeFuncionarios() {
 }
 
 export async function enviarNovoFuncionario() {
+    // Paa checar as informações, coloquei um esquema de verificação de erro
+
+    const ids = ['nome', 'email', 'cargo-select', 'salario', 'senha'];
+    
+    // Teste para ver quem é o nulo
+    for (let id of ids) {
+        if (!document.getElementById(id)) {
+            console.error(`O elemento com ID "${id}" não foi encontrado no HTML!`);
+            return; // Para a execução antes de dar o erro de "null"
+        }
+    }
+
     const payload = {
         Nome: document.getElementById('nome').value,
         Email: document.getElementById('email').value,
@@ -116,7 +128,29 @@ export async function excluirFuncionario(id) {
     }
 }
 
-window.editarFuncionario = (id) => console.log('Editar ID:', id);
+window.editarFuncionario = async function(id) {
+    try {
+        const lista = await apiFetch('Get-Funcionarios', 'GET');
+     
+        const func = lista.find(f => f.id === id);
+
+        if (func) {
+            document.getElementById('nome').value = func.nome;
+            document.getElementById('email').value = func.email;
+            document.getElementById('cargo-select').value = func.cargo;
+            document.getElementById('salario').value = func.salario;
+            
+            const btnSalvar = document.getElementById('btn-salvar-modal');
+            btnSalvar.dataset.idAtual = id;
+            btnSalvar.innerText = "Atualizar";
+
+            document.getElementById('modal-container').style.display = 'flex';
+        }
+    } catch (error) {
+        console.error("Erro ao carregar dados para edição:", error);
+    }
+};
+
 window.excluirFuncionario = excluirFuncionario;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -157,9 +191,34 @@ window.addEventListener('click', (event) => {
 formCadastro.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    const sucesso = await enviarNovoFuncionario();
-    
-    if (sucesso) {
-        modal.style.display = 'none'; // Fecha o pop-up após cadastrar
+    const btnSalvar = document.getElementById('btn-salvar-modal');
+    const idEdicao = btnSalvar.dataset.idAtual;
+
+    try {
+        const dados = {
+            Nome: document.getElementById('nome').value,
+            Email: document.getElementById('email').value,
+            Telefone: document.getElementById('telefone').value,
+            Cargo: document.getElementById('cargo-select').value,
+            Salario: parseFloat(document.getElementById('salario').value),
+            Password: document.getElementById('senha').value
+        };
+
+        if (idEdicao) {
+            await apiFetch(`Update-Funcionario/${idEdicao}`, 'PUT', dados);
+            alert("Atualizado com sucesso!");
+        } else {
+            await apiFetch('Register-Funcionario', 'POST', dados);
+            alert("Cadastrado com sucesso!");
+        }
+
+        delete btnSalvar.dataset.idAtual;
+        btnSalvar.innerText = "Salvar";
+        modal.style.display = 'none'; 
+        formCadastro.reset();
+        carregarTabeladeFuncionarios();
+
+    } catch (error) {
+        alert("Erro ao processar: " + error.message);
     }
 });
