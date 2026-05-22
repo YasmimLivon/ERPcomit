@@ -1,34 +1,41 @@
-# ERPcomit 🚀
+# ERPcomit - API 🚀
 
-![Badge](https://img.shields.io/badge/Branch-Flauzino-blue?style=for-the-badge)
+![Badge](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
 ![Badge](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow?style=for-the-badge)
 
-O **ERPcomit** é um sistema de gestão empresarial (Enterprise Resource Planning) desenvolvido para centralizar e otimizar processos de negócios. A branch `Flauzino` foca na implementação de funcionalidades core e refinamento da arquitetura do banco de dados.
+O **ERPcomit** é uma interface de programação de aplicações (API) desenvolvida para gerenciar sistemas de ERP (Enterprise Resource Planning). O projeto foi construído com foco em alta performance, manutenibilidade, robustez e escalabilidade, seguindo as melhores práticas do ecossistema .NET moderno.
 
-## 🧚‍♀️ Funcionalidades
+---
 
-- [ ] **Gestão Financeira:** Controle de fluxo de caixa e contas.
-- [ ] **Módulo de Vendas:** Registro e acompanhamento de pedidos.
-- [ ] **Controle de Estoque:** Monitoramento de entradas e saídas de produtos.
-- [ ] **Cadastro de Clientes/Fornecedores:** Gestão completa de parceiros comerciais.
-- [ ] **Autenticação:** Sistema de login seguro com níveis de acesso.
+## 🛠️ Tecnologias e Ferramentas Utilizadas
 
-## 🛠 Tecnologias Utilizadas
+O projeto foi construído utilizando o seguinte conjunto de tecnologias:
 
-As seguintes ferramentas foram fundamentais na construção deste projeto:
+* **Linguagem & Framework Principal:** [.NET C#](https://dotnet.microsoft.com/)
+* **Acesso a Dados:** [Entity Framework Core](https://learn.microsoft.com/ef/core/) (ou Dapper)
+* **Banco de Dados:** SQL Server / PostgreSQL / MySQL *(Ajustar conforme o seu)*
+* **Documentação:** [Swagger / OpenAPI](https://swagger.io/)
+* **Autenticação & Segurança:** JWT Bearer Token / Identity
+* **Testes (Opcional):** xUnit / FluentAssertions / Moq
 
-- **Banco de Dados:** [PostgreSQL / SQLite]
-- **Frontend:** [Bootstrap / HTML5 / CSS3]
-- **Versionamento:** Git
+---
 
-## 📋 Pré-requisitos
+## 🏗️ Arquitetura do Projeto
 
-Para rodar este projeto localmente, você precisará de:
-- [Git](https://git-scm.com)
-- Gerenciador de pacotes `pip`
+Para garantir a separação de conceitos e facilidade de evolução, o projeto foi estruturado seguindo os princípios de **Clean Architecture** (ou **DDD - Domain-Driven Design**):
 
-## 🔧 Instalação e Execução
+* `ERPcomit.Api`: Camada de apresentação (Controllers, Configurações de Injeção de Dependência, Filtros e Middlewares).
+* `ERPcomit.Application`: Camada de aplicação (Serviços, Casos de Uso, DTOs, Mapeamentos e validações).
+* `ERPcomit.Domain`: O coração da aplicação (Entidades, Objetos de Valor, Interfaces de Repositórios e Regras de Negócio de ERP).
+* `ERPcomit.Infrastructure`: Camada de suporte externo (Implementação de repositórios, contexto do Banco de Dados, integrações de terceiros e serviços de infraestrutura).
 
-1. Clone este repositório na branch específica:
-   ```bash
-   git clone -b Flauzino [https://github.com/YasmimLivon/ERPcomit.git]
+---
+
+## 🚀 Como Executar o Projeto Localmente
+
+### Pré-requisitos
+
+Antes de começar, você vai precisar ter instalado em sua máquina:
+* SDK do [.NET Core](https://dotnet.microsoft.com/download) (Versão mais recente)
+* Um banco de dados configurado (ou Docker instalado)
+* Uma IDE como [Visual Studio](https://visualstudio.microsoft.com/), [VS Code](https://code.visualstudio.com/) ou [Rider](https://www.jetbrains.com/rider/)
