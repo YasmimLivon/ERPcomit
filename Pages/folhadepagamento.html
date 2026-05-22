@@ -7,21 +7,19 @@
     <link rel="stylesheet" href="../css/pagamentostyle.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" 
-    rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght=0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght=0,300..800;1,300..800&display=swap" rel="stylesheet">
 </head>
 <body>
      <div class="app-card">
-      <nav class="sidebar">
+      <nav class="sidebar" id="sidebar-menu">
         <div class="logo-winx"><img src="../img/Logo.png" alt="Logo Winxs"></div>
-            <a href="Forne&Cli.html" class="nav-item">Fornecedores e Clientes</a>
-            <a href="itempedido.html" class="nav-item">Vendas</a>
-            <a href="Estoque.Html" class="nav-item">Estoque</a>
-            <a href="Funcionario.html" class="nav-item">Funcionários</a>
-            <a href="folhadepagamento.html" class="nav-item active">Folha de Pagamento</a>
-            <a href="Financeiro.html" class="nav-item">Financeiro</a>
-            <a href="ListagemProdutos.Html" class="nav-item">Produtos</a>
+    <a href="Forne&Cli.html" class="nav-item data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
+    <a href="itempedido.html" class="nav-item data-role-only" data-allowed="admin,funcionarios,cliente">Vendas</a>
+    <a href="Estoque.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
+    <a href="Funcionario.html" class="nav-item data-role-only" data-allowed="funcionarios">Funcionários</a>
+    <a href="folhadepagamento.html" class="nav-item active data-role-only" data-allowed="funcionarios">Folha de Pagamento</a>
+    <a href="Financeiro.html" class="nav-item data-role-only" data-allowed="funcionarios">Financeiro</a>
+    <a href="ListagemProdutos.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
       </nav>
 
       <div class="content-area">
@@ -33,111 +31,94 @@
           <button class="btn-adicionar">Adicionar Novo</button>
         </header>
 
-
         <section id="folhadepagamento">
-        
-        <div class="container-folhapagamento">
-        <div class="left">
-        
-        <header>
-        <h2>Folha de Pagamento</h2>
-        </header>
+            <div class="container-folhapagamento">
+                <div class="left">
+                    <header>
+                        <h2>Folha de Pagamento</h2>
+                    </header>
 
-        <div class="itens">
-        
-        <h3>Dados colaborador</h3>
+                    <div class="itens">
+                        <h3>Dados colaborador</h3>
+                        <input type="text" id="busca-nome" placeholder="Digite o nome do colaborador">
+                        
+                        <input type="hidden" id="cargo" value="">
 
-        <input type="number" placeholder="Digite seu CPF">
+                        <h3>Salário</h3>
+                        <div class="salario">
+                            <div>
+                              <p>Salario Base</p>
+                                <input type="number" id="salario-base" placeholder="Digite o salário base">
+                                <p>Horas extras</p>
+                                <input type="number" id="horas-extra" placeholder="Digite a quantidade">
+                            </div>
+                            <div>
+                              <p>Total Imposto</p>
+                                <input type="number" id="total-imposto" placeholder="Impostos" readonly>
+                              <p>Salário Total</p>
+                                <input type="number" id="salario-total" placeholder="Salario Total" readonly>
+                            </div>
+                        </div>
 
-        <select name="departamento" id="departamento">
-        <option value="departamento">Departamento</option>
-        <option value="financeiro">Financeiro</option>
-        <option value="rh">RH</option>
-        </select>
+                        <h3>Impostos/Descontos</h3>
+                        <div class="imposto">
+                            <div>
+                              <p>Digite o INSS</p>
+                                <input type="number" id="inss" placeholder="INSS">
+                                <p>Digite o IRRF</p>
+                                <input type="number" id="irrf" placeholder="IRRF">
+                            </div>
+                            <div>
+                              <p>Digite Benefícios ($)</p>
+                                <input type="number" id="beneficios" placeholder="Valor dos benefícios">
+                                <p>Digite qtd Faltas</p>
+                                <input type="number" id="faltas" placeholder="Qauntidade">
+                            </div>
+                        </div>
+                        
+                        <button id="btn-deletar" type="button" style="background-color: #ff4d4d; color: white; margin-top: 15px; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                            Excluir Folha Atual
+                        </button>
+                    </div>
+                </div>
 
-        <select name="cargo" id="cargo">
-        <option value="cargo">Cargo</option>
-        <option value="funcionario">Funcionário</option>
-        <option value="cliente">Cliente</option>
-        </select>
+                <div class="right">
+                    <div class="right-up">
+                        <h4>Resumo da folha</h4>
+                        <div class="info-rightup">
+                            <p id="resumo-nome">Nome: ---</p>
+                            <p id="resumo-cpf">CPF: ---</p> 
+                            <p id="resumo-cargo">Cargo: ---</p>
+                            <p id="resumo-faltas">Faltas: 0</p>
+                            <p id="resumo-bruto">Salário bruto: R$ 0,00</p>
+                            <div>
+                                <button id="desconto">Descontos</button>
+                            </div>
+                        </div>
+                    </div>
 
-        
+                    <div class="right-down">
+                        <h4>Total</h4>
+                        <div class="total">
+                            <div>
+                                <p>Salário bruto: R$ 0,00</p>
+                            </div>
+                            <div>
+                                <p>Salário líquido: R$ 0,00</p>
+                            </div>
+                        </div>
 
-        <h3>Salário</h3>
-
-        <div class="salario">
-        
-        <div>
-        <input type="number" placeholder="Salário Base">
-        <input type="number" placeholder="Horas Extra">
-        </div>
-        <div>
-        <input type="number" placeholder="Total de Imposto">
-        <input type="number" placeholder="Salário Total">
-        </div>
-        </div>
-
-        <h3>Impostos/Descontos</h3>
-        
-        <div class="imposto">
-        <div>
-        <input type="number" placeholder="INSS">
-        <input type="number" placeholder="IRRF">
-        </div>
-        
-        <div>
-        <input type="number" placeholder="Benefícios">
-        <input type="number" placeholder="Faltas">
-        </div>
-        </div>
-        
-        </div>
-        </div>
-
-        <div class="right">
-        <div class="right-up">
-        <h4>Resumo da folha</h4>
-
-        <div class="info-rightup">
-        <p>Nome: Miguel</p>
-        <p>Cargo: Free-lancer</p>
-        <p>Faltas: 0</p>
-        <p>Salário bruto: R$ 1.200,00</p>
-        <div>
-        <button id="desconto">Descontos</button>
-        </div>
-        </div>
-        
-        </div>
-
-        
-         <div class="right-down">
-        <h4>Total</h4>
-
-        <div class="total">
-        <div>
-        <p>Salário bruto: R$ 12.000</p>
-        </div>
-        <div>
-        <p>Salário líquido: R$ 15.000</p>
-        </div>
-        </div>
-
-        <button id="btn-despesa">
-        Lançar Despesa no Financeiro
-        </button>
-        
-        </div>
-        </div>
-        
-      
-
-        </div>
-
-        </div>
+                        <button id="btn-despesa">
+                            Lançar Despesa no Financeiro
+                        </button>
+                    </div>
+                </div>
+            </div>
         </section>
        </div>
+     </div>
        
-       <script src="../JavaScript/FolhaPagamento.js"></script>
+     <script src="../JavaScript/FolhaPagamento.js"></script>
+     <script src="../auth-guard.js"></script>
 </body>
 </html>
