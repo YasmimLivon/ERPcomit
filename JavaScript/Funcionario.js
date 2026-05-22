@@ -44,16 +44,17 @@ export async function carregarTabeladeFuncionarios() {
 
         funcionarios.forEach(func => {
             const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${func.nome}</td>
-                <td>${func.email}</td>
-                <td>${func.telefone}</td>
-                <td>${func.cargo}</td>
-                <td>${func.salario}</td>
-                <td>
-                    <button class="btn-edit" onclick="editarFuncionario(${func.id})">Editar</button>
-                    <button class="btn-delete" onclick="excluirFuncionario(${func.id})">🗑️</button>
-                </td>
+           tr.innerHTML = `
+            <td>${item.tipo}</td>
+            <td>${new Date(item.vencimento).toLocaleDateString('pt-BR')}</td>
+            <td>${item.descricao}</td>
+            <td>${item.status}</td>
+            <td>R$ ${parseFloat(item.valor).toFixed(2)}</td>
+            <td>${item.observacao || ''}</td>
+            <td style="display: flex; gap: 10px; align-items: center; justify-content: center;">
+            <button class="btn-edit" onclick="editarFinanceiro(${item.id})">Editar</button>
+            <button class="btn-delete" onclick="excluirFinanceiro(${item.id})" style="background:none; border:none; cursor:pointer;">🗑️</button>
+            </td>
             `;
             corpoTabela.appendChild(tr);
         });
@@ -221,4 +222,10 @@ formCadastro.addEventListener('submit', async (e) => {
     } catch (error) {
         alert("Erro ao processar: " + error.message);
     }
+});
+
+const btnsair = document.getElementById('btn-sair');
+btnsair.addEventListener('click', () => {
+  localStorage.removeItem(TOKEN_KEY);
+  location.href = "../Login.html";
 });
