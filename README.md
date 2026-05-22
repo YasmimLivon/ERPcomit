@@ -1,33 +1,33 @@
-# ERPcomit - API 🚀
+# ERPcomit - Front-end 🎨
 
-![Badge](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
 ![Badge](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow?style=for-the-badge)
+![Badge](https://img.shields.io/badge/Interface-Web-blue?style=for-the-badge)
 
-O **ERPcomit** é uma interface de programação de aplicações (API) desenvolvida para gerenciar sistemas de ERP (Enterprise Resource Planning). O projeto foi construído com foco em alta performance, manutenibilidade, robustez e escalabilidade, seguindo as melhores práticas do ecossistema .NET moderno.
+O **ERPcomit Web** é a interface de usuário (Front-end) do sistema de ERP. Desenvolvida para ser intuitiva, responsiva e performática, esta aplicação se conecta à **ERPcomit API** para fornecer uma experiência completa de gerenciamento empresarial, controle de inventário, clientes e vendas.
 
 ---
 
 ## 🛠️ Tecnologias e Ferramentas Utilizadas
 
-O projeto foi construído utilizando o seguinte conjunto de tecnologias:
+O ecossistema visual e estrutural do projeto conta com as seguintes tecnologias:
 
-* **Linguagem & Framework Principal:** [.NET C#](https://dotnet.microsoft.com/)
-* **Acesso a Dados:** [Entity Framework Core](https://learn.microsoft.com/ef/core/) (ou Dapper)
-* **Banco de Dados:** SQL Server / PostgreSQL / MySQL *(Ajustar conforme o seu)*
-* **Documentação:** [Swagger / OpenAPI](https://swagger.io/)
-* **Autenticação & Segurança:** JWT Bearer Token / Identity
-* **Testes (Opcional):** xUnit / FluentAssertions / Moq
+* **Framework/Biblioteca Principal:** [React](https://react.dev/) / [Angular](https://angular.io/) / [Vue.js](https://vuejs.org/) *(Ajustar para o utilizado)*
+* **Linguagem:** TypeScript / JavaScript
+* **Estilização:** Tailwind CSS / Styled Components / Bootstrap
+* **Consumo de API:** Axios / Fetch API
+* **Gerenciamento de Estado:** Context API / Redux / Pinia
 
 ---
 
-## 🏗️ Arquitetura do Projeto
+## 🏗️ Estrutura do Projeto (Front-end)
 
-Para garantir a separação de conceitos e facilidade de evolução, o projeto foi estruturado seguindo os princípios de **Clean Architecture** (ou **DDD - Domain-Driven Design**):
+A organização dos arquivos segue um padrão limpo e escalável focado em componentes reutilizáveis:
 
-* `ERPcomit.Api`: Camada de apresentação (Controllers, Configurações de Injeção de Dependência, Filtros e Middlewares).
-* `ERPcomit.Application`: Camada de aplicação (Serviços, Casos de Uso, DTOs, Mapeamentos e validações).
-* `ERPcomit.Domain`: O coração da aplicação (Entidades, Objetos de Valor, Interfaces de Repositórios e Regras de Negócio de ERP).
-* `ERPcomit.Infrastructure`: Camada de suporte externo (Implementação de repositórios, contexto do Banco de Dados, integrações de terceiros e serviços de infraestrutura).
+* `src/assets`: Imagens, ícones e arquivos de estilo globais.
+* `src/components`: Componentes visuais menores e reutilizáveis (botões, cards, inputs).
+* `src/pages`: Telas completas da aplicação (Dashboard, Login, Cadastro de Produtos).
+* `src/services`: Configuração do cliente HTTP (Axios) e integração direta com os endpoints da API.
+* `src/routes`: Gerenciamento e proteção de rotas (páginas públicas vs. páginas privadas).
 
 ---
 
@@ -36,6 +36,6 @@ Para garantir a separação de conceitos e facilidade de evolução, o projeto f
 ### Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina:
-* SDK do [.NET Core](https://dotnet.microsoft.com/download) (Versão mais recente)
-* Um banco de dados configurado (ou Docker instalado)
-* Uma IDE como [Visual Studio](https://visualstudio.microsoft.com/), [VS Code](https://code.visualstudio.com/) ou [Rider](https://www.jetbrains.com/rider/)
+* [Node.js](https://nodejs.org/) (Versão LTS recomendada)
+* Um gerenciador de pacotes como **npm**, **yarn** ou **pnpm**
+* A [ERPcomit API](https://github.com/KaickFlauzin08/Projeto.Winxs.Api) rodando localmente (opcional, para testar os dados em tempo real)
