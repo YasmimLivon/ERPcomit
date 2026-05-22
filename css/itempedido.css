@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Open Sans";
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 body {
@@ -128,6 +128,10 @@ body {
 
 .btn-sair:hover {
     background-color: #070C96;
+}
+
+#financeiro{
+    width: 100%;
 }
 
 /* 🔥 GRUPO DO INPUT + BOTÃO */
