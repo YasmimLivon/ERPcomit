@@ -10,18 +10,17 @@
 
 <div class="app-card">
 
-    <nav class="sidebar">
+    <nav class="sidebar" id="sidebar-menu">
         <div class="logo-winx">
             <img src="../img/Logo.png" />
         </div>
-
-        <a href="Forne&Cli.html" class="nav-item">Fornecedores e Clientes</a>
-        <a href="itempedido.html" class="nav-item">Vendas</a>
-        <a href="Estoque.Html" class="nav-item">Estoque</a>
-        <a href="Funcionario.html" class="nav-item">Funcionários</a>
-        <a href="folhadepagamento.html" class="nav-item">Folha de Pagamento</a>
-        <a href="Financeiro.html" class="nav-item">Financeiro</a>
-        <a href="ListagemProdutos.Html" class="nav-item active">Produtos</a>
+    <a href="Forne&Cli.html" class="nav-item data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
+    <a href="itempedido.html" class="nav-item data-role-only" data-allowed="funcionarios,cliente">Vendas</a>
+    <a href="Estoque.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
+    <a href="Funcionario.html" class="nav-item data-role-only" data-allowed="funcionarios">Funcionários</a>
+    <a href="folhadepagamento.html" class="nav-item data-role-only" data-allowed="funcionarios">Folha de Pagamento</a>
+    <a href="Financeiro.html" class="nav-item data-role-only" data-allowed="funcionarios">Financeiro</a>
+    <a href="ListagemProdutos.Html" class="nav-item active data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
     </nav>
 
     <div class="content-area">
@@ -85,5 +84,6 @@
 </div>
 
 <script src="../JavaScript/produtos.js"></script>
+<script src="../auth-guard.js"></script>
 </body>
 </html>

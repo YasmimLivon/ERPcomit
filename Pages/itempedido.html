@@ -1,153 +1,131 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Winx - Vendas</title>
-    <link rel="stylesheet" href="../css/Forne&Cli.css" />
+    <title>Winx -Item pedido</title>
+    <link rel="stylesheet" href="../css/itempedido.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
   </head>
+
   <body>
     <div class="app-card">
-      <nav class="sidebar">
-        <div class="logo-winx">
+      <nav class="sidebar" id="sidebar-menu">
+        <div class="logo-winx" >
           <img src="../img/Logo.png" alt="Logo Winxs" />
         </div>
-        <a href="Forne&Cli.html" class="nav-item">Fornecedores e Clientes</a>
-        <a href="itempedido.html" class="nav-item active">Vendas</a>
-        <a href="Estoque.Html" class="nav-item ">Estoque</a>
-        <a href="Funcionario.html" class="nav-item">Funcionários</a>
-        <a href="folhadepagamento.html" class="nav-item">Folha de Pagamento</a>
-        <a href="Financeiro.html" class="nav-item">Financeiro</a>
-        <a href="ListagemProdutos.Html" class="nav-item">Produtos</a>
+    <a href="Forne&Cli.html" class="nav-item data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
+    <a href="itempedido.html" class="nav-item active data-role-only" data-allowed="admin,funcionarios,cliente">Vendas</a>
+    <a href="Estoque.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
+    <a href="Funcionario.html" class="nav-item data-role-only" data-allowed="funcionarios">Funcionários</a>
+    <a href="folhadepagamento.html" class="nav-item data-role-only" data-allowed="funcionarios">Folha de Pagamento</a>
+    <a href="Financeiro.html" class="nav-item data-role-only" data-allowed="funcionarios">Financeiro</a>
+    <a href="ListagemProdutos.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
       </nav>
 
-      <div class="content-area">
-                    <div class="area-login">
-                    
-                <button class="btn-sair" id="btn-sair">Sair</button>
-            </div>
-
-        <header class="content-header">
-          <h1>Vendas</h1>
-          <div class="Buttons-adfil">
-            <button class="btn-filtrar" id="btn-abrir-filtro">Filtrar</button>
-            <button class="btn-adicionar" id="btn-abrir-modal">
-              Adicionar
-            </button>
+      <section id="financeiro">
+        <div class="content-area">
+          <div class="area-login">
+            <button class="btn-sair" id="btn-sair">Sair</button>
           </div>
-        </header>
+        <header class="content-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+        <img src="../img/carrinho azul.png" alt="carrinho" />
+        <h1>Modulo Vendas</h1>
+    </div>
 
-        <div class="container-listitenspedidos">
-        <div class="buttons-actions">
-        <p>Listagem de itens (Edição/Delete)</p>
-        <button id="openModalBtn" class="btn-adicionar">Adicionar</button>
-        </div>
+        <div class="Buttons-adfil">
+        <input type="text" id="inputFiltro" class="input-busca" placeholder="Buscar produto..."
+    />
+    <button id="openModalBtn" class="btn-adicionar">Adicionar</button>
+  </div>
+</header>
 
-         <div class="table-container">
-                <table>
-                    <thead>
-                        <tr id="cabecalho">
-                            <th>Item Id</th>
-                            <th>Produto/Serviço</th>
-                            <th>Preço unitário</th>
-                            <th>Quantidade</th>
-                            <th>Total</th>
-                            <th>Ações Rápidas</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                                                <tr>
-                            <td><div class="item" id="itemid">101</div></td>
-                            <td><div class="produto-servico" id="produto-servico">Produto/Serviço</div></td>
-                            <td><div class="preco" id="preco">R$ 10,00</div></td>
-                            <td><div class="quantidade" id="quantidade">3</div></td>
-                            <td><div class="total" id="total">R$ 30,00</div></td>
-                            <td>
-                                <div class="acao">
-                                    <button class="btn-edit" id="btn-edit">Editar</button>
-                                    <button class="btn-delete" id="btn-delete">🗑️</button>
-                                </div>
-                            </td>
-                        </tr>
-                                    
-                        
-                                                <tr>
-                            <td><div class="item" id="itemid">102</div></td>
-                            <td><div class="produto-servico" id="produto-servico">Produto/Serviço</div></td>
-                            <td><div class="preco" id="preco">R$ 100,00</div></td>
-                            <td><div class="quantidade" id="quantidade">6</div></td>
-                            <td><div class="total" id="total">R$ 600,00</div></td>
-                            <td>
-                                <div class="acao">
-                                    <button class="btn-edit" id="btn-edit">Editar</button>
-                                    <button class="btn-delete" id="btn-delete">🗑️</button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        
-                                                <tr>
-                            <td><div class="item" id="itemid">103</div></td>
-                            <td><div class="produto-servico" id="produto-servico">Produto/Serviço</div></td>
-                            <td><div class="preco" id="preco">R$ 300,00</div></td>
-                            <td><div class="quantidade" id="quantidade">10</div></td>
-                            <td><div class="total" id="total">R$ 3000,00</div></td>
-                            <td>
-                                <div class="acao">
-                                    <button class="btn-edit" id="btn-edit">Editar</button>
-                                    <button class="btn-delete" id="btn-delete">🗑️</button>
-                                </div>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr id="cabecalho">
+                    <th>Item Id</th>
+                    <th>Produto/Serviço</th>
+                    <th>Preço unitário</th>
+                    <th>Quantidade</th>
+                    <th>Total</th>
+                    <th>Ações Rápidas</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
             </div>
 
-        <div id="modal-container" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
-            <h2>Cadastrar Nova Venda</h2>
-            <form id="form-cadastro">
-                <div class="input-group">
-                    <label>Cliente Id</label>
-                    <input type="number" id="Id" required>
-                </div>
-                
-                <div class="input-group">
+            <!-- MODAL -->
+            <div
+              id="modal-container"
+              class="modal-overlay"
+              style="display: none"
+            >
+              <div class="modal-content">
+                <h2>Cadastrar Nova Venda</h2>
+
+                <form id="form-cadastro">
+                  <div class="input-group">
+                    <label>Pedido Id</label>
+                    <input type="number" id="pedidoId" required />
+                  </div>
+
+                  <div class="input-group">
                     <label>Descrição</label>
-                    <input type="text" id="Descrição" required>
-                </div>
+                    <!-- MANTIDO (não usado pela API) -->
+                    <input type="text" id="descricao" />
+                  </div>
 
-                <div class="input-row">
+                  <div class="input-row">
                     <div class="input-group">
-                        <label id="label-doc">Produto/Serviço</label>
-                        <input type="text" id="produto-servico" required>
+                      <label id="label-doc">Produto/Serviço</label>
+                      <!-- ALTERADO -->
+                      <input type="number" id="produtoId" required />
                     </div>
-                    <div class="input-group">
-                        <label>Quantidade</label>
-                        <input type="number" id="Quantidade" required>
-                    </div>
-                </div>
 
-                <div class="input-group">
+                    <div class="input-group">
+                      <label>Quantidade</label>
+                      <!-- ALTERADO -->
+                      <input type="number" id="quantidade" required />
+                    </div>
+                  </div>
+
+                  <div class="input-group">
                     <label>Preço Unitário</label>
-                    <input type="number" id="preco" required>
-                </div>
+                    <!-- ALTERADO -->
+                    <input type="number" id="precoUnitario" required />
+                  </div>
 
-                <input type="hidden" id="role" value="User">
+                  <input type="hidden" id="role" value="User" />
 
-                <div class="modal-actions">
-                    <button type="button" class="btn-cancelar" id="btn-fechar-modal">Cancelar</button>
+                  <div class="modal-actions">
+                    <button
+                      type="button"
+                      class="btn-cancelar"
+                      id="btn-fechar-modal"
+                    >
+                      Cancelar
+                    </button>
                     <button type="submit" class="btn-salvar">Salvar</button>
-                </div>
-            </form>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
     </div>
-        
-        </div>
 
         </div>
         </section>
         <script src="../JavaScript/itempedido.js"></script>
+        <script src="../auth-guard.js"></script>
 </body>
 </html>
