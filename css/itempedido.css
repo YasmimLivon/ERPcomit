@@ -130,6 +130,10 @@ body {
     background-color: #070C96;
 }
 
+#financeiro{
+    width: 100%;
+}
+
 /* 🔥 GRUPO DO INPUT + BOTÃO */
 .Buttons-adfil {
     display: flex;
