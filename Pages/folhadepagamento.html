@@ -4,36 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Winx - Folha de Pagamento</title>
+    <link rel="icon" href="../img/Logo.png" type="image/png">
     <link rel="stylesheet" href="../css/pagamentostyle.css">
 </head>
 <body>
      <div class="app-card">
       <nav class="sidebar" id="sidebar-menu">
         <div class="logo-winx"><img src="../img/Logo.png" alt="Logo Winxs"></div>
-    <a href="Forne&Cli.html" class="nav-item data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
+            <a href="Dashboard.html" class="nav-item  ">Dashboard</a>
+        <a href="ListagemProdutos.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
     <a href="itempedido.html" class="nav-item data-role-only" data-allowed="admin,funcionarios,cliente">Vendas</a>
     <a href="Estoque.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
+    <a href="Forne&Cli.html" class="nav-item data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
     <a href="Funcionario.html" class="nav-item data-role-only" data-allowed="funcionarios">Funcionários</a>
     <a href="folhadepagamento.html" class="nav-item active data-role-only" data-allowed="funcionarios">Folha de Pagamento</a>
     <a href="Financeiro.html" class="nav-item data-role-only" data-allowed="funcionarios">Financeiro</a>
-    <a href="ListagemProdutos.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
       </nav>
 
       <div class="content-area">
             <div class="area-login">
                 <button class="btn-sair" id="btn-sair">Sair</button>
             </div>
-        <header class="content-header">
-          <h1>Contatos</h1>
-          <button class="btn-adicionar">Adicionar Novo</button>
-        </header>
+                    <header>
+                        <h2>Folha de Pagamento</h2>
+                    </header>
 
         <section id="folhadepagamento">
             <div class="container-folhapagamento">
                 <div class="left">
-                    <header>
-                        <h2>Folha de Pagamento</h2>
-                    </header>
+
 
                     <div class="itens">
                         <h3>Dados colaborador</h3>
@@ -51,7 +50,7 @@
                             </div>
                             <div>
                               <p>Total Imposto</p>
-                                <input type="number" id="total-imposto" placeholder="Impostos" readonly>
+                                <input type="number"  placeholder="Impostos" readonly >
                               <p>Salário Total</p>
                                 <input type="number" id="salario-total" placeholder="Salario Total" readonly>
                             </div>
@@ -73,9 +72,7 @@
                             </div>
                         </div>
                         
-                        <button id="btn-deletar" type="button" style="background-color: #ff4d4d; color: white; margin-top: 15px; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-                            Excluir Folha Atual
-                        </button>
+
                     </div>
                 </div>
 
@@ -88,9 +85,6 @@
                             <p id="resumo-cargo">Cargo: ---</p>
                             <p id="resumo-faltas">Faltas: 0</p>
                             <p id="resumo-bruto">Salário bruto: R$ 0,00</p>
-                            <div>
-                                <button id="desconto">Descontos</button>
-                            </div>
                         </div>
                     </div>
 
@@ -107,6 +101,9 @@
 
                         <button id="btn-despesa">
                             Lançar Despesa no Financeiro
+                        </button>
+                                                <button id="btn-deletar" type="button" style="background-color: #ff4d4d; color: white; margin-top: 15px; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                            Excluir Folha Atual
                         </button>
                     </div>
                 </div>

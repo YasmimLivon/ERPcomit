@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Winx - Gestão de Produtos</title>
+    <link rel="icon" href="../img/Logo.png" type="image/png">
     <link rel="stylesheet" href="../css/Listagem.css" />
 </head>
 <body>
@@ -14,13 +15,14 @@
         <div class="logo-winx">
             <img src="../img/Logo.png" />
         </div>
+            <a href="Dashboard.html" class="nav-item  ">Dashboard</a>
+        <a href="ListagemProdutos.Html" class="nav-item active data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
+    <a href="itempedido.html" class="nav-item data-role-only" data-allowed="admin,funcionarios,cliente">Vendas</a>
+    <a href="Estoque.Html" class="nav-item  data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
     <a href="Forne&Cli.html" class="nav-item data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
-    <a href="itempedido.html" class="nav-item data-role-only" data-allowed="funcionarios,cliente">Vendas</a>
-    <a href="Estoque.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
     <a href="Funcionario.html" class="nav-item data-role-only" data-allowed="funcionarios">Funcionários</a>
     <a href="folhadepagamento.html" class="nav-item data-role-only" data-allowed="funcionarios">Folha de Pagamento</a>
     <a href="Financeiro.html" class="nav-item data-role-only" data-allowed="funcionarios">Financeiro</a>
-    <a href="ListagemProdutos.Html" class="nav-item active data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
     </nav>
 
     <div class="content-area">
@@ -45,7 +47,6 @@
                         <th>Nome</th>
                         <th>Preço</th>
                         <th>Código</th>
-                        <th>Estoque</th>
                         <th>Tipo</th>
                         <th>Ativo</th>
                         <th>Ação</th>

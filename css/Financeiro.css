@@ -155,35 +155,44 @@ body {
     gap: 10px;
 }
 
-.btn-adicionar {
-    padding: 10px 20px;
+/* Estilização base do seletor de relatórios com efeitos especiais */
+.filtro-relatorio {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     background-color: #070C96;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-weight: bold;
+    color: #ffffff !important;
+    border: 2px solid transparent;
+    padding: 10px 35px 10px 15px !important;
+    border-radius: 30px;
     cursor: pointer;
-    transition: 0.3s;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    height: auto;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 15px rgba(0, 54, 255, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    outline: none;
+    position: relative;
 }
 
-.btn-adicionar:hover {
-    background-color: #ff002b;
+/* Efeito ao passar o mouse (Hover) */
+.filtro-relatorio:hover {
+    background: linear-gradient(135deg, #0022cc 0%, #1a52ff 100%);
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(0, 54, 255, 0.5), 0 0 10px rgba(0, 54, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
-.btn-filtrar {
-    padding: 10px 20px;
-    background-color: #BFBFBF;
-    color: black;
-    border: none;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
+
+/* Estilização das opções internas (as caixas que caem ao clicar) */
+.filtro-relatorio option {
+    background-color: #0d1117;
+    color: #ffffff;
+    font-weight: 500;
+    padding: 12px;
 }
 
-.btn-filtrar:hover {
-    background-color: #ff002b;
-    color: white;
-}
 
 /* Estilização da área Financeira */
 
