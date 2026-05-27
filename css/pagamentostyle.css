@@ -153,20 +153,24 @@ body {
 }
 
 .container-folhapagamento {
-    border: 1px solid #C4C3C9;
-    border-radius: 20px;
     height: 65%;
     display: flex;
-}
-
-.container-folhapagamento {
     height: 550px;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    background-color: #bfbfbf23;
+    color: #444;
 }
 
 h2 {
     font-weight: bold;
-    font-size: 30px;
-    padding: 10px;
+    font-size: 20px;
+    padding-bottom: 5px;
+    color:#333;
 }
 
 .itens {
