@@ -47,7 +47,7 @@
                     alert("Você não tem permissão para acessar esta página.");
                     
                     // 🔹 ALTERAÇÃO: Todos os usuários sem permissão na página atual são mandados para o Dashboard
-                    window.location.href = "Dashboard.html";
+                    window.location.href = "Pages/Dashboard.html";
                 }
             }
         });
