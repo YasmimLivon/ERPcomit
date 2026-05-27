@@ -90,30 +90,37 @@ async function carregarTabelaFolhas() {
         const corpoTabela = document.getElementById("tabela-corpo");
         corpoTabela.innerHTML = "";
 
-        folhas.forEach(f => {
-            const bruto = f.salarioBruto || f.SalarioBruto || 0;
-            const descontos = f.totalDesconto || f.TotalDesconto || 0;
-            const nome = f.nomeFuncionario || "Não informado";
-            const cpf = f.cpfFuncionario || "---";
-            const cargo = f.cargo || "---";
-            const faltas = f.faltasOutros || 0;
-            
+      folhas.forEach(f => {
+    // Pegando os nomes exatos que apareceram no seu console.log
+    const idFolha = f.id; 
+    const nome = f.nomeFuncionario;
+    const cpf = f.cpfFuncionario;
+    const cargo = f.cargo;
+    
+    // ATENÇÃO AQUI: Verifique se estes nomes estão assim no console (letra inicial minúscula)
+    const faltas = f.faltasOutros || 0; 
+    const bruto = f.salarioBruto || 0;
+    const descontos = f.totalDesconto || 0;
 
-            corpoTabela.innerHTML += `
-                <tr>
-                    <td>${nome}</td>
-                    <td>${cpf}</td>
-                    <td>${cargo}</td>
-                    <td>${faltas}</td>
-                    <td>${descontos.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                    <td>${bruto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-                    <td>
-                        <button class="btn-edit" onclick="editarFolha(${f.id})">Editar</button>
-                        <button class="btn-delete" onclick="excluirFolha(${f.id})">🗑️</button>
-                    </td>
-                </tr>
-            `;
-        });
+
+    console.log("Valor das faltas para esta linha:", faltas);
+
+    corpoTabela.innerHTML += `
+        <tr>
+            <td>${nome}</td>
+            <td>${cpf}</td>
+            <td>${cargo}</td>
+            <td>${faltas !== undefined ? faltas : 0}</td>
+            <td>${descontos.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+            <td>${bruto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+            <td>
+                <button class="btn-edit" onclick="editarFolha(${idFolha})">Editar</button>
+                <button class="btn-delete" onclick="excluirFolha(${idFolha})">🗑️</button>
+            </td>
+        </tr>
+    `;
+    });
+
     } catch (e) {
         console.error("Erro na tabela:", e);
     }
