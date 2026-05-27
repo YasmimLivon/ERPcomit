@@ -1,9 +1,12 @@
+/* Reset e Base */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Arial, sans-serif;
 }
+
+
 
 body {
     background-color: #f1f3f6;
@@ -14,6 +17,8 @@ body {
     padding: 20px;
 }
 
+
+/* Layout do Card Principal */
 .app-card {
     background-color: #ffffff;
     width: 100%;
@@ -137,6 +142,20 @@ body {
     background-color: #070C96;
 }
 
+.user {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #070C96;
+}
+
+/* Botões Superiores */
+.Buttons-adfil {
+    display: flex;
+    gap: 10px;
+}
+
 .btn-adicionar {
     padding: 10px 20px;
     background-color: #070C96;
@@ -152,171 +171,171 @@ body {
     background-color: #ff002b;
 }
 
-.container-folhapagamento {
-    border: 1px solid #C4C3C9;
+.btn-filtrar {
+    padding: 10px 20px;
+    background-color: #BFBFBF;
+    color: black;
+    border: none;
     border-radius: 20px;
-    height: 65%;
-    display: flex;
-}
-
-.container-folhapagamento {
-    height: 550px;
-}
-
-h2 {
-    font-weight: bold;
-    font-size: 30px;
-    padding: 10px;
-}
-
-.itens {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.left {
-    width: 50%;
-}
-
-h3 {
-    display: flex;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 12px;
-    align-items: center;
-    color: #f0f0f0;
-    background-color: #070C96;
-    border-radius: 20px;
-    width: 200px;
-    height: 25px;
-    margin: 20px;
-}
-
-input {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 250px;
-    height: 30px;
-    margin: 5px;
-    background-color: #E6E6E6;
-    border-color: transparent;
-    border-radius: 20px;
-    text-align: center;
-}
-
-select {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 250px;
-    height: 30px;
-    margin: 5px;
-    background-color: #E6E6E6;
-    border-color: transparent;
-    border-radius: 20px;
-    text-align: center;
-}
-
-.salario {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-}
-
-.salario input {
-    width: 150px;
-}
-
-.imposto {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-}
-
-.imposto input {
-    width: 150px;
-}
-
-.right {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-h4 {
-    display: flex;
-    font-weight: bold;
-    font-size: 20px;
-    align-items: center;
-    padding: 10px;
-}
-
-.info-rightup p {
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.info-rightup {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 10px;
-    flex-direction: column;
-    background-color: #E6E6E6;
-    border-radius: 20px;
-    width: 350px;
-    height: 150px;
-    margin-bottom: 25px;
-
-}
-
-#desconto {
-    width: 150px;
-    height: 25px;
-    background-color: #070C96;
-    margin-top: 10px;
-    border-radius: 20px;
-    border-color: transparent;
-    color: #e9ecef;
-}
-
-.right-down {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.right-down p {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #E6E6E6;
-    border-radius: 20px;
-    margin: 10px;
-    height: 40px;
-    width: 300px;
-}
-
-#btn-despesa {
-    width: 300px;
-    background-color: #070C96;
-    height: 40px;
-    border-color: transparent;
-    border-radius: 20px;
-    color: #E6E6E6;
-    font-size: 12px;
     font-weight: bold;
     cursor: pointer;
 }
-#btn-despesa:hover {
+
+.btn-filtrar:hover {
     background-color: #ff002b;
+    color: white;
 }
+
+/* Estilização da Tabela */
+.table-container {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    text-align: center;
+}
+
+#cabecalho {
+    background-color: #070C96;
+    color: #FFFFFF;
+}
+
+th {
+    padding: 15px;
+    font-weight: 600;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    background-color: #bfbfbf23;
+    color: #444;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Ações e Estilos Internos */
+.acao {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-edit,
+.btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
+}
+
+.btn-edit {
+    color: #070C96;
+    font-weight: bold;
+}
+
+.btn-edit:hover {
+    text-decoration: underline;
+}
+
+.btn-delete:hover {
+    transform: scale(1.2);
+}
+
+/* HIDDENN */
+/* --- Estilos do Modal (Mini Tela) --- */
+.modal-overlay {
+    display: none;
+    /* Hidden por padrão */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    color: #070C96;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.input-row {
+    display: flex;
+    gap: 15px;
+}
+
+.input-row .input-group {
+    flex: 1;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-group input,
+.input-group select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline-color: #070C96;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-salvar {
+    background: #070C96;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-cancelar {
+    background: #eee;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+}
+
 /* Animação Suave de Entrada */
 @keyframes smoothPageIn {
     0% {
@@ -339,5 +358,3 @@ h4 {
     will-change: transform, opacity;
     /* Otimiza a performance do navegador */
 }
-
-

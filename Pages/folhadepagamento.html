@@ -25,92 +25,106 @@
             <div class="area-login">
                 <button class="btn-sair" id="btn-sair">Sair</button>
             </div>
-                    <header>
-                        <h2>Folha de Pagamento</h2>
-                    </header>
 
-        <section id="folhadepagamento">
-            <div class="container-folhapagamento">
-                <div class="left">
-
-
-                    <div class="itens">
-                        <h3>Dados colaborador</h3>
-                        <input type="text" id="busca-nome" placeholder="Digite o nome do colaborador">
-                        
-                        <input type="hidden" id="cargo" value="">
-
-                        <h3>Salário</h3>
-                        <div class="salario">
-                            <div>
-                              <p>Salario Base</p>
-                                <input type="number" id="salario-base" placeholder="Digite o salário base">
-                                <p>Horas extras</p>
-                                <input type="number" id="horas-extra" placeholder="Digite a quantidade">
-                            </div>
-                            <div>
-                              <p>Total Imposto</p>
-                                <input type="number"  placeholder="Impostos" readonly >
-                              <p>Salário Total</p>
-                                <input type="number" id="salario-total" placeholder="Salario Total" readonly>
-                            </div>
-                        </div>
-
-                        <h3>Impostos/Descontos</h3>
-                        <div class="imposto">
-                            <div>
-                              <p>Digite o INSS</p>
-                                <input type="number" id="inss" placeholder="INSS">
-                                <p>Digite o IRRF</p>
-                                <input type="number" id="irrf" placeholder="IRRF">
-                            </div>
-                            <div>
-                              <p>Digite Benefícios ($)</p>
-                                <input type="number" id="beneficios" placeholder="Valor dos benefícios">
-                                <p>Digite qtd Faltas</p>
-                                <input type="number" id="faltas" placeholder="Qauntidade">
-                            </div>
-                        </div>
-                        
-
-                    </div>
+         <header class="content-header">
+                <h1>Folha de Pagamento</h1>
+                <div class="Buttons-adfil">
+                    <button class="btn-adicionar" id="btn-abrir-modal">Adicionar</button>
                 </div>
-
-                <div class="right">
-                    <div class="right-up">
-                        <h4>Resumo da folha</h4>
-                        <div class="info-rightup">
-                            <p id="resumo-nome">Nome: ---</p>
-                            <p id="resumo-cpf">CPF: ---</p> 
-                            <p id="resumo-cargo">Cargo: ---</p>
-                            <p id="resumo-faltas">Faltas: 0</p>
-                            <p id="resumo-bruto">Salário bruto: R$ 0,00</p>
-                        </div>
-                    </div>
-
-                    <div class="right-down">
-                        <h4>Total</h4>
-                        <div class="total">
-                            <div>
-                                <p>Salário bruto: R$ 0,00</p>
-                            </div>
-                            <div>
-                                <p>Salário líquido: R$ 0,00</p>
-                            </div>
-                        </div>
-
-                        <button id="btn-despesa">
-                            Lançar Despesa no Financeiro
-                        </button>
-                                                <button id="btn-deletar" type="button" style="background-color: #ff4d4d; color: white; margin-top: 15px; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-                            Excluir Folha Atual
-                        </button>
-                    </div>
-                </div>
+            </header>
+        
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr id="cabecalho">
+                           <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Cargo</th>
+                            <th>Faltas</th>
+                            <th>Descontos</th>
+                            <th>Salário Bruto</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-corpo">
+                        </tbody>
+                </table>
             </div>
-        </section>
-       </div>
-     </div>
+        
+             </div> </div> <div id="modal-container" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+            <form id="form-cadastro">
+            <p class="subtitle">Cadastrar Folha de Pagamento</p>
+
+            <div class="input-group">
+            <label>Nome</label>
+            <input type="text" placeholder="Digite o nome..." id="nome">
+            </div>
+
+            <div class="input-row">
+            <div id="cargo" class="input-group">
+            <label>Cargo</label>
+            <input type="text" id="cargo">
+            </div>
+            <div class="input-group">
+             <label>CPF</label>
+            <input type="number" id="cpf" required>
+            </div>
+            </div>
+
+            <div class="input-row">
+            <div id="salario-base" class="input-group">
+            <label>Salário Base</label>
+            <input type="number" id="salario-base">
+            </div>
+            <div class="input-group">
+             <label>Faltas</label>
+            <input type="number" id="faltas" required>
+            </div>
+            </div>
+
+            <div class="input-row">
+            <div id="impostos" class="input-group">
+            <label>Impostos</label>
+            <input type="number" id="impostos">
+            </div>
+            <div class="input-group">
+             <label>Horas Extras</label>
+            <input type="number" id="horas" required>
+            </div>
+            </div>
+
+            <div class="input-row">
+            <div id="salario-total" class="input-group">
+            <label>Salário Total</label>
+            <input type="number" id="salario-total">
+            </div>
+            <div class="input-group">
+             <label>INSS</label>
+            <input type="number" id="inss" required>
+            </div>
+            </div>
+
+            <div class="input-row">
+            <div id="irrf" class="input-group">
+            <label>IRRF</label>
+            <input type="number" id="irrf">
+            </div>
+            <div class="input-group">
+             <label>Benefícios</label>
+            <input type="number" id="beneficios" required>
+            </div>
+            </div>
+
+            <input type="hidden" id="role" value="folhadepagamento">
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar" id="btn-fechar-modal">Cancelar</button>
+                    <button type="submit" class="btn-salvar" id="btn-salvar-modal">Salvar</button>
+                </div>
+            </form>
+        </div>
+        </div>
        
      <script src="../JavaScript/FolhaPagamento.js"></script>
      <script src="../auth-guard.js"></script>

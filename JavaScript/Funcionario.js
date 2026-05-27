@@ -1,7 +1,9 @@
 const TOKEN_KEY = "app_auth_token";
 const BASE_URL = "http://localhost:5243/api/Funcionarios";
 
-let listaFuncionariosGlobal = []; // Armazena a lista completa vinda do servidor
+let listaFuncionariosGlobal = []; // Armazena a lista completa vinda do servidor para busca/filtro
+
+// --- Auxiliares de API ---
 
 export async function apiFetch(endpoint, method = 'GET', data = null) {
     const token = localStorage.getItem(TOKEN_KEY);
@@ -30,34 +32,8 @@ export async function apiFetch(endpoint, method = 'GET', data = null) {
     }
 }
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
+// --- Funções de Interface (UI) ---
 
-=======
->>>>>>> a23c09dfac10f7026dc2ba7db281ffd8203876e5
-export async function carregarTabeladeFuncionarios() {
-    try {
-        const funcionarios = await apiFetch("Get-Funcionarios");
-        const corpoTabela = document.getElementById('tabela-corpo');
-        if (!corpoTabela) return;
-
-        corpoTabela.innerHTML = funcionarios.map(f => `
-            <tr>
-                <td>${f.nome}</td>
-                <td>${f.email}</td>
-                <td>${f.telefone}</td>
-                <td>${f.cargo}</td>
-                <td>R$ ${parseFloat(f.salario).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
-                <td style="display: flex; gap: 10px;">
-                    <button class="btn-edit" onclick="editarFuncionario(${f.id})">Editar</button>
-                    <button class="btn-delete" onclick="excluirFuncionario(${f.id})">🗑️</button>
-                </td>
-<<<<<<< HEAD
-            `;
-            corpoTabela.appendChild(tr);
-        });
-=======
-// Renderiza os dados passados por parâmetro na tabela
 function renderizarTabela(lista) {
     const corpoTabela = document.getElementById('tabela-corpo');
     if (!corpoTabela) return;
@@ -80,34 +56,16 @@ function renderizarTabela(lista) {
 export async function carregarTabeladeFuncionarios() {
     try {
         const funcionarios = await apiFetch("Get-Funcionarios");
-        listaFuncionariosGlobal = funcionarios || []; // Alimenta o cache global
-        
-        // Aplica o filtro atual caso o usuário já tenha selecionado uma opção
-        executarFiltro();
->>>>>>> Stashed changes
-=======
-            </tr>
-        `).join('');
->>>>>>> a23c09dfac10f7026dc2ba7db281ffd8203876e5
+        listaFuncionariosGlobal = funcionarios || [];
+        executarFiltro(); // Renderiza aplicando filtros se houver
     } catch (error) {
-        alert('Falha ao carregar: ' + error.message);
+        alert('Falha ao carregar funcionários: ' + error.message);
     }
 }
 
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-export async function enviarNovoFuncionario() {
-    // Paa checar as informações, coloquei um esquema de verificação de erro
-=======
-// Realiza a filtragem comparando o cargo selecionado
 function executarFiltro() {
     const seletorFiltro = document.getElementById('filtro-cargo-select');
-    if (!seletorFiltro) {
-        renderizarTabela(listaFuncionariosGlobal);
-        return;
-    }
-
-    const cargoSelecionado = seletorFiltro.value;
+    const cargoSelecionado = seletorFiltro ? seletorFiltro.value : "";
 
     if (cargoSelecionado === "") {
         renderizarTabela(listaFuncionariosGlobal);
@@ -117,159 +75,15 @@ function executarFiltro() {
     }
 }
 
-=======
->>>>>>> a23c09dfac10f7026dc2ba7db281ffd8203876e5
+// --- Lógica de Formulário ---
+
 const getFormData = () => ({
     nome: document.getElementById('nome').value,
     email: document.getElementById('email').value,
     telefone: document.getElementById('telefone').value,
     cargo: document.getElementById('cargo-select').value,
-<<<<<<< HEAD
-    cpf: document.getElementById('cpf').value,
     salario: parseFloat(document.getElementById('salario').value),
-    password: document.getElementById('senha')?.value 
-});
->>>>>>> Stashed changes
-
-    const ids = ['nome', 'email', 'cargo-select', 'salario', 'senha'];
-    
-    // Teste para ver quem é o nulo
-    for (let id of ids) {
-        if (!document.getElementById(id)) {
-            console.error(`O elemento com ID "${id}" não foi encontrado no HTML!`);
-            return; // Para a execução antes de dar o erro de "null"
-        }
-    }
-
-    const payload = {
-        Nome: document.getElementById('nome').value,
-        Email: document.getElementById('email').value,
-        Telefone: document.getElementById('telefone').value,
-        Password: document.getElementById('senha').value,
-        Cargo: document.getElementById('cargo-select').value,
-        Salario: parseFloat(document.getElementById('salario').value)
-    };
-
-    try {
-        const resposta = await apiFetch('Register-Funcionario', 'POST', payload);
-        alert('Funcionário registrado com sucesso!');
-        
-        const form = document.getElementById('form-cadastro');
-        if (form) form.reset();
-        
-        carregarTabeladeFuncionarios();
-        return resposta;
-    } catch (error) {
-        alert('Erro ao cadastrar: ' + error.message);
-    }
-}
-
-export async function atualizarDadosFuncionario(id) {
-    const dados = {
-        nome: document.getElementById('nome').value,
-        email: document.getElementById('email').value,
-        telefone: document.getElementById('telefone').value,
-        cargo: document.getElementById('cargo').value,
-        salario: parseFloat(document.getElementById('salario').value)
-    };
-
-    try {
-        await apiFetch(`Update-Funcionario/${id}`, 'PUT', dados);
-        alert('Cadastro atualizado com sucesso!');
-        carregarTabeladeFuncionarios();
-    } catch (error) {
-        alert('Erro ao atualizar: ' + error.message);
-    }
-}
-
-export async function excluirFuncionario(id) {
-    if (confirm('Tem certeza que deseja excluir esse funcionário?')) {
-        try {
-            await apiFetch(`Delete-Funcionario/${id}`, 'DELETE');
-            alert('Cadastro excluído com sucesso!');
-            carregarTabeladeFuncionarios();
-        } catch (error) {
-            alert('Erro ao excluir: ' + error.message);
-        }
-    }
-}
-
-window.editarFuncionario = async function(id) {
-    try {
-        const lista = await apiFetch('Get-Funcionarios', 'GET');
-     
-        const func = lista.find(f => f.id === id);
-
-<<<<<<< Updated upstream
-        if (func) {
-            document.getElementById('nome').value = func.nome;
-            document.getElementById('email').value = func.email;
-            document.getElementById('cargo-select').value = func.cargo;
-            document.getElementById('salario').value = func.salario;
-            
-            const btnSalvar = document.getElementById('btn-salvar-modal');
-            btnSalvar.dataset.idAtual = id;
-            btnSalvar.innerText = "Atualizar";
-
-            document.getElementById('modal-container').style.display = 'flex';
-        }
-=======
-        document.getElementById('nome').value = f.nome;
-        document.getElementById('email').value = f.email;
-        document.getElementById('telefone').value = f.telefone;
-        document.getElementById('cargo-select').value = f.cargo;
-        document.getElementById('cpf').value = f.cpf || '';
-        document.getElementById('salario').value = f.salario;
-        
-        const btnSalvar = document.getElementById('btn-salvar-modal');
-        btnSalvar.dataset.idAtual = id;
-        btnSalvar.innerText = "Atualizar";
-        document.getElementById('modal-container').style.display = 'flex';
->>>>>>> Stashed changes
-    } catch (error) {
-        console.error("Erro ao carregar dados para edição:", error);
-    }
-};
-
-window.excluirFuncionario = excluirFuncionario;
-
-document.addEventListener('DOMContentLoaded', () => {
-    carregarTabeladeFuncionarios();
-    
-    const btnsalvar = document.getElementById('btn-salvar');
-    if (btnsalvar) {
-        btnsalvar.addEventListener('click', enviarNovoFuncionario);
-    }
-<<<<<<< Updated upstream
-=======
-};
-
-const modal = document.getElementById('modal-container');
-const formCadastro = document.getElementById('form-cadastro');
-
-const fecharModal = () => {
-    modal.style.display = 'none';
-    formCadastro.reset();
-    delete document.getElementById('btn-salvar-modal').dataset.idAtual;
-    document.getElementById('btn-salvar-modal').innerText = "Salvar";
-};
-
-document.getElementById('btn-abrir-modal')?.addEventListener('click', () => modal.style.display = 'flex');
-document.getElementById('btn-fechar-modal')?.addEventListener('click', fecharModal);
-formCadastro?.addEventListener('submit', manipularSubmit);
-
-// Ouvinte de evento mapeado para detectar mudanças no select de filtro
-document.getElementById('filtro-cargo-select')?.addEventListener('change', executarFiltro);
-
-// Logout
-document.getElementById('btn-sair')?.addEventListener('click', () => {
-    localStorage.removeItem(TOKEN_KEY);
-    location.href = "../Login.html";
->>>>>>> Stashed changes
-=======
-    salario: parseFloat(document.getElementById('salario').value),
-    password: document.getElementById('senha')?.value 
->>>>>>> a23c09dfac10f7026dc2ba7db281ffd8203876e5
+    password: document.getElementById('senha')?.value || ""
 });
 
 async function manipularSubmit(e) {
@@ -289,18 +103,20 @@ async function manipularSubmit(e) {
         fecharModal();
         carregarTabeladeFuncionarios();
     } catch (error) {
-        alert(error.message);
+        alert("Erro na operação: " + error.message);
     }
 }
 
+// --- Funções Globais (Expostas para o HTML) ---
+
 window.editarFuncionario = async function(id) {
     try {
-        const lista = await apiFetch('Get-Funcionarios');
-        const f = lista.find(item => item.id === id);
+        const f = listaFuncionariosGlobal.find(item => item.id === id);
         if (!f) return;
 
         document.getElementById('nome').value = f.nome;
         document.getElementById('email').value = f.email;
+        document.getElementById('telefone').value = f.telefone || '';
         document.getElementById('cargo-select').value = f.cargo;
         document.getElementById('salario').value = f.salario;
         
@@ -309,39 +125,55 @@ window.editarFuncionario = async function(id) {
         btnSalvar.innerText = "Atualizar";
         document.getElementById('modal-container').style.display = 'flex';
     } catch (error) {
-        alert("Erro ao carregar dados.");
+        alert("Erro ao carregar dados para edição.");
     }
 };
 
 window.excluirFuncionario = async function(id) {
-    if (!confirm('Deseja excluir?')) return;
+    if (!confirm('Tem certeza que deseja excluir este funcionário?')) return;
     try {
         await apiFetch(`Delete-Funcionario/${id}`, 'DELETE');
+        alert("Excluído com sucesso!");
         carregarTabeladeFuncionarios();
     } catch (error) {
-        alert(error.message);
+        alert("Erro ao excluir: " + error.message);
     }
 };
+
+// --- Gerenciamento do Modal e Eventos ---
 
 const modal = document.getElementById('modal-container');
 const formCadastro = document.getElementById('form-cadastro');
 
 const fecharModal = () => {
-    modal.style.display = 'none';
-    formCadastro.reset();
-    delete document.getElementById('btn-salvar-modal').dataset.idAtual;
-    document.getElementById('btn-salvar-modal').innerText = "Salvar";
+    if (modal) modal.style.display = 'none';
+    if (formCadastro) formCadastro.reset();
+    const btnSalvar = document.getElementById('btn-salvar-modal');
+    if (btnSalvar) {
+        delete btnSalvar.dataset.idAtual;
+        btnSalvar.innerText = "Salvar";
+    }
 };
 
-document.getElementById('btn-abrir-modal')?.addEventListener('click', () => modal.style.display = 'flex');
-document.getElementById('btn-fechar-modal')?.addEventListener('click', fecharModal);
-formCadastro?.addEventListener('submit', manipularSubmit);
+// --- Inicialização ---
 
-// Logout
-document.getElementById('btn-sair')?.addEventListener('click', () => {
-    localStorage.removeItem(TOKEN_KEY);
-    location.href = "../Login.html";
+document.addEventListener('DOMContentLoaded', () => {
+    if (formCadastro) {
+        carregarTabeladeFuncionarios();
+        formCadastro.addEventListener('submit', manipularSubmit);
+    }
+
+    document.getElementById('btn-abrir-modal')?.addEventListener('click', () => {
+        fecharModal(); // Limpa antes de abrir novo
+        modal.style.display = 'flex';
+    });
+
+    document.getElementById('btn-fechar-modal')?.addEventListener('click', fecharModal);
+    
+    document.getElementById('filtro-cargo-select')?.addEventListener('change', executarFiltro);
+
+    document.getElementById('btn-sair')?.addEventListener('click', () => {
+        localStorage.removeItem(TOKEN_KEY);
+        location.href = "../Login.html";
+    });
 });
-
-// Inicialização
-if (formCadastro) carregarTabeladeFuncionarios();
