@@ -1,34 +1,39 @@
-# ERPcomit 🚀
+# ERPcomit - Front-end 🎨
 
-![Badge](https://img.shields.io/badge/Branch-Flauzino-blue?style=for-the-badge)
 ![Badge](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow?style=for-the-badge)
+![Badge](https://img.shields.io/badge/Interface-Web-blue?style=for-the-badge)
 
-O **ERPcomit** é um sistema de gestão empresarial (Enterprise Resource Planning) desenvolvido para centralizar e otimizar processos de negócios. A branch `Flauzino` foca na implementação de funcionalidades core e refinamento da arquitetura do banco de dados.
+O **ERPcomit Web** é a interface de usuário (Front-end) do sistema de ERP. Desenvolvida para ser intuitiva, responsiva e performática, esta aplicação se conecta à **ERPcomit API** para fornecer uma experiência completa de gerenciamento empresarial, controle de inventário, clientes e vendas.
 
-## 🧚‍♀️ Funcionalidades
+---
 
-- [ ] **Gestão Financeira:** Controle de fluxo de caixa e contas.
-- [ ] **Módulo de Vendas:** Registro e acompanhamento de pedidos.
-- [ ] **Controle de Estoque:** Monitoramento de entradas e saídas de produtos.
-- [ ] **Cadastro de Clientes/Fornecedores:** Gestão completa de parceiros comerciais.
-- [ ] **Autenticação:** Sistema de login seguro com níveis de acesso.
+## 🛠️ Tecnologias e Ferramentas Utilizadas
 
-## 🛠 Tecnologias Utilizadas
+O ecossistema visual e estrutural do projeto conta com as seguintes tecnologias:
 
-As seguintes ferramentas foram fundamentais na construção deste projeto:
+* **Linguagem:** TypeScript / JavaScript
+* **Estilização:** CSS 
+* **Consumo de API:** Axios / Fetch API
+* **Gerenciamento de Estado:** Context API
 
-- **Banco de Dados:** [PostgreSQL / SQLite]
-- **Frontend:** [Bootstrap / HTML5 / CSS3]
-- **Versionamento:** Git
+---
 
-## 📋 Pré-requisitos
+## 🏗️ Estrutura do Projeto (Front-end)
 
-Para rodar este projeto localmente, você precisará de:
-- [Git](https://git-scm.com)
-- Gerenciador de pacotes `pip`
+A organização dos arquivos segue um padrão limpo e escalável focado em componentes reutilizáveis:
 
-## 🔧 Instalação e Execução
+* `src/css`: Imagens, ícones e arquivos de estilo globais.
+* `src/img`: Componentes visuais menores e reutilizáveis (botões, cards, inputs).
+* `src/pages`: Telas completas da aplicação (Dashboard, Login, Cadastro de Produtos).
+* `src/javascript`: Scripts, funções utilitárias e lógica geral da aplicação (Validações, Máscaras, Requisições API).
 
-1. Clone este repositório na branch específica:
-   ```bash
-   git clone -b Flauzino [https://github.com/YasmimLivon/ERPcomit.git]
+---
+
+## 🚀 Como Executar o Projeto Localmente
+
+### Pré-requisitos
+
+Antes de começar, você vai precisar ter instalado em sua máquina:
+* [Node.js](https://nodejs.org/) (Versão LTS recomendada)
+* Um gerenciador de pacotes como **npm**, **yarn** ou **pnpm**
+* A [ERPcomit API](https://github.com/KaickFlauzin08/Projeto.Winxs.Api) rodando localmente (opcional, para testar os dados em tempo real)

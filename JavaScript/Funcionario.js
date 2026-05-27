@@ -1,62 +1,58 @@
 const TOKEN_KEY = "app_auth_token";
-const apifuncionarios = "http://localhost:5243/api/Funcionarios";
-
+const BASE_URL = "http://localhost:5243/api/Funcionarios";
 
 let listaFuncionariosGlobal = []; // Armazena a lista completa vinda do servidor
 
 export async function apiFetch(endpoint, method = 'GET', data = null) {
+    const token = localStorage.getItem(TOKEN_KEY);
     const config = {
-        method: method,
+        method,
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` })
         }
     };
 
-    if (data !== null) {
-        config.body = JSON.stringify(data);
-    }
+    if (data) config.body = JSON.stringify(data);
 
     try {
-        const response = await fetch(`${apifuncionarios}/${endpoint}`, config);
-
+        const response = await fetch(`${BASE_URL}/${endpoint}`, config);
+        
+        if (response.status === 204) return null;
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.mensagem || `Erro HTTP: ${response.status}`);
+            throw new Error(errorData.mensagem || `Erro: ${response.status}`);
         }
-
-        if (response.status === 204) {
-            return null;
-        }
-
         return await response.json();
     } catch (error) {
-        console.error(`Erro na requisição para ${endpoint}:`, error);
+        console.error(`Erro em ${endpoint}:`, error);
         throw error;
     }
 }
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 
+=======
+>>>>>>> a23c09dfac10f7026dc2ba7db281ffd8203876e5
 export async function carregarTabeladeFuncionarios() {
     try {
-        const funcionarios = await apiFetch('Get-Funcionarios', 'GET');
+        const funcionarios = await apiFetch("Get-Funcionarios");
         const corpoTabela = document.getElementById('tabela-corpo');
-
         if (!corpoTabela) return;
-        corpoTabela.innerHTML = '';
 
-        funcionarios.forEach(func => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${func.nome}</td>
-                <td>${func.email}</td>
-                <td>${func.telefone}</td>
-                <td>${func.cargo}</td>
-                <td>${func.salario}</td>
-                <td>
-                    <button class="btn-edit" onclick="editarFuncionario(${func.id})">Editar</button>
-                    <button class="btn-delete" onclick="excluirFuncionario(${func.id})">🗑️</button>
+        corpoTabela.innerHTML = funcionarios.map(f => `
+            <tr>
+                <td>${f.nome}</td>
+                <td>${f.email}</td>
+                <td>${f.telefone}</td>
+                <td>${f.cargo}</td>
+                <td>R$ ${parseFloat(f.salario).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                <td style="display: flex; gap: 10px;">
+                    <button class="btn-edit" onclick="editarFuncionario(${f.id})">Editar</button>
+                    <button class="btn-delete" onclick="excluirFuncionario(${f.id})">🗑️</button>
                 </td>
+<<<<<<< HEAD
             `;
             corpoTabela.appendChild(tr);
         });
@@ -89,11 +85,16 @@ export async function carregarTabeladeFuncionarios() {
         // Aplica o filtro atual caso o usuário já tenha selecionado uma opção
         executarFiltro();
 >>>>>>> Stashed changes
+=======
+            </tr>
+        `).join('');
+>>>>>>> a23c09dfac10f7026dc2ba7db281ffd8203876e5
     } catch (error) {
-        alert('Falha ao carregar os funcionários: ' + error.message);
+        alert('Falha ao carregar: ' + error.message);
     }
 }
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 export async function enviarNovoFuncionario() {
     // Paa checar as informações, coloquei um esquema de verificação de erro
@@ -116,11 +117,14 @@ function executarFiltro() {
     }
 }
 
+=======
+>>>>>>> a23c09dfac10f7026dc2ba7db281ffd8203876e5
 const getFormData = () => ({
     nome: document.getElementById('nome').value,
     email: document.getElementById('email').value,
     telefone: document.getElementById('telefone').value,
     cargo: document.getElementById('cargo-select').value,
+<<<<<<< HEAD
     cpf: document.getElementById('cpf').value,
     salario: parseFloat(document.getElementById('salario').value),
     password: document.getElementById('senha')?.value 
@@ -262,65 +266,82 @@ document.getElementById('btn-sair')?.addEventListener('click', () => {
     localStorage.removeItem(TOKEN_KEY);
     location.href = "../Login.html";
 >>>>>>> Stashed changes
+=======
+    salario: parseFloat(document.getElementById('salario').value),
+    password: document.getElementById('senha')?.value 
+>>>>>>> a23c09dfac10f7026dc2ba7db281ffd8203876e5
 });
 
-// Para o Model "caixinha de adicionar novo funcionário"
-
-const modal = document.getElementById('modal-container');
-const btnAbrir = document.getElementById('btn-abrir-modal');
-const btnFechar = document.getElementById('btn-fechar-modal');
-const formCadastro = document.getElementById('form-cadastro');
-
-// Para abrir
-btnAbrir.addEventListener('click', () => {
-    modal.style.display = 'flex';
-});
-
-// Para fechar
-btnFechar.addEventListener('click', () => {
-    modal.style.display = 'none';
-    formCadastro.reset(); // Limpa o form ao fechar
-});
-
-// Fechar se clicar fora da caixa branca
-window.addEventListener('click', (event) => {
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
-});
-
-// Salvar
-formCadastro.addEventListener('submit', async (e) => {
+async function manipularSubmit(e) {
     e.preventDefault();
-    
     const btnSalvar = document.getElementById('btn-salvar-modal');
-    const idEdicao = btnSalvar.dataset.idAtual;
+    const id = btnSalvar.dataset.idAtual;
+    const dados = getFormData();
 
     try {
-        const dados = {
-            Nome: document.getElementById('nome').value,
-            Email: document.getElementById('email').value,
-            Telefone: document.getElementById('telefone').value,
-            Cargo: document.getElementById('cargo-select').value,
-            Salario: parseFloat(document.getElementById('salario').value),
-            Password: document.getElementById('senha').value
-        };
-
-        if (idEdicao) {
-            await apiFetch(`Update-Funcionario/${idEdicao}`, 'PUT', dados);
+        if (id) {
+            await apiFetch(`Update-Funcionario/${id}`, 'PUT', dados);
             alert("Atualizado com sucesso!");
         } else {
             await apiFetch('Register-Funcionario', 'POST', dados);
             alert("Cadastrado com sucesso!");
         }
-
-        delete btnSalvar.dataset.idAtual;
-        btnSalvar.innerText = "Salvar";
-        modal.style.display = 'none'; 
-        formCadastro.reset();
+        fecharModal();
         carregarTabeladeFuncionarios();
-
     } catch (error) {
-        alert("Erro ao processar: " + error.message);
+        alert(error.message);
     }
+}
+
+window.editarFuncionario = async function(id) {
+    try {
+        const lista = await apiFetch('Get-Funcionarios');
+        const f = lista.find(item => item.id === id);
+        if (!f) return;
+
+        document.getElementById('nome').value = f.nome;
+        document.getElementById('email').value = f.email;
+        document.getElementById('cargo-select').value = f.cargo;
+        document.getElementById('salario').value = f.salario;
+        
+        const btnSalvar = document.getElementById('btn-salvar-modal');
+        btnSalvar.dataset.idAtual = id;
+        btnSalvar.innerText = "Atualizar";
+        document.getElementById('modal-container').style.display = 'flex';
+    } catch (error) {
+        alert("Erro ao carregar dados.");
+    }
+};
+
+window.excluirFuncionario = async function(id) {
+    if (!confirm('Deseja excluir?')) return;
+    try {
+        await apiFetch(`Delete-Funcionario/${id}`, 'DELETE');
+        carregarTabeladeFuncionarios();
+    } catch (error) {
+        alert(error.message);
+    }
+};
+
+const modal = document.getElementById('modal-container');
+const formCadastro = document.getElementById('form-cadastro');
+
+const fecharModal = () => {
+    modal.style.display = 'none';
+    formCadastro.reset();
+    delete document.getElementById('btn-salvar-modal').dataset.idAtual;
+    document.getElementById('btn-salvar-modal').innerText = "Salvar";
+};
+
+document.getElementById('btn-abrir-modal')?.addEventListener('click', () => modal.style.display = 'flex');
+document.getElementById('btn-fechar-modal')?.addEventListener('click', fecharModal);
+formCadastro?.addEventListener('submit', manipularSubmit);
+
+// Logout
+document.getElementById('btn-sair')?.addEventListener('click', () => {
+    localStorage.removeItem(TOKEN_KEY);
+    location.href = "../Login.html";
 });
+
+// Inicialização
+if (formCadastro) carregarTabeladeFuncionarios();
