@@ -316,7 +316,12 @@ tr:hover {
     gap: 10px;
     margin-top: 20px;
 }
-
+.subtitle{
+    font-size: 20px;
+    color: #070C96;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
 .btn-salvar {
     background: #070C96;
     color: white;
