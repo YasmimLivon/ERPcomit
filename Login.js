@@ -16,33 +16,18 @@ function obterRoleDoToken(token) {
     }
 }
 
-// --- FUNÇÃO DE REDIRECIONAMENTO COM BASE NA HIERARQUIA ---
+// --- FUNÇÃO DE REDIRECIONAMENTO CORRIGIDA (TODOS PARA O DASHBOARD) ---
 function redirecionarPorHierarquia(token) {
     const roleUsuario = obterRoleDoToken(token);
 
-    switch (roleUsuario) {
-        case "admin":
-            window.location.href = "Pages/Financeiro.html"; 
-            break;
-            
-        case "funcionarios":
-            window.location.href = "Pages/folhadepagamento.html";
-            break;
-            
-        case "fornecedor":
-            window.location.href = "Pages/Estoque.Html";
-            break;
-            
-        case "cliente":
-            window.location.href = "Pages/itempedido.html";
-            break;
-            
-        default:
-            // Se cair aqui, a role não foi identificada ou está errada
-            alert("⚠️ Usuário sem permissões configuradas no sistema.");
-            localStorage.removeItem(TOKEN_KEY);
-            window.location.href = "Login.html";
-            break;
+    // Se o token possuir uma role válida (independente de qual for), vai direto para o Dashboard
+    if (roleUsuario) {
+        window.location.href = "../Pages/Dashboard.html"; 
+    } else {
+        // Se cair aqui, o token está corrompido ou sem permissões associadas
+        alert("⚠️ Usuário sem permissões configuradas no sistema.");
+        localStorage.removeItem(TOKEN_KEY);
+        window.location.href = "Login.html";
     }
 }
 
@@ -76,7 +61,7 @@ if (loginForm) {
     const loginPassword = document.getElementById("login-senha");
     const loginButton = document.getElementById("btn-login");
 
-    // Se já estiver logado antes, intercepta e redireciona direto para a página certa da hierarquia
+    // Se já estiver logado antes, intercepta e redireciona direto para o Dashboard
     const tokenSalvo = localStorage.getItem(TOKEN_KEY);
     if (tokenSalvo) {
         redirecionarPorHierarquia(tokenSalvo);
@@ -112,7 +97,7 @@ if (loginForm) {
                 // 1. Salva o token no navegador
                 localStorage.setItem(TOKEN_KEY, dados.token);
                 
-                // 2. Executa a análise do token e joga para a página correta da hierarquia
+                // 2. Executa a análise e joga o usuário para o Dashboard
                 redirecionarPorHierarquia(dados.token);
             }
 

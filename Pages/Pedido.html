@@ -17,7 +17,6 @@
         <a href="Dashboard.html" class="nav-item">Dashboard</a>
         <a href="ListagemProdutos.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
         <a href="Pedido.html" class="nav-item active data-role-only" data-allowed="admin,funcionarios,cliente">Pedidos</a>
-        <a href="itempedido.html" class="nav-item data-role-only" data-allowed="admin,funcionarios,cliente">Vendas</a>
         <a href="Estoque.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
         <a href="Forne&Cli.html" class="nav-item data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
         <a href="Funcionario.html" class="nav-item data-role-only" data-allowed="funcionarios">Funcionários</a>
@@ -58,7 +57,7 @@
     </div>
 
     <div id="pedidoModal" class="modal-overlay">
-      <div class="modal-content">
+      <div class="modal-content" style="max-width: 550px; width: 100%;">
         <span class="close-modal" id="closeModalBtn">&times;</span>
         <h2>Cadastrar Pedido</h2>
 
@@ -81,7 +80,7 @@
 
           <div class="input-group">
             <label>Produto</label>
-            <select id="produtoId" class="input-pill" required>
+            <select id="produtoId" class="input-pill">
               <option value="">Carregando produtos...</option>
             </select>
           </div>
@@ -89,12 +88,23 @@
           <div style="display: flex; gap: 10px;">
             <div class="input-group" style="flex: 1;">
               <label>Quantidade</label>
-              <input id="quantidade" type="number" class="input-pill" placeholder="Quantidade" min="1" required>
+              <input id="quantidade" type="number" class="input-pill" placeholder="Quantidade" min="1">
             </div>
             <div class="input-group" style="flex: 1;">
               <label>Preço Unitário (R$)</label>
-              <input id="precoUnitario" type="number" step="0.01" class="input-pill" placeholder="Preço" >
+              <input id="precoUnitario" type="number" step="0.01" class="input-pill" placeholder="Preço">
             </div>
+          </div>
+
+          <button type="button" id="btn-adicionar-produto" style="background-color: #f0f2f5; color: #070C96; border: 1px dashed #070C96; padding: 10px; border-radius: 20px; font-weight: bold; cursor: pointer; width: 100%; margin: 10px 0;">
+            ➕ Adicionar Produto à Lista
+          </button>
+
+          <div style="margin: 10px 0; max-height: 120px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; padding: 10px; background: #fafafa;">
+            <span style="font-size: 12px; font-weight: bold; color: #555; display: block; margin-bottom: 5px;">Produtos adicionados:</span>
+            <ul id="lista-itens-preview" style="list-style: none; padding: 0; margin: 0; font-size: 13px;">
+              <li style="color: #999; font-style: italic;">Nenhum produto adicionado ainda.</li>
+            </ul>
           </div>
 
           <div class="input-group" style="margin-top: 10px;">

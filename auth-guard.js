@@ -25,28 +25,29 @@
         return;
     }
 
-    // 3. CONTROLE DE INTERFACE (Suma apenas com os links <a> restritos)
+    // 3. CONTROLE DE INTERFACE E REDIRECIONAMENTO UNIFICADO
     document.addEventListener("DOMContentLoaded", () => {
         const elementosRestritos = document.querySelectorAll('.data-role-only');
 
         elementosRestritos.forEach(elemento => {
-            const rolesPermitidas = elemento.getAttribute('data-allowed').split(',');
+            const allowedAttr = elemento.getAttribute('data-allowed');
+            if (!allowedAttr) return;
 
-            // Se a role do usuário NÃO estiver listada no data-allowed, o link <a> some
+            const rolesPermitidas = allowedAttr.split(',');
+
+            // Se a role do usuário NÃO estiver listada no data-allowed, o link sumirá da barra lateral
             if (!rolesPermitidas.includes(usuarioRole)) {
                 elemento.style.display = 'none'; // Esconde o link específico
                 
-                // Segurança extra caso tentem burlar digitando a URL direta na barra do navegador
+                // Segurança extra: Caso tentem burlar digitando a URL direta na barra do navegador
                 const paginaAtual = window.location.pathname.toLowerCase();
                 const linkDaPagina = elemento.getAttribute('href').toLowerCase();
                 
                 if (paginaAtual.includes(linkDaPagina)) {
                     alert("Você não tem permissão para acessar esta página.");
                     
-                    // Redireciona para a página padrão permitida daquela role
-                    if (usuarioRole === "cliente") window.location.href = "itempedido.html";
-                    else if (usuarioRole === "fornecedor") window.location.href = "Estoque.Html";
-                    else window.location.href = "folhadepagamento.html";
+                    // 🔹 ALTERAÇÃO: Todos os usuários sem permissão na página atual são mandados para o Dashboard
+                    window.location.href = "Dashboard.html";
                 }
             }
         });
