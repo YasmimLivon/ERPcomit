@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const TOKEN_KEY = "app_auth_token";
     const API_URL = "http://localhost:5243/api/ItemPedido";
+    const API_PRODUTOS = "http://localhost:5243/api/Produtos";
 
     // ELEMENTS
     const modal = document.getElementById("modal-container");
@@ -13,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // INPUTS FORM
     const pedidoIdInput = document.getElementById("pedidoId");
-    const produtoIdInput = document.getElementById("produtoId");
+    const produtoIdSelect = document.getElementById("produtoId"); // Captura o elemento select alterado
     const quantidadeInput = document.getElementById("quantidade");
     const precoUnitarioInput = document.getElementById("precoUnitario");
     const descricaoInput = document.getElementById("descricao");
@@ -37,12 +38,37 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "../Login.html";
     });
 
+    // CARREGAR PRODUTOS NO SELECT DINÂMICO
+    async function carregarProdutosNoSelect() {
+        try {
+            const response = await fetch(API_PRODUTOS, { headers: getAuthHeaders() });
+            if (!response.ok) throw new Error("Erro na requisição de produtos");
+            
+            const produtos = await response.json();
+
+            produtoIdSelect.innerHTML = '<option value="">Selecione um produto</option>';
+
+            produtos.forEach(prod => {
+                produtoIdSelect.innerHTML += `
+                    <option value="${prod.id}">
+                        ${prod.nome} (Estoque: ${prod.estoqueAtual ?? 0})
+                    </option>
+                `;
+            });
+        } catch (error) {
+            console.error("Erro ao carregar lista de produtos:", error);
+            produtoIdSelect.innerHTML = '<option value="">Erro ao carregar produtos</option>';
+        }
+    }
+
     // CONTROL MODAL
     if (btnAbrirModal) {
         btnAbrirModal.onclick = () => {
             idItemEditando = null;
             formCadastro.reset();
             document.getElementById("role").value = "User";
+            document.getElementById("modal-titulo").innerText = "Cadastrar Nova Venda";
+            produtoIdSelect.disabled = false; // Permite selecionar produto em novas vendas
             if (btnSalvarModal) {
                 btnSalvarModal.innerText = "Salvar";
                 delete btnSalvarModal.dataset.idAtual;
@@ -137,8 +163,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const item = listaVendasGlobal.find(v => v.id == id);
                 if (!item) return;
 
+                document.getElementById("modal-titulo").innerText = "Editar Venda";
                 pedidoIdInput.value = item.pedidoId;
-                produtoIdInput.value = item.produtoId;
+                produtoIdSelect.value = item.produtoId;
+                produtoIdSelect.disabled = true; // Mantém o produto fixado na edição para integridade
                 quantidadeInput.value = item.quantidade;
                 precoUnitarioInput.value = item.precoUnitario;
                 descricaoInput.value = item.descricaoPedido || "";
@@ -194,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         return;
                     }
 
-                    alert("Item de pedido atualizado!");
+                    alert("Item de pedido updated!");
                     modal.style.display = "none";
                     formCadastro.reset();
                     idItemEditando = null;
@@ -206,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 // Payload para CriarItemPedidoVendaDTO (POST)
                 const payloadPost = {
-                    produtoId: parseInt(produtoIdInput.value),
+                    produtoId: parseInt(produtoIdSelect.value),
                     pedidoId: parseInt(pedidoIdInput.value),
                     quantidade: quantidade,
                     precoUnitario: precoUnitario
@@ -237,5 +265,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // INITIALIZATION
+    carregarProdutosNoSelect();
     carregarVendas();
 });

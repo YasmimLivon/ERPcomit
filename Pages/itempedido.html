@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
@@ -19,6 +19,7 @@
         </div>
         <a href="Dashboard.html" class="nav-item">Dashboard</a>
         <a href="ListagemProdutos.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
+        <a href="Pedido.html" class="nav-item data-role-only" data-allowed="admin,funcionarios,cliente">Pedidos</a>
         <a href="itempedido.html" class="nav-item active data-role-only" data-allowed="admin,funcionarios,cliente">Vendas</a>
         <a href="Estoque.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
         <a href="Forne&Cli.html" class="nav-item data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
@@ -81,18 +82,20 @@
 
           <div class="input-row">
             <div class="input-group">
-              <label id="label-doc">Produto Id</label>
-              <input type="number" id="produtoId" required />
+              <label id="label-doc">Produto</label>
+              <select id="produtoId" required style="width: 100%; box-sizing: border-box;">
+                <option value="">Carregando produtos...</option>
+              </select>
             </div>
 
             <div class="input-group">
               <label>Quantidade</label>
-              <input type="number" id="quantidade" required />
+              <input type="number" id="quantidade" min="1" required />
             </div>
           </div>
 
           <div class="input-group">
-            <label>Preço Unitário</label>
+            <label>Preço Unitário (R$)</label>
             <input type="number" step="0.01" id="precoUnitario" required />
           </div>
 

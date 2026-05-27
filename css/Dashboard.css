@@ -1,9 +1,9 @@
-/* RESET CORRIGIDO */
+/* --- RESET E DIRETRIZES GERAIS --- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
 }
 
 body {
@@ -13,12 +13,6 @@ body {
     align-items: center;
     height: 100vh;
     padding: 20px;
-}
-#inputFiltro {
-    padding: 10px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    outline: none;
 }
 
 .app-card {
@@ -53,38 +47,32 @@ body {
     max-width: 120px;
 }
 
-/* --- NAVEGAÇÃO COM EFEITO DE MOVIMENTO --- */
-
 .nav-item {
-    padding: 15px 25px;
+    padding: 14px 24px;
     text-decoration: none;
-    color: #666;
+    color: #555555;
     font-size: 14px;
+    font-weight: 500;
     display: block;
-    /* Garante que o padding funcione em toda a área */
     position: relative;
     transition: all 0.3s ease;
-    /* Transição suave para todas as propriedades */
     z-index: 1;
 }
 
 .nav-item:hover {
-    background-color: #f0f0f0;
+    background-color: #f0f2f5;
     color: #070C96;
-    padding-left: 35px;
-    /* Efeito de "empurrão" para a direita ao passar o mouse */
+    padding-left: 32px;
 }
 
 .nav-item.active {
-    background-color: #e9ecef;
+    background-color: #eef0f8;
     color: #070C96;
-    font-weight: bold;
+    font-weight: 700;
     border-left: 4px solid #070C96;
-    padding-left: 30px;
-    /* Mantém um leve recuo por estar ativo */
+    padding-left: 28px;
 }
 
-/* Animação adicional: barra lateral interna que cresce no hover */
 .nav-item::before {
     content: "";
     position: absolute;
@@ -92,7 +80,7 @@ body {
     top: 0;
     width: 0;
     height: 100%;
-    background-color: rgba(7, 12, 150, 0.05);
+    background-color: rgba(7, 12, 150, 0.04);
     transition: width 0.3s ease;
     z-index: -1;
 }
@@ -108,7 +96,6 @@ body {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    /* Permite scroll se a tabela for grande */
 }
 
 .content-header {
@@ -123,11 +110,10 @@ body {
     color: #333;
 }
 
-/* LOGIN */
 .area-login {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .btn-sair {
@@ -144,78 +130,65 @@ body {
 .btn-sair:hover {
     background-color: #070C96;
 }
-
-
-
-.btn-cancelar {
-    background: #e0e0e0;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-}
-
-
-
-/* Grid dos cartões superiores */
+/* --- GRID DE METRICAS --- */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
-    margin-bottom: 30px;
-    margin-top: 20px;
+    margin-bottom: 25px;
 }
 
-/* Estilização individual dos cartões */
 .card-metrica {
-    background: linear-gradient(135deg, #ffffff 0%, #f5f7ff 100%);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease;
+    background: #ffffff;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f0f2f5;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card-metrica:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
 }
 
 .card-metrica h3 {
-    margin: 0 0 10px 0;
-    font-size: 14px;
-    color: #666666;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #888888;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .card-metrica p {
-    margin: 0;
     font-size: 26px;
-    font-weight: bold;
-    color: #001ba3;
+    font-weight: 700;
+    color: #111111;
 }
 
-/* Cores das bordas laterais dos cartões */
+/* Identificadores das laterais dos cards */
 .card-total { border-left: 5px solid #00b0ff; }
 .card-pago { border-left: 5px solid #2ed573; }
 .card-pendente { border-left: 5px solid #ff4757; }
 
-/* Grid e container dos gráficos */
+/* --- SEÇÃO DE GRÁFICOS --- */
 .charts-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     gap: 20px;
-    margin-top: 10px;
+    flex: 1;
 }
 
 .chart-box {
     background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    min-height: 320px;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f0f2f5;
+    height: 340px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
 /* Animação Suave de Entrada */
