@@ -396,14 +396,18 @@ tr:hover {
 .btn-salvar:hover {
     background: #ff002b;
 }
-
-@keyframes fadeIn {
-    from {
+/* Animação Suave de Entrada */
+@keyframes smoothPageIn {
+    0% {
         opacity: 0;
-        transform: translateY(10px);
+        transform: scale(0.98) translateY(15px);
+        filter: blur(5px);
+        /* Começa levemente embaçado */
     }
-    to {
+
+    100% {
         opacity: 1;
-        transform: translateY(0);
+        transform: scale(1) translateY(0);
+        filter: blur(0);
     }
 }

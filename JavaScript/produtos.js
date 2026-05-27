@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!confirm("Deseja excluir este produto?")) return;
 
         try {
-            const res = await fetch(`${API_GET}/${id}`, {
+            const res = await fetch($`{API_GET}/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem(TOKEN_KEY)

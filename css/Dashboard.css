@@ -1,3 +1,4 @@
+/* RESET CORRIGIDO */
 * {
     margin: 0;
     padding: 0;
@@ -12,6 +13,12 @@ body {
     align-items: center;
     height: 100vh;
     padding: 20px;
+}
+#inputFiltro {
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
 }
 
 .app-card {
@@ -116,10 +123,11 @@ body {
     color: #333;
 }
 
+/* LOGIN */
 .area-login {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .btn-sair {
@@ -137,186 +145,79 @@ body {
     background-color: #070C96;
 }
 
-.btn-adicionar {
-    padding: 10px 20px;
-    background-color: #070C96;
-    color: white;
+
+
+.btn-cancelar {
+    background: #e0e0e0;
     border: none;
+    padding: 10px 20px;
     border-radius: 20px;
-    font-weight: bold;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-.btn-adicionar:hover {
-    background-color: #ff002b;
+
+
+/* Grid dos cartões superiores */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+    margin-top: 20px;
 }
 
-.container-folhapagamento {
-    border: 1px solid #C4C3C9;
-    border-radius: 20px;
-    height: 65%;
-    display: flex;
+/* Estilização individual dos cartões */
+.card-metrica {
+    background: linear-gradient(135deg, #ffffff 0%, #f5f7ff 100%);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
 }
 
-.container-folhapagamento {
-    height: 550px;
+.card-metrica:hover {
+    transform: translateY(-3px);
 }
 
-h2 {
+.card-metrica h3 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-metrica p {
+    margin: 0;
+    font-size: 26px;
     font-weight: bold;
-    font-size: 30px;
-    padding: 10px;
+    color: #001ba3;
 }
 
-.itens {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+/* Cores das bordas laterais dos cartões */
+.card-total { border-left: 5px solid #00b0ff; }
+.card-pago { border-left: 5px solid #2ed573; }
+.card-pendente { border-left: 5px solid #ff4757; }
 
-.left {
-    width: 50%;
-}
-
-h3 {
-    display: flex;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 12px;
-    align-items: center;
-    color: #f0f0f0;
-    background-color: #070C96;
-    border-radius: 20px;
-    width: 200px;
-    height: 25px;
-    margin: 20px;
-}
-
-input {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 250px;
-    height: 30px;
-    margin: 5px;
-    background-color: #E6E6E6;
-    border-color: transparent;
-    border-radius: 20px;
-    text-align: center;
-}
-
-select {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 250px;
-    height: 30px;
-    margin: 5px;
-    background-color: #E6E6E6;
-    border-color: transparent;
-    border-radius: 20px;
-    text-align: center;
-}
-
-.salario {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-}
-
-.salario input {
-    width: 150px;
-}
-
-.imposto {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-}
-
-.imposto input {
-    width: 150px;
-}
-
-.right {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-h4 {
-    display: flex;
-    font-weight: bold;
-    font-size: 20px;
-    align-items: center;
-    padding: 10px;
-}
-
-.info-rightup p {
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.info-rightup {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 10px;
-    flex-direction: column;
-    background-color: #E6E6E6;
-    border-radius: 20px;
-    width: 350px;
-    height: 150px;
-    margin-bottom: 25px;
-
-}
-
-#desconto {
-    width: 150px;
-    height: 25px;
-    background-color: #070C96;
+/* Grid e container dos gráficos */
+.charts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
     margin-top: 10px;
-    border-radius: 20px;
-    border-color: transparent;
-    color: #e9ecef;
 }
 
-.right-down {
+.chart-box {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    min-height: 320px;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
-}
-
-.right-down p {
-    display: flex;
-    align-items: center;
     justify-content: center;
-    background-color: #E6E6E6;
-    border-radius: 20px;
-    margin: 10px;
-    height: 40px;
-    width: 300px;
 }
 
-#btn-despesa {
-    width: 300px;
-    background-color: #070C96;
-    height: 40px;
-    border-color: transparent;
-    border-radius: 20px;
-    color: #E6E6E6;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-}
-#btn-despesa:hover {
-    background-color: #ff002b;
-}
 /* Animação Suave de Entrada */
 @keyframes smoothPageIn {
     0% {
@@ -332,12 +233,3 @@ h4 {
         filter: blur(0);
     }
 }
-
-.app-card {
-    /* Usando cubic-bezier para um movimento mais 'elástico' e elegante */
-    animation: smoothPageIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    will-change: transform, opacity;
-    /* Otimiza a performance do navegador */
-}
-
-
