@@ -1,6 +1,10 @@
 const TOKEN_KEY = "app_auth_token";
 const BASE_URL = "http://localhost:5243/api/Funcionarios";
 
+let listaFuncionariosGlobal = []; // Armazena a lista completa vinda do servidor para busca/filtro
+
+// --- Auxiliares de API ---
+
 export async function apiFetch(endpoint, method = 'GET', data = null) {
     const token = localStorage.getItem(TOKEN_KEY);
     const config = {
@@ -28,29 +32,50 @@ export async function apiFetch(endpoint, method = 'GET', data = null) {
     }
 }
 
+// --- Funções de Interface (UI) ---
+
+function renderizarTabela(lista) {
+    const corpoTabela = document.getElementById('tabela-corpo');
+    if (!corpoTabela) return;
+
+    corpoTabela.innerHTML = lista.map(f => `
+        <tr>
+            <td>${f.nome}</td>
+            <td>${f.email}</td>
+            <td>${f.telefone}</td>
+            <td>${f.cargo}</td>
+            <td>R$ ${parseFloat(f.salario).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+            <td style="display: flex; gap: 10px;">
+                <button class="btn-edit" onclick="editarFuncionario(${f.id})">Editar</button>
+                <button class="btn-delete" onclick="excluirFuncionario(${f.id})">🗑️</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
 export async function carregarTabeladeFuncionarios() {
     try {
         const funcionarios = await apiFetch("Get-Funcionarios");
-        const corpoTabela = document.getElementById('tabela-corpo');
-        if (!corpoTabela) return;
-
-        corpoTabela.innerHTML = funcionarios.map(f => `
-            <tr>
-                <td>${f.nome}</td>
-                <td>${f.email}</td>
-                <td>${f.telefone}</td>
-                <td>${f.cargo}</td>
-                <td>R$ ${parseFloat(f.salario).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
-                <td style="display: flex; gap: 10px;">
-                    <button class="btn-edit" onclick="editarFuncionario(${f.id})">Editar</button>
-                    <button class="btn-delete" onclick="excluirFuncionario(${f.id})">🗑️</button>
-                </td>
-            </tr>
-        `).join('');
+        listaFuncionariosGlobal = funcionarios || [];
+        executarFiltro(); // Renderiza aplicando filtros se houver
     } catch (error) {
-        alert('Falha ao carregar: ' + error.message);
+        alert('Falha ao carregar funcionários: ' + error.message);
     }
 }
+
+function executarFiltro() {
+    const seletorFiltro = document.getElementById('filtro-cargo-select');
+    const cargoSelecionado = seletorFiltro ? seletorFiltro.value : "";
+
+    if (cargoSelecionado === "") {
+        renderizarTabela(listaFuncionariosGlobal);
+    } else {
+        const filtrados = listaFuncionariosGlobal.filter(f => f.cargo === cargoSelecionado);
+        renderizarTabela(filtrados);
+    }
+}
+
+// --- Lógica de Formulário ---
 
 const getFormData = () => ({
     nome: document.getElementById('nome').value,
@@ -58,7 +83,7 @@ const getFormData = () => ({
     telefone: document.getElementById('telefone').value,
     cargo: document.getElementById('cargo-select').value,
     salario: parseFloat(document.getElementById('salario').value),
-    password: document.getElementById('senha')?.value 
+    password: document.getElementById('senha')?.value || ""
 });
 
 async function manipularSubmit(e) {
@@ -78,18 +103,20 @@ async function manipularSubmit(e) {
         fecharModal();
         carregarTabeladeFuncionarios();
     } catch (error) {
-        alert(error.message);
+        alert("Erro na operação: " + error.message);
     }
 }
 
+// --- Funções Globais (Expostas para o HTML) ---
+
 window.editarFuncionario = async function(id) {
     try {
-        const lista = await apiFetch('Get-Funcionarios');
-        const f = lista.find(item => item.id === id);
+        const f = listaFuncionariosGlobal.find(item => item.id === id);
         if (!f) return;
 
         document.getElementById('nome').value = f.nome;
         document.getElementById('email').value = f.email;
+        document.getElementById('telefone').value = f.telefone || '';
         document.getElementById('cargo-select').value = f.cargo;
         document.getElementById('salario').value = f.salario;
         
@@ -98,39 +125,55 @@ window.editarFuncionario = async function(id) {
         btnSalvar.innerText = "Atualizar";
         document.getElementById('modal-container').style.display = 'flex';
     } catch (error) {
-        alert("Erro ao carregar dados.");
+        alert("Erro ao carregar dados para edição.");
     }
 };
 
 window.excluirFuncionario = async function(id) {
-    if (!confirm('Deseja excluir?')) return;
+    if (!confirm('Tem certeza que deseja excluir este funcionário?')) return;
     try {
         await apiFetch(`Delete-Funcionario/${id}`, 'DELETE');
+        alert("Excluído com sucesso!");
         carregarTabeladeFuncionarios();
     } catch (error) {
-        alert(error.message);
+        alert("Erro ao excluir: " + error.message);
     }
 };
+
+// --- Gerenciamento do Modal e Eventos ---
 
 const modal = document.getElementById('modal-container');
 const formCadastro = document.getElementById('form-cadastro');
 
 const fecharModal = () => {
-    modal.style.display = 'none';
-    formCadastro.reset();
-    delete document.getElementById('btn-salvar-modal').dataset.idAtual;
-    document.getElementById('btn-salvar-modal').innerText = "Salvar";
+    if (modal) modal.style.display = 'none';
+    if (formCadastro) formCadastro.reset();
+    const btnSalvar = document.getElementById('btn-salvar-modal');
+    if (btnSalvar) {
+        delete btnSalvar.dataset.idAtual;
+        btnSalvar.innerText = "Salvar";
+    }
 };
 
-document.getElementById('btn-abrir-modal')?.addEventListener('click', () => modal.style.display = 'flex');
-document.getElementById('btn-fechar-modal')?.addEventListener('click', fecharModal);
-formCadastro?.addEventListener('submit', manipularSubmit);
+// --- Inicialização ---
 
-// Logout
-document.getElementById('btn-sair')?.addEventListener('click', () => {
-    localStorage.removeItem(TOKEN_KEY);
-    location.href = "../Login.html";
+document.addEventListener('DOMContentLoaded', () => {
+    if (formCadastro) {
+        carregarTabeladeFuncionarios();
+        formCadastro.addEventListener('submit', manipularSubmit);
+    }
+
+    document.getElementById('btn-abrir-modal')?.addEventListener('click', () => {
+        fecharModal(); // Limpa antes de abrir novo
+        modal.style.display = 'flex';
+    });
+
+    document.getElementById('btn-fechar-modal')?.addEventListener('click', fecharModal);
+    
+    document.getElementById('filtro-cargo-select')?.addEventListener('change', executarFiltro);
+
+    document.getElementById('btn-sair')?.addEventListener('click', () => {
+        localStorage.removeItem(TOKEN_KEY);
+        location.href = "../Login.html";
+    });
 });
-
-// Inicialização
-if (formCadastro) carregarTabeladeFuncionarios();

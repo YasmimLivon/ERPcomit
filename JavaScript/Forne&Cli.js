@@ -6,6 +6,11 @@ let editandoId = null;
 const $ = (id) => document.getElementById(id);
 const tabela = $("tabela-corpo");
 
+// Altera dinamicamente a label do documento dependendo do tipo selecionado
+$("tipo").onchange = () => {
+    $("label-doc").innerText = $("tipo").value === "Cliente" ? "CPF" : "CNPJ";
+};
+
 // --- 1. LISTAR DADOS ---
 async function listarDados() {
   const token = localStorage.getItem(TOKEN_KEY);
@@ -35,6 +40,7 @@ function renderizarLinha(item, tipo) {
   const id = item.id || item.Id;
   const row = document.createElement("tr");
   row.innerHTML = `
+        <td><strong>#${id}</strong></td>
         <td>${item.nome || item.Nome}</td>
         <td>${item.cpf || item.Cpf || item.cnpj || item.Cnpj || "---"}</td>
         <td>${item.cidade || item.Cidade || "---"}</td>
@@ -50,7 +56,7 @@ function renderizarLinha(item, tipo) {
   tabela.appendChild(row);
 }
 
-// --- 2. SALVAR (CADASTRO / EDIÇÃO) - CORRIGIDO ---
+// --- 2. SALVAR (CADASTRO / EDIÇÃO) ---
 $("form-cadastro").onsubmit = async (e) => {
   e.preventDefault();
   const token = localStorage.getItem(TOKEN_KEY);
@@ -75,14 +81,11 @@ $("form-cadastro").onsubmit = async (e) => {
     payload.cnpj = $("documento").value;
   }
 
-  // --- LÓGICA DE URL CORRIGIDA ---
   let endpoint = "";
   if (editandoId) {
     endpoint = `Update-${tipo}/${editandoId}`;
   } else {
-    // Resolve o problema do "Fornecedors" vs "Fornecedores"
-    endpoint =
-      tipo === "Cliente" ? "Register-Clientes" : "Register-Fornecedores";
+    endpoint = tipo === "Cliente" ? "Register-Clientes" : "Register-Fornecedores";
   }
 
   try {
@@ -115,9 +118,9 @@ $("form-filtro").onsubmit = (e) => {
   const cidade = $("filtro-cidade").value.toLowerCase();
 
   document.querySelectorAll("#tabela-corpo tr").forEach((row) => {
-    const bateNome = row.cells[0].innerText.toLowerCase().includes(nome);
-    const bateCid = row.cells[2].innerText.toLowerCase().includes(cidade);
-    const bateTipo = tipo === "Todos" || row.cells[4].innerText === tipo;
+    const bateNome = row.cells[1].innerText.toLowerCase().includes(nome);
+    const bateCid = row.cells[3].innerText.toLowerCase().includes(cidade);
+    const bateTipo = tipo === "Todos" || row.cells[5].innerText === tipo;
     row.style.display = bateNome && bateCid && bateTipo ? "" : "none";
   });
   $("modal-filtro").style.display = "none";
@@ -138,12 +141,14 @@ function abrirEdicao(item, tipo) {
   $("telefone").value = item.telefone || item.Telefone;
   $("documento").value = item.cpf || item.Cpf || item.cnpj || item.Cnpj || "";
   $("tipo").value = tipo;
+  $("label-doc").innerText = tipo === "Cliente" ? "CPF" : "CNPJ";
+  $("cidade").value = item.cidade || item.Cidade || "";
   $("password").value = "";
   $("modal-container").style.display = "flex";
 }
 
 async function deletar(id, tipo) {
-  if (!confirm("Excluir?")) return;
+  if (!confirm("Excluir definitivamente este registro?")) return;
   const token = localStorage.getItem(TOKEN_KEY);
   await fetch(`${API_URL}/Parceiros/Delete-${tipo}/${id}`, {
     method: "DELETE",
@@ -161,10 +166,10 @@ function fecharModais() {
 $("btn-abrir-modal").onclick = () => {
   editandoId = null;
   $("form-cadastro").reset();
+  $("label-doc").innerText = "CPF";
   $("modal-container").style.display = "flex";
 };
-$("btn-abrir-filtro").onclick = () =>
-  ($("modal-filtro").style.display = "flex");
+$("btn-abrir-filtro").onclick = () => ($("modal-filtro").style.display = "flex");
 $("btn-fechar-modal").onclick = $("btn-fechar-filtro").onclick = fecharModais;
 $("btn-sair").onclick = () => {
   localStorage.removeItem(TOKEN_KEY);
@@ -172,4 +177,3 @@ $("btn-sair").onclick = () => {
 };
 
 document.addEventListener("DOMContentLoaded", listarDados);
-

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Winx - Fornecedores e Clientes</title>
+    <link rel="icon" href="../img/Logo.png" type="image/png">
     <link rel="stylesheet" href="../css/Forne&Cli.css" />
 </head>
 <body>
@@ -12,13 +13,15 @@
             <div class="logo-winx">
                 <img src="../img/Logo.png" alt="Logo Winxs">
             </div>
-    <a href="Forne&Cli.html" class="nav-item active data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
-    <a href="itempedido.html" class="nav-item data-role-only" data-allowed="admin,funcionarios,cliente">Vendas</a>
-    <a href="Estoque.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
-    <a href="Funcionario.html" class="nav-item data-role-only" data-allowed="funcionarios">Funcionários</a>
-    <a href="folhadepagamento.html" class="nav-item data-role-only" data-allowed="funcionarios">Folha de Pagamento</a>
-    <a href="Financeiro.html" class="nav-item data-role-only" data-allowed="funcionarios">Financeiro</a>
-    <a href="ListagemProdutos.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
+            <a href="Dashboard.html" class="nav-item">Dashboard</a>
+            <a href="ListagemProdutos.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
+            <a href="Pedido.html" class="nav-item data-role-only" data-allowed="admin,funcionarios,cliente">Pedidos</a>
+            <a href="itempedido.html" class="nav-item data-role-only" data-allowed="admin,funcionarios,cliente">Vendas</a>
+            <a href="Estoque.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
+            <a href="Forne&Cli.html" class="nav-item active data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
+            <a href="Funcionario.html" class="nav-item data-role-only" data-allowed="funcionarios">Funcionários</a>
+            <a href="folhadepagamento.html" class="nav-item data-role-only" data-allowed="funcionarios">Folha de Pagamento</a>
+            <a href="Financeiro.html" class="nav-item data-role-only" data-allowed="funcionarios">Financeiro</a>
         </nav>
       
         <div class="content-area">
@@ -38,6 +41,7 @@
                 <table>
                     <thead>
                         <tr id="cabecalho">
+                            <th>ID</th>
                             <th>Nome</th>
                             <th>Cnpj / Cpf</th>
                             <th>Cidade</th>
@@ -46,8 +50,7 @@
                             <th>Ação</th>
                         </tr>
                     </thead>
-                    <tbody id="tabela-corpo">
-                        </tbody>
+                    <tbody id="tabela-corpo"></tbody>
                 </table>
             </div>
         </div>
@@ -107,43 +110,43 @@
         </div>
     </div>
 
-<div id="modal-filtro" class="modal-overlay" style="display: none;">
-    <div class="modal-content">
-        <h2>Filtrar Registros</h2>
-        <form id="form-filtro">
-            <div class="input-group">
-                <label>Nome do Parceiro</label>
-                <input type="text" id="filtro-nome" placeholder="Digite o nome...">
-            </div>
-            
-            <div class="input-row">
+    <div id="modal-filtro" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Filtrar Registros</h2>
+            <form id="form-filtro">
                 <div class="input-group">
-                    <label>Tipo</label>
-                    <select id="filtro-tipo">
-                        <option value="Todos">Todos</option>
-                        <option value="Cliente">Cliente</option>
-                        <option value="Fornecedor">Fornecedor</option>
-                    </select>
+                    <label>Nome do Parceiro</label>
+                    <input type="text" id="filtro-nome" placeholder="Digite o nome...">
                 </div>
-                <div class="input-group">
-                    <label>Cidade</label>
-                    <input type="text" id="filtro-cidade" placeholder="Cidade...">
-                </div>
-            </div>
-
-            <div class="modal-actions" style="justify-content: space-between; align-items: center;">
-                <button type="button" id="btn-resetar-filtro" style="background: none; border: none; color: #ff002b; font-weight: bold; cursor: pointer; text-decoration: underline; font-size: 13px;">
-                    Limpar Filtros
-                </button>
                 
-                <div style="display: flex; gap: 10px;">
-                    <button type="button" class="btn-cancelar" id="btn-fechar-filtro">Cancelar</button>
-                    <button type="submit" class="btn-salvar">Aplicar</button>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Tipo</label>
+                        <select id="filtro-tipo">
+                            <option value="Todos">Todos</option>
+                            <option value="Cliente">Cliente</option>
+                            <option value="Fornecedor">Fornecedor</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Cidade</label>
+                        <input type="text" id="filtro-cidade" placeholder="Cidade...">
+                    </div>
                 </div>
-            </div>
-        </form>
+
+                <div class="modal-actions" style="justify-content: space-between; align-items: center;">
+                    <button type="button" id="btn-resetar-filtro" style="background: none; border: none; color: #ff002b; font-weight: bold; cursor: pointer; text-decoration: underline; font-size: 13px;">
+                        Limpar Filtros
+                    </button>
+                    
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" class="btn-cancelar" id="btn-fechar-filtro">Cancelar</button>
+                        <button type="submit" class="btn-salvar">Aplicar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
     <script src="../JavaScript/Forne&Cli.js"></script>
     <script src="../auth-guard.js"></script>

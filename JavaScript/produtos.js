@@ -36,8 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 🔹 MODAL
-    openModalBtn.onclick = () => modal.style.display = "flex";
-    closeModalBtn.onclick = () => modal.style.display = "none";
+    if (openModalBtn) openModalBtn.onclick = () => modal.style.display = "flex";
+    if (closeModalBtn) closeModalBtn.onclick = () => modal.style.display = "none";
 
     // 🔹 LISTA
     let listaProdutos = [];
@@ -70,13 +70,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 🔹 RENDER TABELA
     function renderTabela(lista) {
+        if (!tabela) return;
         tabela.innerHTML = "";
 
         lista.forEach(p => {
             tabela.innerHTML += `
                 <tr>
                     <td>${p.nome}</td>
-                    <td>R$ ${p.precoUnitario ?? 0}</td>
+                    <td>R$ ${(p.precoUnitario ?? 0).toFixed(2)}</td>
                     <td>${p.codigo ?? "-"}</td>
                     <td>${p.estoqueAtual ?? 0}</td>
                     <td>${p.tipo ?? "-"}</td>
@@ -89,104 +90,110 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 🔹 EXCLUIR
-    tabela.addEventListener("click", async (e) => {
-        if (!e.target.classList.contains("btn-delete")) return;
+    // 🔹 EXCLUIR (CORRIGIDO)
+    if (tabela) {
+        tabela.addEventListener("click", async (e) => {
+            if (!e.target.classList.contains("btn-delete")) return;
 
-        const id = e.target.getAttribute("data-id");
+            const id = e.target.getAttribute("data-id");
 
-        if (!confirm("Deseja excluir este produto?")) return;
+            if (!confirm("Deseja excluir este produto?")) return;
 
-        try {
-            const res = await fetch(`${API_GET}/${id}`, {
-                method: "DELETE",
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem(TOKEN_KEY)
+            try {
+                // 🔥 SINTAXE CORRIGIDA AQUI: O '$' agora está corretamente dentro do padrão do template literal
+                const res = await fetch(`${API_GET}/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem(TOKEN_KEY)
+                    }
+                });
+
+                if (!res.ok) {
+                    const erro = await res.text();
+                    throw new Error(erro);
                 }
-            });
 
-            if (!res.ok) {
-                const erro = await res.text();
-                throw new Error(erro);
+                alert("Produto excluído!");
+                carregarProdutos();
+
+            } catch (error) {
+                console.error(error);
+                alert("Erro ao excluir");
             }
-
-            alert("Produto excluído!");
-            carregarProdutos();
-
-        } catch (error) {
-            console.error(error);
-            alert("Erro ao excluir");
-        }
-    });
+        });
+    }
 
     // 🔹 FILTRO
-    filtroInput.addEventListener("input", () => {
-        const valor = filtroInput.value.toLowerCase();
+    if (filtroInput) {
+        filtroInput.addEventListener("input", () => {
+            const valor = filtroInput.value.toLowerCase();
 
-        const filtrados = listaProdutos.filter(p =>
-            p.nome && p.nome.toLowerCase().includes(valor)
-        );
+            const filtrados = listaProdutos.filter(p =>
+                p.nome && p.nome.toLowerCase().includes(valor)
+            );
 
-        renderTabela(filtrados);
-    });
+            renderTabela(filtrados);
+        });
+    }
 
     // 🔹 CADASTRAR PRODUTO
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+    if (form) {
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-        if (!nomeInput.value.trim()) {
-            alert("Nome é obrigatório!");
-            return;
-        }
-
-        const body = {
-            id: 0,
-            nome: nomeInput.value.trim(),
-            descricao: nomeInput.value.trim(),
-            precoUnitario: Number(precoInput.value.replace(",", ".")) || 0,
-            estoqueAtual: Number(quantidadeInput.value) || 0,
-            codigo: codigoInput.value.trim() || "SEM-CODIGO",
-            tipo: tipoInput.value.trim() || "Geral",
-            ativo: ativoInput.checked
-        };
-
-        console.log("ENVIANDO:", body);
-
-        try {
-            const res = await fetch(API_POST, { // 🔥 AQUI FOI CORRIGIDO
-                method: "POST",
-                headers: getAuthHeaders(),
-                body: JSON.stringify(body)
-            });
-
-            console.log("POST STATUS:", res.status);
-
-            let resposta = null;
-            try {
-                resposta = await res.json();
-            } catch {}
-
-            console.log("RESPOSTA:", resposta);
-
-            if (!res.ok) {
-                alert("Erro ao cadastrar produto");
+            if (!nomeInput.value.trim()) {
+                alert("Nome é obrigatório!");
                 return;
             }
 
-            alert("Produto cadastrado com sucesso!");
+            const body = {
+                id: 0,
+                nome: nomeInput.value.trim(),
+                descricao: nomeInput.value.trim(),
+                precoUnitario: Number(precoInput.value.replace(",", ".")) || 0,
+                estoqueAtual: Number(quantidadeInput.value) || 0,
+                codigo: codigoInput.value.trim() || "SEM-CODIGO",
+                tipo: tipoInput.value.trim() || "Geral",
+                ativo: ativoInput.checked
+            };
 
-            modal.style.display = "none";
-            form.reset();
+            console.log("ENVIANDO:", body);
 
-            carregarProdutos();
+            try {
+                const res = await fetch(API_POST, {
+                    method: "POST",
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(body)
+                });
 
-        } catch (error) {
-            console.error("ERRO:", error);
-            alert("Erro ao conectar com API");
-        }
-    });
+                console.log("POST STATUS:", res.status);
+
+                let resposta = null;
+                try {
+                    resposta = await res.json();
+                } catch {}
+
+                console.log("RESPOSTA:", resposta);
+
+                if (!res.ok) {
+                    alert("Erro ao cadastrar produto");
+                    return;
+                }
+
+                alert("Produto cadastrado com sucesso!");
+
+                modal.style.display = "none";
+                form.reset();
+
+                carregarProdutos();
+
+            } catch (error) {
+                console.error("ERRO:", error);
+                alert("Erro ao conectar com API");
+            }
+        });
+    }
 
     // 🔹 INIT
     carregarProdutos();
-
 });
