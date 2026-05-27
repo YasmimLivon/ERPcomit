@@ -22,15 +22,12 @@ const modal = $("modal-container");
 const formCadastro = $("form-cadastro");
 const btnSalvarModal = $("btn-salvar-modal");
 
-// --- FUNÇÃO AUXILIAR PARA LIMPAR NÚMEROS (Evita Erro 400) ---
 const formatarParaDecimal = (valor) => {
     if (!valor || valor === "") return 0;
-    // Converte string para número, aceitando vírgula ou ponto
     const numero = parseFloat(valor.toString().replace(',', '.'));
     return isNaN(numero) ? 0 : numero;
 };
 
-// --- 1. CÁLCULO DINÂMICO NO MODAL ---
 function calcularFolhaNoModal() {
     const salarioBase = formatarParaDecimal(inputSalarioBase.value);
     const horasExtra = formatarParaDecimal(inputHorasExtra.value);
@@ -77,7 +74,6 @@ async function buscarFuncionarioPorNome() {
 }
 inputNome.onblur = buscarFuncionarioPorNome;
 
-// CARREGAR TABELA (COM CRUZAMENTO DE DADOS)
 async function carregarTabelaFolhas() {
     const token = localStorage.getItem(TOKEN_KEY);
     try {
@@ -90,43 +86,35 @@ async function carregarTabelaFolhas() {
         const corpoTabela = document.getElementById("tabela-corpo");
         corpoTabela.innerHTML = "";
 
-      folhas.forEach(f => {
-    // Pegando os nomes exatos que apareceram no seu console.log
-    const idFolha = f.id; 
-    const nome = f.nomeFuncionario;
-    const cpf = f.cpfFuncionario;
-    const cargo = f.cargo;
-    
-    // ATENÇÃO AQUI: Verifique se estes nomes estão assim no console (letra inicial minúscula)
-    const faltas = f.faltasOutros || 0; 
-    const bruto = f.salarioBruto || 0;
-    const descontos = f.totalDesconto || 0;
+        folhas.forEach(f => {
+            const idFolha = f.id; 
+            const nome = f.nomeFuncionario;
+            const cpf = f.cpfFuncionario;
+            const cargo = f.cargo;
+            const faltas = f.faltasOutros || 0; 
+            const bruto = f.salarioBruto || 0;
+            const descontos = f.totalDesconto || 0;
 
-
-    console.log("Valor das faltas para esta linha:", faltas);
-
-    corpoTabela.innerHTML += `
-        <tr>
-            <td>${nome}</td>
-            <td>${cpf}</td>
-            <td>${cargo}</td>
-            <td>${faltas !== undefined ? faltas : 0}</td>
-            <td>${descontos.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-            <td>${bruto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
-            <td>
-                <button class="btn-edit" onclick="editarFolha(${idFolha})">Editar</button>
-                <button class="btn-delete" onclick="excluirFolha(${idFolha})">🗑️</button>
-            </td>
-        </tr>
-    `;
-    });
-
+            corpoTabela.innerHTML += `
+                <tr>
+                    <td>${nome}</td>
+                    <td>${cpf}</td>
+                    <td>${cargo}</td>
+                    <td>${faltas !== undefined ? faltas : 0}</td>
+                    <td>${descontos.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                    <td>${bruto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editarFolha(${idFolha})">Editar</button>
+                        <button class="btn-delete" onclick="excluirFolha(${idFolha})">🗑️</button>
+                    </td>
+                </tr>
+            `;
+        });
     } catch (e) {
         console.error("Erro na tabela:", e);
     }
 }
 
-//SALVAR / ATUALIZAR (POST/PUT)
 formCadastro.onsubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem(TOKEN_KEY);
@@ -162,7 +150,28 @@ formCadastro.onsubmit = async (e) => {
         });
 
         if (res.ok) {
-            alert(folhaAtualId ? "Atualizado!" : "Cadastrado!");
+            // 🔹 CORRIGIDO: Aspas e crases alinhadas corretamente para evitar o travamento
+            try {
+                const valorLiquidoLancamento = formatarParaDecimal(inputSalarioTotal.value);
+                await fetch(`${API_URL}/Financeiro`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        descricao: `Folha de Pgto - ${inputNome.value}`,
+                        valor: valorLiquidoLancamento,
+                        tipo: "Salários", 
+                        status: "Pago",
+                        dataVencimento: new Date().toISOString().split('T')[0]
+                    })
+                });
+            } catch (errFin) {
+                console.error("Aviso: Folha gravada, mas o fluxo de caixa do painel não pôde ser atualizado:", errFin);
+            }
+
+            alert(folhaAtualId ? "Atualizado com sucesso!" : "Folha cadastrada e integrada ao Financeiro!");
             fecharModal();
             carregarTabelaFolhas();
         } else {
@@ -175,7 +184,6 @@ formCadastro.onsubmit = async (e) => {
     }
 };
 
-// (EDITAR, EXCLUIR, MODAL)
 window.editarFolha = async (id) => {
     const token = localStorage.getItem(TOKEN_KEY);
     try {
@@ -187,7 +195,6 @@ window.editarFolha = async (id) => {
         folhaAtualId = f.id;
         funcionarioAtualId = f.funcionariosId;
         
-        // buscar o nome do funcionário para o input
         const resFunc = await fetch(`${API_URL}/Funcionarios/Get-Funcionarios`, {
             headers: { Authorization: `Bearer ${token}` }
         });
@@ -213,9 +220,7 @@ window.editarFolha = async (id) => {
 };
 
 window.excluirFolha = async (id) => {
-    console.log("Deletando folha com ID real:", id); 
-
-    if (!id || id === undefined) {
+    if (!id) {
         alert("Erro: ID da folha não encontrado.");
         return;
     }

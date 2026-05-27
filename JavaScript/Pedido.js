@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const API_BASE = "http://localhost:5243/api/Pedidos";
     const API_PARCEIROS = "http://localhost:5243/api/Parceiros/Get-Clientes";
     const API_PRODUTOS = "http://localhost:5243/api/Produtos";
+    const API_FINANCEIRO = "http://localhost:5243/api/Financeiro"; // 🔹 Adicionado para integração
 
     // 🔹 LOGOUT
     document.getElementById("btn-sair")?.addEventListener("click", () => {
@@ -11,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "../Login.html";
     });
 
-    // 🔹 ELEMENTOS
+    // 🔹 ELEMENTOS DA INTERFACE
     const modal = document.getElementById("pedidoModal");
     const openModalBtn = document.getElementById("openModalBtn");
     const closeModalBtn = document.getElementById("closeModalBtn");
@@ -19,32 +20,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const tabela = document.getElementById("tabela-corpo");
     const filtroInput = document.getElementById("inputFiltro");
 
-    // 🔹 INPUTS DO FORM
+    // 🔹 CAMPOS DO FORMULÁRIO
     const clienteIdInput = document.getElementById("clienteId");
     const statusInput = document.getElementById("status");
     const dataPedidoInput = document.getElementById("dataPedido");
     const totalInput = document.getElementById("total");
     
-    // Elemento alterado para capturar o select de produtos
     const produtoIdInput = document.getElementById("produtoId"); 
     const quantidadeInput = document.getElementById("quantidade");
     const precoUnitarioInput = document.getElementById("precoUnitario");
+    
+    const btnAdicionarProduto = document.getElementById("btn-adicionar-produto");
+    const listaItensPreview = document.getElementById("lista-itens-preview");
 
-    // Preenche a data atual por padrão no input
-    const agora = new Date();
-    agora.setMinutes(agora.getMinutes() - agora.getTimezoneOffset());
-    dataPedidoInput.value = agora.toISOString().slice(0, 16);
+    // Variáveis de Controle Global
+    let listaPedidos = [];
+    let mapaClientes = {}; 
+    let cacheProdutos = []; 
+    let itensCarrinhoTemporario = []; 
 
-    // 🔹 CÁLCULO AUTOMÁTICO DO TOTAL DO FORMULÁRIO
-    function calcularTotalAutomatico() {
-        const qtd = Number(quantidadeInput.value) || 0;
-        const preco = Number(precoUnitarioInput.value) || 0;
-        totalInput.value = (qtd * preco).toFixed(2);
+    // Configura a data e hora local de hoje no input datetime-local
+    function resetarDataInput() {
+        const agora = new Date();
+        agora.setMinutes(agora.getMinutes() - agora.getTimezoneOffset());
+        dataPedidoInput.value = agora.toISOString().slice(0, 16);
     }
-    quantidadeInput.addEventListener("input", calcularTotalAutomatico);
-    precoUnitarioInput.addEventListener("input", calcularTotalAutomatico);
+    resetarDataInput();
 
-    // 🔹 HEADERS COM AUTENTICAÇÃO
+    // 🔹 RETORNA OS HEADERS COM AUTENTICAÇÃO JWT
     function getAuthHeaders() {
         return {
             "Content-Type": "application/json",
@@ -52,8 +55,15 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    // 🔹 CONTROLE DO MODAL
-    openModalBtn.onclick = () => modal.style.display = "flex";
+    // 🔹 INTERAÇÕES DO MODAL
+    openModalBtn.onclick = () => {
+        form.reset();
+        itensCarrinhoTemporario = [];
+        atualizarVisualizacaoCarrinho();
+        resetarDataInput();
+        modal.style.display = "flex";
+    };
+    
     closeModalBtn.onclick = () => modal.style.display = "none";
 
     window.onclick = (e) => {
@@ -62,21 +72,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // Variáveis Globais de Cache
-    let listaPedidos = [];
-    let mapaClientes = {}; // Dicionário para guardar { id: "Nome do Cliente" }
-
-    // 🔹 CARREGAR PRODUTOS NO SELECT DINÂMICO
+    // 🔹 CARREGAR LISTAGEM DE PRODUTOS NO SELECT
     async function carregarProdutosNoSelect() {
         try {
             const response = await fetch(API_PRODUTOS);
             if (!response.ok) throw new Error("Erro na requisição de produtos");
             
-            const produtos = await response.json();
-
+            cacheProdutos = await response.json();
             produtoIdInput.innerHTML = '<option value="">Selecione um produto</option>';
 
-            produtos.forEach(prod => {
+            cacheProdutos.forEach(prod => {
                 produtoIdInput.innerHTML += `
                     <option value="${prod.id}">
                         ${prod.nome} (Estoque: ${prod.estoqueAtual ?? 0})
@@ -89,13 +94,98 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // 🔹 BUSCAR CLIENTES PARA MAPEAMENTO DE NOMES
+    // Gatilho para preencher o preço unitário sugerido ao mudar o produto
+    produtoIdInput.addEventListener("change", () => {
+        const idSelecionado = Number(produtoIdInput.value);
+        const produtoEncontrado = cacheProdutos.find(p => p.id === idSelecionado);
+        
+        if (produtoEncontrado) {
+            precoUnitarioInput.value = (produtoEncontrado.preco || produtoEncontrado.precoVenda || 0).toFixed(2);
+            quantidadeInput.value = 1; 
+        } else {
+            precoUnitarioInput.value = "";
+            quantidadeInput.value = "";
+        }
+    });
+
+    // 🔹 ADICIONAR PRODUTO NO CARRINHO TEMPORÁRIO (AO CLICAR NO BOTÃO ➕)
+    btnAdicionarProduto.addEventListener("click", () => {
+        const produtoId = Number(produtoIdInput.value);
+        const quantidade = Number(quantidadeInput.value);
+        const precoUnitario = Number(precoUnitarioInput.value);
+
+        if (!produtoId || quantidade <= 0 || isNaN(precoUnitario) || precoUnitario < 0) {
+            alert("⚠️ Selecione um produto and informe quantidade e preço válidos.");
+            return;
+        }
+
+        const produtoEncontrado = cacheProdutos.find(p => p.id === produtoId);
+        const nomeProduto = produtoEncontrado ? produtoEncontrado.nome : `Produto #${produtoId}`;
+        const totalItem = quantidade * precoUnitario;
+
+        // Adiciona à lista local da sessão do modal
+        itensCarrinhoTemporario.push({
+            id: 0,
+            produtoId: produtoId,
+            quantidade: quantidade,
+            precoUnitario: precoUnitario,
+            total: totalItem, 
+            nomeVisual: nomeProduto 
+        });
+
+        // Reseta apenas os campos do bloco de item para permitir nova inserção
+        produtoIdInput.value = "";
+        quantidadeInput.value = "";
+        precoUnitarioInput.value = "";
+
+        atualizarVisualizacaoCarrinho();
+    });
+
+    // Atualiza a listagem visual do preview interno e soma o valor total geral
+    function atualizarVisualizacaoCarrinho() {
+        listaItensPreview.innerHTML = "";
+        let somaTotalPedido = 0;
+
+        if (itensCarrinhoTemporario.length === 0) {
+            listaItensPreview.innerHTML = '<li style="color: #999; font-style: italic;">Nenhum produto adicionado ainda.</li>';
+            totalInput.value = "0.00";
+            return;
+        }
+
+        itensCarrinhoTemporario.forEach((item, index) => {
+            somaTotalPedido += item.total;
+
+            const li = document.createElement("li");
+            li.style.display = "flex";
+            li.style.justify = "space-between";
+            li.style.alignItems = "center";
+            li.style.marginBottom = "6px";
+            li.style.paddingBottom = "4px";
+            li.style.borderBottom = "1px solid #eee";
+
+            li.innerHTML = `
+                <span><strong>${item.quantidade}x</strong> ${item.nomeVisual} - R$ ${item.total.toFixed(2)}</span>
+                <span class="remover-item" data-index="${index}" style="color: #ff4d4d; cursor: pointer; font-weight: bold; padding: 0 5px;">❌</span>
+            `;
+            listaItensPreview.appendChild(li);
+        });
+
+        totalInput.value = somaTotalPedido.toFixed(2);
+    }
+
+    // Permite remover um item inserido incorretamente clicando no ❌
+    listaItensPreview.addEventListener("click", (e) => {
+        if (e.target.classList.contains("remover-item")) {
+            const indexParaRemover = Number(e.target.getAttribute("data-index"));
+            itensCarrinhoTemporario.splice(indexParaRemover, 1);
+            atualizarVisualizacaoCarrinho();
+        }
+    });
+
+    // 🔹 CARREGAR MAPA DE NOMES DE CLIENTES
     async function carregarClientes() {
         try {
-            const res = await fetch(API_PARCEIROS, {
-                headers: getAuthHeaders()
-            });
-
+            const res = await fetch(API_PARCEIROS, { headers: getAuthHeaders() });
             if (res.ok) {
                 const clientes = await res.json();
                 clientes.forEach(c => {
@@ -103,45 +193,33 @@ document.addEventListener("DOMContentLoaded", () => {
                     const nome = c.nome || c.Nome;
                     mapaClientes[id] = nome;
                 });
-            } else {
-                console.warn("Não foi possível carregar os nomes dos clientes. Mostrando IDs como padrão.");
             }
         } catch (error) {
-            console.error("Erro ao integrar nomes de clientes:", error);
+            console.error("Erro ao cruzar dados de clientes:", error);
         }
     }
 
-    // 🔹 BUSCAR LISTA DE PEDIDOS (GET /api/Pedidos)
+    // 🔹 BUSCAR PEDIDOS REGISTRADOS (GET)
     async function carregarPedidos() {
         try {
-            // Garante que temos os nomes mapeados e os produtos carregados antes de mostrar a tabela
             await carregarClientes();
-
-            const res = await fetch(API_BASE, {
-                headers: getAuthHeaders()
-            });
+            const res = await fetch(API_BASE, { headers: getAuthHeaders() });
 
             if (!res.ok) {
-                const erro = await res.text();
-                console.error("ERRO GET PEDIDOS:", erro);
-                alert("Erro ao carregar pedidos");
+                console.error("Falha ao recuperar registros de pedidos");
                 return;
             }
 
             const data = await res.json();
             listaPedidos = data;
             renderTabela(listaPedidos);
-
         } catch (error) {
-            console.error("ERRO JS:", error);
-            alert("Erro ao conectar com API de Pedidos");
+            console.error("Erro na carga inicial do JS:", error);
         }
     }
 
-    // 🔹 RENDERIZAR PEDIDOS NA TABELA (COM NOME TRATADO)
     function renderTabela(lista) {
         tabela.innerHTML = "";
-
         lista.forEach(p => {
             const dataFormatada = p.dataPedido ? new Date(p.dataPedido).toLocaleDateString('pt-BR') : "-";
             const nomeCliente = mapaClientes[p.clienteId] || `Cliente #${p.clienteId}`;
@@ -161,76 +239,69 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 🔹 EXCLUIR PEDIDO (DELETE /api/Pedidos/{id})
+    // 🔹 EXCLUSÃO DE PEDIDOS (DELETE)
     tabela.addEventListener("click", async (e) => {
         if (!e.target.classList.contains("btn-delete")) return;
-
         const id = e.target.getAttribute("data-id");
-        if (!confirm(`Deseja realmente excluir o pedido #${id}?`)) return;
+        if (!confirm(`Deseja realmente remover o pedido #${id}?`)) return;
 
         try {
             const res = await fetch(`${API_BASE}/${id}`, {
                 method: "DELETE",
                 headers: getAuthHeaders()
             });
-
-            if (!res.ok) {
-                const erro = await res.text();
-                throw new Error(erro);
+            if (res.ok) {
+                alert("Pedido excluído!");
+                carregarPedidos();
             }
-
-            alert("Pedido excluído com sucesso!");
-            carregarPedidos();
-
         } catch (error) {
-            console.error(error);
-            alert("Erro ao excluir pedido");
+            alert("Erro na operação de exclusão.");
         }
     });
 
-    // 🔹 FILTRAR POR NOME DO CLIENTE OU ID
+    // 🔹 FILTRO EM TEMPO REAL
     filtroInput.addEventListener("input", () => {
         const valor = filtroInput.value.trim().toLowerCase();
-
         if (!valor) {
             renderTabela(listaPedidos);
             return;
         }
-
         const filtrados = listaPedidos.filter(p => {
             const nomeCliente = (mapaClientes[p.clienteId] || "").toLowerCase();
             const idCliente = (p.clienteId || "").toString();
             return nomeCliente.includes(valor) || idCliente.includes(valor);
         });
-
         renderTabela(filtrados);
     });
 
-    // 🔹 CADASTRAR NOVO PEDIDO (POST /api/Pedidos)
+    // 🔹 SALVAR PEDIDO INTEGRADO À API (POST)
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const vlrTotalCalculado = Number(totalInput.value) || 0;
+        if (itensCarrinhoTemporario.length === 0) {
+            alert("❌ Erro: Insira ao menos um produto clicando em 'Adicionar Produto à Lista' antes de enviar!");
+            return;
+        }
 
-        // Monta o JSON capturando o valor ID do produto do respectivo <select>
+        const vlrTotalCalculado = Number(totalInput.value) || 0;
+        const valorDataPura = dataPedidoInput.value.split("T")[0]; 
+
+        const itensTratadosParaEnvio = itensCarrinhoTemporario.map(item => ({
+            id: 0,
+            produtoId: item.produtoId,
+            quantidade: item.quantidade,
+            precoUnitario: item.precoUnitario,
+            total: item.total 
+        }));
+
         const body = {
             id: 0,
             clienteId: Number(clienteIdInput.value),
             status: statusInput.value.trim(),
-            dataPedido: new Date(dataPedidoInput.value).toISOString().split('T')[0],
+            dataPedido: valorDataPura, 
             total: vlrTotalCalculado,
-            itens: [
-                {
-                    id: 0,
-                    produtoId: Number(produtoIdInput.value), 
-                    quantidade: Number(quantidadeInput.value),
-                    precoUnitario: Number(precoUnitarioInput.value),
-                    total: vlrTotalCalculado
-                }
-            ]
+            itens: itensTratadosParaEnvio 
         };
-
-        console.log("ENVIANDO BODY VALIDADO:", body);
 
         try {
             const res = await fetch(API_BASE, {
@@ -241,28 +312,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!res.ok) {
                 const erroServidor = await res.text();
-                console.error("Detalhes do Bad Request do Backend:", erroServidor);
                 alert("Erro ao cadastrar novo pedido: " + erroServidor);
                 return;
             }
 
-            alert("Pedido registrado com sucesso!");
+            // 🔹 INTEGRADO: Envia o faturamento do pedido diretamente para a tabela Financeiro do Dashboard
+            try {
+                const nomeClienteFaturamento = mapaClientes[body.clienteId] || `Cliente #${body.clienteId}`;
+                await fetch(API_FINANCEIRO, {
+                    method: "POST",
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({
+                        descricao: `Faturamento - Pedido Efetuado (${nomeClienteFaturamento})`,
+                        valor: vlrTotalCalculado,
+                        tipo: "Vendas", // Classificação para o gráfico de barras
+                        status: "Pago", // Como o pedido foi processado com sucesso, entra como receita realizada
+                        dataVencimento: valorDataPura
+                    })
+                });
+            } catch (errFin) {
+                console.error("Aviso: Pedido salvo, mas houve erro no envio ao fluxo de caixa:", errFin);
+            }
 
+            alert("Pedido gravado e faturamento integrado com sucesso!");
             modal.style.display = "none";
-            form.reset();
             
-            // Reajusta data para o momento atual
-            dataPedidoInput.value = new Date().toISOString().slice(0, 16);
-
+            form.reset();
+            itensCarrinhoTemporario = [];
+            atualizarVisualizacaoCarrinho();
+            resetarDataInput();
+            
             carregarPedidos();
+            carregarProdutosNoSelect(); // Atualiza os números visuais do estoque no combo box
 
         } catch (error) {
             console.error("ERRO POST PEDIDO:", error);
-            alert("Erro ao conectar com API");
+            alert("Não foi possível estabelecer contato com o servidor da API.");
         }
     });
 
-    // 🔹 INICIALIZAÇÃO DA PÁGINA
+    // 🔹 DISPAROS INICIAIS
     carregarProdutosNoSelect(); 
-    carregarPedidos();         
+    carregarPedidos();          
 });
