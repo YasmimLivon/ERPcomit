@@ -84,8 +84,6 @@ async function carregarTabelaFolhas() {
         const res = await fetch(`${API_URL}/FolhadePagamento`, {
             headers: { Authorization: `Bearer ${token}` }
         });
-
-        
         if (!res.ok) throw new Error("Erro ao buscar folhas");
 
         const folhas = await res.json();

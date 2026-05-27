@@ -241,6 +241,20 @@ body {
     outline-color: #070C96;
 }
 
+#produtoId {
+    width: 120px;
+    padding: 12px 20px;
+    border: 1px solid #ddd;
+    background: #f8f8f8;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#produtoId:focus {
+    border-color: #070C96;
+    background: #fff;
+}
+
 .modal-actions {
     display: flex;
     justify-content: flex-end;
