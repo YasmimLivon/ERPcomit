@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Winx - Gestão de Pedidos</title>
+    <link rel="icon" href="../img/Logo.png" type="image/png">
+    <link rel="stylesheet" href="../css/Pedido.css" />
+  </head>
+  <body>
+
+    <div class="app-card">
+      <nav class="sidebar" id="sidebar-menu">
+        <div class="logo-winx">
+          <img src="../img/Logo.png" />
+        </div>
+        <a href="Dashboard.html" class="nav-item">Dashboard</a>
+        <a href="ListagemProdutos.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
+        <a href="Pedido.html" class="nav-item active data-role-only" data-allowed="admin,funcionarios,cliente">Pedidos</a>
+        <a href="itempedido.html" class="nav-item data-role-only" data-allowed="admin,funcionarios,cliente">Vendas</a>
+        <a href="Estoque.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
+        <a href="Forne&Cli.html" class="nav-item data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
+        <a href="Funcionario.html" class="nav-item data-role-only" data-allowed="funcionarios">Funcionários</a>
+        <a href="folhadepagamento.html" class="nav-item data-role-only" data-allowed="funcionarios">Folha de Pagamento</a>
+        <a href="Financeiro.html" class="nav-item data-role-only" data-allowed="funcionarios">Financeiro</a>
+      </nav>
+
+      <div class="content-area">
+        <div class="area-sair">
+          <button class="btn-sair" id="btn-sair">Sair</button>
+        </div>
+
+        <header class="content-header">
+          <h1>Pedidos</h1>
+
+          <div class="buttons-actions">
+            <input type="text" id="inputFiltro" placeholder="🔍 Buscar por Cliente ou ID..." />
+            <button id="openModalBtn" class="btn-adicionar">Novo Pedido</button>
+          </div>
+        </header>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID Pedido</th>
+                <th>Cliente</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-corpo"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="pedidoModal" class="modal-overlay">
+      <div class="modal-content">
+        <span class="close-modal" id="closeModalBtn">&times;</span>
+        <h2>Cadastrar Pedido</h2>
+
+        <form id="pedidoForm">
+          <div class="input-group">
+            <label>ID do Cliente</label>
+            <input id="clienteId" type="number" class="input-pill" placeholder="Ex: 4" required>
+          </div>
+          <div class="input-group">
+            <label>Status do Pedido</label>
+            <input id="status" type="text" class="input-pill" placeholder="Pendente, Pago, Enviado" required>
+          </div>
+          <div class="input-group">
+            <label>Data do Pedido</label>
+            <input id="dataPedido" type="datetime-local" class="input-pill" required>
+          </div>
+
+          <hr style="margin: 15px 0; border: 0; border-top: 1px dashed #ddd;">
+          <h3 style="font-size: 15px; color: #070C96; margin-bottom: 10px;">Item do Pedido</h3>
+
+          <div class="input-group">
+            <label>Produto</label>
+            <select id="produtoId" class="input-pill" required>
+              <option value="">Carregando produtos...</option>
+            </select>
+          </div>
+
+          <div style="display: flex; gap: 10px;">
+            <div class="input-group" style="flex: 1;">
+              <label>Quantidade</label>
+              <input id="quantidade" type="number" class="input-pill" placeholder="Quantidade" min="1" required>
+            </div>
+            <div class="input-group" style="flex: 1;">
+              <label>Preço Unitário (R$)</label>
+              <input id="precoUnitario" type="number" step="0.01" class="input-pill" placeholder="Preço" >
+            </div>
+          </div>
+
+          <div class="input-group" style="margin-top: 10px;">
+            <label>Valor Total do Pedido (Calculado)</label>
+            <input id="total" type="number" step="0.01" class="input-pill" readonly style="background-color: #e9ecef; font-weight: bold; color: #070C96;">
+          </div>
+          
+          <button type="submit" class="btn-registrar">Cadastrar Pedido</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="../JavaScript/Pedido.js"></script>
+    <script src="../auth-guard.js"></script>
+  </body>
+</html>
