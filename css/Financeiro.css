@@ -1,12 +1,9 @@
-/* Reset e Base */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Arial, sans-serif;
 }
-
-
 
 body {
     background-color: #f1f3f6;
@@ -16,7 +13,6 @@ body {
     height: 100vh;
     padding: 20px;
 }
-
 
 .app-card {
     background-color: #ffffff;
@@ -108,6 +104,11 @@ body {
     /* Permite scroll se a tabela for grande */
 }
 
+.content-area h4{
+    font-size: 20px;
+    padding-bottom: 10px;
+    color: #333;
+}
 .content-header {
     display: flex;
     justify-content: space-between;
@@ -120,10 +121,11 @@ body {
     color: #333;
 }
 
+/* LOGIN */
 .area-login {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .btn-sair {
@@ -141,185 +143,237 @@ body {
     background-color: #070C96;
 }
 
-.user {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    color: #070C96;
-}
-
-/* Botões Superiores */
+/* BOTÕES SUPERIORES */
 .Buttons-adfil {
     display: flex;
     gap: 10px;
 }
 
-/* Estilização base do seletor de relatórios com efeitos especiais */
-.filtro-relatorio {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+.btn-adicionar {
+    padding: 10px 20px;
     background-color: #070C96;
-    color: #ffffff !important;
-    border: 2px solid transparent;
-    padding: 10px 35px 10px 15px !important;
-    border-radius: 30px;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    height: auto;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 15px rgba(0, 54, 255, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-    outline: none;
-    position: relative;
+    transition: 0.3s;
 }
 
-/* Efeito ao passar o mouse (Hover) */
-.filtro-relatorio:hover {
-    background: linear-gradient(135deg, #0022cc 0%, #1a52ff 100%);
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 8px 25px rgba(0, 54, 255, 0.5), 0 0 10px rgba(0, 54, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.4);
+.btn-adicionar:hover {
+    background-color: #ff002b;
 }
 
-
-/* Estilização das opções internas (as caixas que caem ao clicar) */
-.filtro-relatorio option {
-    background-color: #0d1117;
-    color: #ffffff;
-    font-weight: 500;
-    padding: 12px;
+.btn-filtrar {
+    padding: 10px 20px;
+    background-color: #BFBFBF;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
+.btn-filtrar:hover {
+    background-color: #ff002b;
+    color: white;
+}
 
-/* Estilização da área Financeira */
-
-.finance-form-container {
+/* BOTÕES DE AÇÃO */
+.acao {
     display: flex;
     justify-content: center;
-    margin-bottom: 40px;
+    gap: 10px;
 }
 
-.form-card {
-    background: #fff;
-    border: 2px solid #ccc;
-    border-radius: 8px;
+.btn-edit,
+.btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#tabela-corpo button{
+     background: none;
+    border: none;
+    cursor: pointer;
+}
+.btn-edit {
+    color: #070C96;
+}
+
+/* HIDDENN */
+/* --- Estilos do Modal (Mini Tela) --- */
+/* Fundo escuro atrás do modal */
+.modal-overlay {
+    /* 1. Fixa o elemento na tela, ignorando onde ele está no HTML */
+    position: fixed; 
+    
+    /* 2. Estica para as 4 pontas da janela do navegador */
+    top: 0;
+    left: 0;
+    width: 100vw;  /* Largura total da janela */
+    height: 100vh; /* Altura total da janela */
+    
+    /* 3. Cor do fundo (Preto com 50% de transparência) */
+    background-color: rgba(0, 0, 0, 0.5); 
+    
+    /* 4. Centraliza a caixa branca do formulário no meio da tela */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* 5. Garante que fique na frente de TUDO (sidebar, tabelas, etc) */
+    z-index: 9999; 
+}
+
+.modal-content {
+    background: white;
     padding: 20px;
-    width: 100%;
-    max-width: 550px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-.form-card h3 {
-    font-size: 18px;
-    margin-bottom: 5px;
-}
 
-.subtitle {
-    font-size: 14px;
-    color: #666;
+.modal-content h2 {
     margin-bottom: 20px;
+    color: #070C96;
 }
 
-.form-body label {
-    display: block;
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.input-row {
+    display: flex;
+    gap: 15px;
+}
+
+.input-row .input-group {
+    flex: 1;
+}
+
+.input-group label {
     font-size: 13px;
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-.form-body input,
-.form-body select {
-    width: 100%;
+.input-group input,
+.input-group select {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #ffffff;
-    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline-color: #070C96;
 }
 
-.form-row {
+.modal-actions {
     display: flex;
-    gap: 15px;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
 }
 
-.form-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-.btn-cadastrar {
-    background-color: #bcbcbc;
-    color: #000;
+.btn-salvar {
+    background: #070C96;
+    color: white;
     border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
+    padding: 10px 25px;
+    border-radius: 20px;
     font-weight: bold;
     cursor: pointer;
-    margin-bottom: 15px;
 }
 
-.btn-cadastrar:hover {
-    background-color: #a0a0a0;
+.btn-cancelar {
+    background: #eee;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
 }
 
-/* Tabela de Contas */
-.finance-list-container {
-    background-color: #ededed;
-    padding: 20px;
-    border-radius: 10px;
+/* Estilização da Tabela */
+.table-container {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
 }
 
-.finance-list-container h3 {
-    margin-bottom: 20px;
-    font-size: 16px;
-}
-
-.finance-table {
+table {
     width: 100%;
     border-collapse: collapse;
-    text-align: left;
+    background-color: #fff;
+    text-align: center;
 }
 
-.finance-table th {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    color: #444;
+#cabecalho {
+    background-color: #070C96;
+    color: #FFFFFF;
 }
 
-.finance-table td {
-    padding: 15px 10px;
-    border-bottom: 1px solid #ddd;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto; 
+    text-align: center;
+}
+th, td {
+    padding: 12px 8px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    white-space: normal; 
+    word-wrap: break-word; 
+    font-size: 14px;
 }
 
-/* Status Badges */
-.badge {
-    padding: 5px 15px;
-    border-radius: 20px;
-    color: white;
-    font-size: 12px;
+th:nth-child(5), td:nth-child(5),
+th:nth-child(7), td:nth-child(7) {
+    text-align: center;
+    text-overflow: ellipsis; /* Adiciona "..." se o texto for muito grande */
+}
+
+td:nth-child(3) {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona "..." se o texto for muito grande */
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Ações e Estilos Internos */
+.acao {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-edit,
+.btn-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
+}
+
+.btn-edit {
+    color: #070C96;
     font-weight: bold;
 }
 
-.pago {
-    background-color: #070C96;
+.btn-edit:hover {
+    text-decoration: underline;
 }
 
-.pendente {
-    background-color: #bcbcbc;
-    color: #333;
-}
-
-.actions {
-    font-size: 12px;
-    cursor: pointer;
-    color: #444;
-}
-
-.actions span {
-    margin-right: 10px;
+.btn-delete:hover {
+    transform: scale(1.2);
 }
 
 /* Animação Suave de Entrada */

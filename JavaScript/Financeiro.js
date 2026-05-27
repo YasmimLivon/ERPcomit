@@ -1,5 +1,5 @@
-const API_URL = "http://localhost:5243/api";
 const TOKEN_KEY = "app_auth_token";
+const apifinanceiro = "http://localhost:5243/api/Financeiro";
 
 // botao De Sair Global
 const btnSair = document.getElementById("btn-sair");
@@ -10,8 +10,6 @@ if (btnSair) {
   });
 }
 
-<<<<<<< Updated upstream
-=======
 export async function apiFetch(endpoint, method = 'GET', data = null) {
     const token = localStorage.getItem(TOKEN_KEY);
 
@@ -31,17 +29,18 @@ export async function apiFetch(endpoint, method = 'GET', data = null) {
         const response = await fetch(`${apifinanceiro}/${endpoint}`, config);
 
         if (!response.ok) {
-            const errorText = await response.text(); 
+            const errorText = await response.text(); // Lê como texto primeiro
             throw new Error(errorText || `Erro HTTP: ${response.status}`);
         }
 
         if (response.status === 204) return null;
 
+        // VERIFICAÇÃO IMPORTANTE:
         const contentType = response.headers.get("content-type");
         if (contentType && contentType.includes("application/json")) {
             return await response.json();
         } else {
-            return await response.text(); 
+            return await response.text(); // Se for apenas texto, retorna o texto
         }
 
     } catch (error) {
@@ -58,24 +57,10 @@ export async function carregarTabeladoFinanceiro() {
         if (!corpoTabela) return;
         corpoTabela.innerHTML = '';
 
-        // Captura o filtro selecionado no topo da página
-        const filtroRelatorio = document.getElementById('filtro-relatorio');
-        const tipoFiltro = filtroRelatorio ? filtroRelatorio.value : 'pendentes';
-
+        // Correção do erro do código
+        // O segredo aqui é garantir que 'financeiro' seja um array
         if (financeiro && Array.isArray(financeiro)) {
             financeiro.forEach(item => {
-                const statusNormalizado = item.status ? item.status.toLowerCase().trim() : '';
-
-                // Filtro dinâmico: Se escolheu "pendentes", esconde os registros "pago"
-                if (tipoFiltro === 'pendentes' && statusNormalizado === 'pago') {
-                    return;
-                }
-
-                // Filtro dinâmico: Se escolheu "pagos", esconde os registros "pendente"
-                if (tipoFiltro === 'pagos' && statusNormalizado === 'pendente') {
-                    return;
-                }
-
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${item.tipo}</td>
@@ -98,22 +83,28 @@ export async function carregarTabeladoFinanceiro() {
 }
 
 export async function enviarNovoFinanceiro() {
+    // Paa checar as informações, coloquei um esquema de verificação de erro
+
     const ids = ['tipo', 'descricao', 'valor', 'vencimento', 'status-select'];
     
+    // Teste para ver quem é o nulo
     for (let id of ids) {
         if (!document.getElementById(id)) {
             console.error(`O elemento com ID "${id}" não foi encontrado no HTML!`);
-            return; 
+            return; // Para a execução antes de dar o erro de "null"
         }
     }
 
     const payload = {
-        tipo: document.getElementById('tipo').value,
-        descricao: document.getElementById('descricao').value,
-        valor: parseFloat(document.getElementById('valor').value.toString().replace(',', '.')) || 0, 
-        vencimento: document.getElementById('vencimento').value,
-        status: document.getElementById('status-select').value,
-        observacao: document.getElementById('observacao').value
+        // Dentro de enviarNovoFinanceiro e no submit do form, mude o Valor para número:
+    
+    tipo: document.getElementById('tipo').value,
+    descricao: document.getElementById('descricao').value,
+    valor: parseFloat(document.getElementById('valor').value.replace(',', '.')) || 0, // Converte para número
+    vencimento: document.getElementById('vencimento').value,
+    status: document.getElementById('status-select').value,
+    observacao: document.getElementById('observacao').value
+
     };
 
     try {
@@ -132,18 +123,18 @@ export async function enviarNovoFinanceiro() {
 
 export async function atualizarDadosFinanceiro(id) {
     const dados = {
-        Vencimento: document.getElementById('vencimento').value,
-        Descricao: document.getElementById('descricao').value,
-        Valor: parseFloat(document.getElementById('valor').value) || 0,
-        Tipo: document.getElementById('tipo').value,
-        Status: document.getElementById('status-select').value,
-        Categoria: "Geral", 
-        Observacao: document.getElementById('observacao').value
+    Vencimento: document.getElementById('vencimento').value,
+    Descricao: document.getElementById('descricao').value,
+    Valor: parseFloat(document.getElementById('valor').value),
+    Tipo: document.getElementById('tipo').value,
+    Status: document.getElementById('status-select').value,
+    Categoria: "Geral", // Adicione um valor padrão ou crie um campo no HTML
+    Observacao: document.getElementById('observacao').value
     };
 
     try {
-        await apiFetch(`${id}`, 'PUT', dados);
-        alert('Cadastro updated com sucesso!');
+        await apiFetch(`${idEdicao}`, 'PUT', dados);
+        alert('Cadastro atualizado com sucesso!');
         carregarTabeladoFinanceiro();
     } catch (error) {
         alert('Erro ao atualizar: ' + error.message);
@@ -164,7 +155,8 @@ export async function excluirFinanceiro(id) {
 
 window.editarFinanceiro = async function(id) {
     try {
-        const lista = await apiFetch('', 'GET'); 
+        const lista = await apiFetch('', 'GET'); // Ajustado para a rota correta
+     
         const func = lista.find(f => f.id === id);
 
         if (func) {
@@ -197,14 +189,6 @@ window.excluirFinanceiro = excluirFinanceiro;
 document.addEventListener('DOMContentLoaded', () => {
     carregarTabeladoFinanceiro();
     
-    // Atualiza a tabela dinamicamente quando muda o filtro do relatório
-    const filtroRelatorio = document.getElementById('filtro-relatorio');
-    if (filtroRelatorio) {
-        filtroRelatorio.addEventListener('change', () => {
-            carregarTabeladoFinanceiro();
-        });
-    }
-    
     const btnSalvarModal = document.getElementById('btn-salvar-modal');
     if (btnSalvarModal) {
         console.log("Botão de salvar configurado.");
@@ -216,36 +200,25 @@ const btnAbrir = document.getElementById('btn-abrir-modal');
 const btnFechar = document.getElementById('btn-fechar-modal');
 const formCadastro = document.getElementById('form-cadastro');
 
-if (btnAbrir) {
-    btnAbrir.addEventListener('click', () => {
-        modal.style.display = 'flex';
-    });
-}
+// Para abrir
+btnAbrir.addEventListener('click', () => {
+    modal.style.display = 'flex';
+});
 
-if (btnFechar) {
-    btnFechar.addEventListener('click', () => {
-        modal.style.display = 'none';
-        formCadastro.reset(); 
-        const btnSalvar = document.getElementById('btn-salvar-modal');
-        if (btnSalvar) {
-            delete btnSalvar.dataset.idAtual;
-            btnSalvar.innerText = "Salvar";
-        }
-    });
-}
+// Para fechar
+btnFechar.addEventListener('click', () => {
+    modal.style.display = 'none';
+    formCadastro.reset(); // Limpa o form ao fechar
+});
 
+// Fechar se clicar fora da caixa branca
 window.addEventListener('click', (event) => {
     if (event.target === modal) {
         modal.style.display = 'none';
-        formCadastro.reset();
-        const btnSalvar = document.getElementById('btn-salvar-modal');
-        if (btnSalvar) {
-            delete btnSalvar.dataset.idAtual;
-            btnSalvar.innerText = "Salvar";
-        }
     }
 });
 
+// Salvar
 formCadastro.addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -253,32 +226,34 @@ formCadastro.addEventListener('submit', async (e) => {
     const idEdicao = btnSalvar.dataset.idAtual;
   
     try {
-        const dados = {
-            Vencimento: document.getElementById('vencimento').value,
-            Descricao: document.getElementById('descricao').value,
-            Valor: parseFloat(document.getElementById('valor').value.toString().replace(',', '.')) || 0,
-            Tipo: document.getElementById('tipo').value,
-            Status: document.getElementById('status-select').value,
-            Categoria: "Geral", 
-            Observacao: document.getElementById('observacao').value
-        };
+          const dados = {
+          Vencimento: document.getElementById('vencimento').value,
+          Descricao: document.getElementById('descricao').value,
+          Valor: parseFloat(document.getElementById('valor').value) || 0,
+          Tipo: document.getElementById('tipo').value,
+          Status: document.getElementById('status-select').value,
+          Categoria: "Geral", // Campo obrigatório no seu CriarFinanceiroDTO
+          Observacao: document.getElementById('observacao').value
+          };
     
-        if (idEdicao) {
-            await apiFetch(`${idEdicao}`, 'PUT', dados);
-            alert("Atualizado com sucesso!");
-        } else {
-            await apiFetch('', 'POST', dados);
-            alert("Cadastrado com sucesso!");
+            if (idEdicao) {
+                await apiFetch(`${idEdicao}`, 'PUT', dados);
+                alert("Atualizado com sucesso!");
+            } else {
+                await apiFetch('', 'POST', dados);
+                alert("Cadastrado com sucesso!");
+            }
+    
+            delete btnSalvar.dataset.idAtual;
+            btnSalvar.innerText = "Salvar";
+            modal.style.display = 'none'; 
+            formCadastro.reset();
+            carregarTabeladoFinanceiro();
+    
+        } catch (error) {
+            alert("Erro ao processar: " + error.message);
         }
+    });
+  
+
     
-        delete btnSalvar.dataset.idAtual;
-        btnSalvar.innerText = "Salvar";
-        modal.style.display = 'none'; 
-        formCadastro.reset();
-        carregarTabeladoFinanceiro();
-    
-    } catch (error) {
-        alert("Erro ao processar: " + error.message);
-    }
-});
->>>>>>> Stashed changes
