@@ -35,7 +35,7 @@
 
                 <div class="buttons-actions">
                     <input type="text" id="inputFiltro" placeholder="🔍 Buscar produto..." />
-                    <button id="openModalBtn" class="btn-adicionar">Adicionar</button>
+                    <button id="openModalBtn" class="btn-adicionar data-role-only" data-allowed="funcionarios,Fornecedores">Adicionar</button>
                 </div>
             </header>
 
@@ -48,8 +48,10 @@
                             <th>Código</th>
                             <th>Estoque</th>
                             <th>Tipo</th>
+                            <th>Fornecedor</th>
                             <th>Ativo</th>
-                            <th>Ação</th>
+                                            <th class="data-role-only" data-allowed="funcionarios" style="display: none">Ação</th>
+                <th class="data-role-only" data-allowed="cliente,Fornecedores"></th>
                         </tr>
                     </thead>
                     <tbody id="tabela-corpo"></tbody>

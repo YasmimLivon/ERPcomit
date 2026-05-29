@@ -1,6 +1,7 @@
 // auth-guard.js
 
-(function verificarEControlarAcesso() {
+// 💡 Transformamos em uma função global para que as telas de Produtos, Pedidos e Parceiros possam chamá-la!
+function verificarEControlarAcesso() {
     const TOKEN_KEY = 'app_auth_token';
     const token = localStorage.getItem(TOKEN_KEY);
     
@@ -17,7 +18,11 @@
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const payload = JSON.parse(window.atob(base64));
-        usuarioRole = payload["role"] || payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+        
+        // Pega a role vinda do JWT e transforma tudo em minúsculo para evitar divergências
+        const roleCrua = payload["role"] || payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || "";
+        usuarioRole = roleCrua.toLowerCase().trim();
+        
     } catch (e) {
         console.error("Erro ao validar permissões do token:", e);
         localStorage.removeItem(TOKEN_KEY);
@@ -25,31 +30,41 @@
         return;
     }
 
-    // 3. CONTROLE DE INTERFACE E REDIRECIONAMENTO UNIFICADO
-    document.addEventListener("DOMContentLoaded", () => {
-        const elementosRestritos = document.querySelectorAll('.data-role-only');
+    // 3. CONTROLE DE INTERFACE
+    const elementosRestritos = document.querySelectorAll('.data-role-only');
 
-        elementosRestritos.forEach(elemento => {
-            const allowedAttr = elemento.getAttribute('data-allowed');
-            if (!allowedAttr) return;
+    elementosRestritos.forEach(elemento => {
+        const allowedAttr = elemento.getAttribute('data-allowed');
+        if (!allowedAttr) return;
 
-            const rolesPermitidas = allowedAttr.split(',');
+        // Transforma os atributos do HTML também em minúsculo para comparar perfeitamente
+        const rolesPermitidas = allowedAttr.toLowerCase().split(',').map(r => r.trim());
 
-            // Se a role do usuário NÃO estiver listada no data-allowed, o link sumirá da barra lateral
-            if (!rolesPermitidas.includes(usuarioRole)) {
-                elemento.style.display = 'none'; // Esconde o link específico
-                
-                // Segurança extra: Caso tentem burlar digitando a URL direta na barra do navegador
+        // Verifica se a role do usuário bate com o HTML
+        const temPermissao = rolesPermitidas.includes(usuarioRole) || 
+                             rolesPermitidas.some(role => usuarioRole.includes(role) || role.includes(usuarioRole));
+
+        if (!temPermissao) {
+            // Esconde de forma segura se não tiver permissão
+            elemento.style.setProperty('display', 'none', 'important'); 
+            
+            // Só valida redirecionamento de URL se for um link real (tag <a>) com href válido
+            const hrefAttr = elemento.getAttribute('href');
+            if (hrefAttr) {
                 const paginaAtual = window.location.pathname.toLowerCase();
-                const linkDaPagina = elemento.getAttribute('href').toLowerCase();
+                const linkDaPagina = hrefAttr.toLowerCase();
                 
                 if (paginaAtual.includes(linkDaPagina)) {
                     alert("Você não tem permissão para acessar esta página.");
-                    
-                    // 🔹 ALTERAÇÃO: Todos os usuários sem permissão na página atual são mandados para o Dashboard
                     window.location.href = "Dashboard.html";
                 }
             }
-        });
+        } else {
+            // Se o usuário tem permissão, garante que o elemento vai aparecer (remove o display: none se houver)
+            elemento.style.removeProperty('display');
+        }
     });
-})();
+}
+
+// 💡 Executa automaticamente assim que a página estrutural carregar
+document.addEventListener("DOMContentLoaded", verificarEControlarAcesso);
