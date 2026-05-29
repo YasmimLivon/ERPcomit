@@ -1,5 +1,5 @@
 const TOKEN_KEY = "app_auth_token";
-const apifinanceiro = "http://localhost:5243/api/Financeiro";
+const apifinanceiro = "http://localhost:5000/api/Financeiro";
 
 // botao De Sair Global
 const btnSair = document.getElementById("btn-sair");

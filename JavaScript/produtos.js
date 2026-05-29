@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const TOKEN_KEY = "app_auth_token";
 
-    const API_GET = "http://localhost:5243/api/Produtos";
-    const API_POST = "http://localhost:5243/api/Produtos/cadastrar";
+    const API_GET = "http://localhost:5000/api/Produtos";
+    const API_POST = "http://localhost:5000/api/Produtos/cadastrar";
 
     // 🔹 LOGOUT
     document.getElementById("btn-sair")?.addEventListener("click", () => {

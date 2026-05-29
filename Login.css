@@ -97,6 +97,9 @@ input:focus {
 
 .Login {
     margin-top: 10px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
 }
 @keyframes smoothPageIn {
     0% {

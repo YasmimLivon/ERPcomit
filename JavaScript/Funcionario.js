@@ -1,5 +1,5 @@
 const TOKEN_KEY = "app_auth_token";
-const BASE_URL = "http://localhost:5243/api/Funcionarios";
+const BASE_URL = "http://localhost:5000/api/Funcionarios";
 
 let listaFuncionariosGlobal = []; // Armazena a lista completa vinda do servidor para busca/filtro
 

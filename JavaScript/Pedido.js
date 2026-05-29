@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const TOKEN_KEY = "app_auth_token";
-    const API_BASE = "http://localhost:5243/api/Pedidos";
-    const API_PARCEIROS = "http://localhost:5243/api/Parceiros/Get-Clientes";
-    const API_PRODUTOS = "http://localhost:5243/api/Produtos";
-    const API_FINANCEIRO = "http://localhost:5243/api/Financeiro"; // 🔹 Adicionado para integração
+    const API_BASE = "http://localhost:5000/api/Pedidos";
+    const API_PARCEIROS = "http://localhost:5000/api/Parceiros/Get-Clientes";
+    const API_PRODUTOS = "http://localhost:5000/api/Produtos";
+    const API_FINANCEIRO = "http://localhost:5000/api/Financeiro"; // 🔹 Adicionado para integração
 
     // 🔹 LOGOUT
     document.getElementById("btn-sair")?.addEventListener("click", () => {

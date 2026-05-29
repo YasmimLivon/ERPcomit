@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const TOKEN_KEY = "app_auth_token";
-    const URL_DASHBOARD = "http://localhost:5243/api/Financeiro";
+    const URL_DASHBOARD = "http://localhost:5000/api/Financeiro";
 
     // 🔹 CONFIGURAÇÃO DO BOTÃO SAIR
     const btnSair = document.getElementById("btn-sair");

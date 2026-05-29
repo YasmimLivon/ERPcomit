@@ -8,8 +8,8 @@ if (btnSair) {
   });
 }
 
-const API_URL = "http://localhost:5243/api/Estoque";
-const API_PRODUTOS = "http://localhost:5243/api/Produtos";
+const API_URL = "http://localhost:5000/api/Estoque";
+const API_PRODUTOS = "http://localhost:5000/api/Produtos";
 
 const btnEntrada = document.querySelector(".btn-entrada");
 const btnSaida = document.querySelector(".btn-saida");
