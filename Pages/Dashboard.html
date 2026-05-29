@@ -1,69 +1,139 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winx - Dashboard</title>
-    <link rel="icon" href="../img/Logo.png" type="image/png">
-    <link rel="stylesheet" href="../css/Dashboard.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Winxs - Dashboard</title>
+    <link rel="icon" href="../img/Logo.png" type="image/png" />
+    <link rel="stylesheet" href="../css/Dashboard.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Open+Sans&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="app-card">
-        <nav class="sidebar" id="sidebar-menu">
-            <div class="logo-winx">
-                <img src="../img/Logo.png" alt="Logo">
-            </div>
-            <a href="Dashboard.html" class="nav-item active">Dashboard</a>
-            <a href="ListagemProdutos.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
-            <a href="Pedido.html" class="nav-item data-role-only" data-allowed="admin,funcionarios,cliente">Pedidos</a>
-            <a href="itempedido.html" class="nav-item data-role-only" data-allowed="admin,funcionarios,cliente">Vendas</a>
-            <a href="Estoque.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
-            <a href="Forne&Cli.html" class="nav-item data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
-            <a href="Funcionario.html" class="nav-item data-role-only" data-allowed="funcionarios">Funcionários</a>
-            <a href="folhadepagamento.html" class="nav-item data-role-only" data-allowed="funcionarios">Folha de Pagamento</a>
-            <a href="Financeiro.html" class="nav-item data-role-only" data-allowed="funcionarios">Financeiro</a>
-        </nav>
-      
-        <div class="content-area">
-            <div class="area-login">
-                <button class="btn-sair" id="btn-sair">Sair</button>
-            </div>
-
-            <header class="content-header">
-                <h1>Painel de Indicadores Gerais</h1>
-            </header>
-
-            <div class="dashboard-grid">
-                <div class="card-metrica card-total">
-                    <h3>Total de Contas</h3>
-                    <p id="total-contas">0</p>
-                </div>
-                <div class="card-metrica card-pago">
-                    <h3>Total Pago</h3>
-                    <p id="total-pago">R$ 0,00</p>
-                </div>
-                <div class="card-metrica card-pendente">
-                    <h3>Total Pendente</h3>
-                    <p id="total-pendente">R$ 0,00</p>
-                </div>
-            </div>
-
-            <div class="charts-container">
-                <div class="chart-box">
-                    <canvas id="graficoStatus"></canvas>
-                </div>
-                <div class="chart-box">
-                    <canvas id="graficoTipos"></canvas>
-                </div>
-            </div>
+      <nav class="sidebar" id="sidebar-menu">
+        <div class="logo-winx">
+          <img src="../img/Logo.png" alt="Logo" />
         </div>
+        <a href="Dashboard.html" class="nav-item active">Dashboard</a>
+        <a
+          href="ListagemProdutos.Html"
+          class="nav-item data-role-only"
+          data-allowed="funcionarios,fornecedor,cliente"
+          >Produtos</a
+        >
+        <a
+          href="Pedido.html"
+          class="nav-item data-role-only"
+          data-allowed="admin,funcionarios,cliente"
+          >Pedidos</a
+        >
+        <a
+          href="Estoque.Html"
+          class="nav-item data-role-only"
+          data-allowed="funcionarios,fornecedor"
+          >Estoque</a
+        >
+        <a
+          href="Forne&Cli.html"
+          class="nav-item data-role-only"
+          data-allowed="funcionarios"
+          >Fornecedores e Clientes</a
+        >
+        <a
+          href="Funcionario.html"
+          class="nav-item data-role-only"
+          data-allowed="funcionarios"
+          >Funcionários</a
+        >
+        <a
+          href="folhadepagamento.html"
+          class="nav-item data-role-only"
+          data-allowed="funcionarios"
+          >Folha de Pagamento</a
+        >
+        <a
+          href="Financeiro.html"
+          class="nav-item data-role-only"
+          data-allowed="funcionarios"
+          >Financeiro</a
+        >
+      </nav>
+
+      <div class="content-area">
+        <div class="area-login">
+          <button class="btn-sair" id="btn-sair">Sair</button>
+        </div>
+        
+        <section class="data-role-only" data-allowed="funcionarios">
+          <header class="content-header">
+            <h1>Painel de Indicadores Gerais</h1>
+          </header>
+
+          <div class="dashboard-grid">
+            <div class="card-metrica card-total">
+              <h3>Total de Contas</h3>
+              <p id="total-contas">0</p>
+            </div>
+            <div class="card-metrica card-pago">
+              <h3>Total Pago</h3>
+              <p id="total-pago">R$ 0,00</p>
+            </div>
+            <div class="card-metrica card-pendente">
+              <h3>Total Pendente</h3>
+              <p id="total-pendente">R$ 0,00</p>
+            </div>
+          </div>
+
+          <div class="charts-container">
+            <div class="chart-box">
+              <canvas id="graficoStatus"></canvas>
+            </div>
+            <div class="chart-box">
+              <canvas id="graficoTipos"></canvas>
+            </div>
+          </div>
+        </section>
+        <br/><br/>
+
+        <section id="indicadores-pedidos" class="data-role-only" data-allowed="funcionarios,fornecedor,cliente">
+          <header class="content-header">
+            <h1>Painel de Indicadores de Pedidos</h1>
+          </header>
+
+          <div class="dashboard-grid">
+            <div class="card-metrica card-total-pedidos">
+              <h3>Total de Pedidos</h3>
+              <p id="total-pedidos">0</p>
+            </div>
+            <div class="card-metrica card-pedidos-pagos">
+              <h3>Total Pago</h3>
+              <p id="total-pago-pedidos">R$ 0,00</p>
+            </div>
+            <div class="card-metrica card-pedidos-pendentes">
+              <h3>Total Pendente</h3>
+              <p id="total-pendente-pedidos">R$ 0,00</p>
+            </div>
+          </div>
+
+          <div class="charts-container">
+            <div class="chart-box">
+              <canvas id="graficoStatusPedidos"></canvas>
+            </div>
+            <div class="chart-box">
+              <canvas id="graficoTiposPedidos"></canvas>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
 
     <script src="../JavaScript/Dashboard.js"></script>
     <script src="../auth-guard.js"></script>
-</body>
+  </body>
 </html>

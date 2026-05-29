@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winx - Folha de Pagamento</title>
+    <title>Winxs - Folha de Pagamento</title>
     <link rel="icon" href="../img/Logo.png" type="image/png">
     <link rel="stylesheet" href="../css/pagamentostyle.css">
 </head>
@@ -11,24 +11,22 @@
      <div class="app-card">
       <nav class="sidebar" id="sidebar-menu">
         <div class="logo-winx"><img src="../img/Logo.png" alt="Logo Winxs"></div>
-            <a href="Dashboard.html" class="nav-item  ">Dashboard</a>
+        <a href="Dashboard.html" class="nav-item">Dashboard</a>
         <a href="ListagemProdutos.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor,cliente">Produtos</a>
-        <a href="Pedido.html" class="nav-item  data-role-only" data-allowed="admin,funcionarios,cliente">Pedidos</a>
-    <a href="itempedido.html" class="nav-item data-role-only" data-allowed="admin,funcionarios,cliente">Vendas</a>
-    <a href="Estoque.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
-    <a href="Forne&Cli.html" class="nav-item data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
-    <a href="Funcionario.html" class="nav-item data-role-only" data-allowed="funcionarios">Funcionários</a>
-    <a href="folhadepagamento.html" class="nav-item active data-role-only" data-allowed="funcionarios">Folha de Pagamento</a>
-    <a href="Financeiro.html" class="nav-item data-role-only" data-allowed="funcionarios">Financeiro</a>
+        <a href="Pedido.html" class="nav-item data-role-only" data-allowed="admin,funcionarios,cliente">Pedidos</a>
+        <a href="Estoque.Html" class="nav-item data-role-only" data-allowed="funcionarios,fornecedor">Estoque</a>
+        <a href="Forne&Cli.html" class="nav-item data-role-only" data-allowed="funcionarios">Fornecedores e Clientes</a>
+        <a href="Funcionario.html" class="nav-item data-role-only" data-allowed="funcionarios">Funcionários</a>
+        <a href="folhadepagamento.html" class="nav-item active data-role-only" data-allowed="funcionarios">Folha de Pagamento</a>
+        <a href="Financeiro.html" class="nav-item data-role-only" data-allowed="funcionarios">Financeiro</a>
       </nav>
-      
 
       <div class="content-area">
             <div class="area-login">
                 <button class="btn-sair" id="btn-sair">Sair</button>
             </div>
 
-         <header class="content-header">
+            <header class="content-header">
                 <h1>Folha de Pagamento</h1>
                 <div class="Buttons-adfil">
                     <button class="btn-adicionar" id="btn-abrir-modal">Adicionar</button>
@@ -39,7 +37,7 @@
                 <table>
                     <thead>
                         <tr id="cabecalho">
-                           <th>Nome</th>
+                            <th>Nome</th>
                             <th>CPF</th>
                             <th>Cargo</th>
                             <th>Faltas</th>
@@ -48,78 +46,78 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody id="tabela-corpo">
-                        </tbody>
+                    <tbody id="tabela-corpo"></tbody>
                 </table>
             </div>
-        
-             </div> </div> <div id="modal-container" class="modal-overlay" style="display: none;">
-            <div class="modal-content">
+         </div> 
+     </div> 
+
+     <div id="modal-container" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
             <form id="form-cadastro">
-            <p class="subtitle">Cadastrar Folha de Pagamento</p>
+                <p class="subtitle">Cadastrar Folha de Pagamento</p>
 
-            <div class="input-group">
-            <label>Nome</label>
-            <input type="text" placeholder="Digite o nome..." id="nome">
-            </div>
+                <div class="input-group">
+                    <label>Nome</label>
+                    <input type="text" placeholder="Digite o nome..." id="nome" autocomplete="off" required>
+                </div>
 
-            
-            <div class="input-row">
-            <div id="cargo" class="input-group">
-            <label>Cargo</label>
-            <input type="text" id="cargo">
-            </div>
-            <div class="input-group">
-             <label>CPF</label>
-            <input type="number" id="cpf" required>
-            </div>
-            </div>
+                <div class="input-row">
+                    <div id="group-cargo" class="input-group">
+                        <label>Cargo</label>
+                        <input type="text" id="cargo">
+                    </div>
+                    <div class="input-group">
+                        <label>CPF</label>
+                        <input type="text" id="cpf" required>
+                    </div>
+                </div>
 
-            <div class="input-row">
-            <div id="salario-base" class="input-group">
-            <label>Salário Base</label>
-            <input type="number" id="salario-base">
-            </div>
-            <div class="input-group">
-             <label>Faltas</label>
-            <input type="number" id="faltas" required>
-            </div>
-            </div>
+                <div class="input-row">
+                    <div id="group-salario-base" class="input-group">
+                        <label>Salário Base</label>
+                        <input type="number" step="0.01" id="salario-base">
+                    </div>
+                    <div class="input-group">
+                        <label>Faltas</label>
+                        <input type="number" id="faltas" required>
+                    </div>
+                </div>
 
-            <div class="input-row">
-            <div id="impostos" class="input-group">
-            <label>Impostos</label>
-            <input type="number" id="impostos">
-            </div>
-            <div class="input-group">
-             <label>Horas Extras</label>
-            <input type="number" id="horas" required>
-            </div>
-            </div>
+                <div class="input-row">
+                    <div id="group-impostos" class="input-group">
+                        <label>Impostos</label>
+                        <input type="number" step="0.01" id="impostos">
+                    </div>
+                    <div class="input-group">
+                        <label>Horas Extras</label>
+                        <input type="number" id="horas" required>
+                    </div>
+                </div>
 
-            <div class="input-row">
-            <div id="salario-total" class="input-group">
-            <label>Salário Total</label>
-            <input type="number" id="salario-total">
-            </div>
-            <div class="input-group">
-             <label>INSS</label>
-            <input type="number" id="inss" required>
-            </div>
-            </div>
+                <div class="input-row">
+                    <div id="group-salario-total" class="input-group">
+                        <label>Salário Total</label>
+                        <input type="number" step="0.01" id="salario-total">
+                    </div>
+                    <div class="input-group">
+                        <label>INSS</label>
+                        <input type="number" step="0.01" id="inss" required>
+                    </div>
+                </div>
 
-            <div class="input-row">
-            <div id="irrf" class="input-group">
-            <label>IRRF</label>
-            <input type="number" id="irrf">
-            </div>
-            <div class="input-group">
-             <label>Benefícios</label>
-            <input type="number" id="beneficios" required>
-            </div>
-            </div>
+                <div class="input-row">
+                    <div id="group-irrf" class="input-group">
+                        <label>IRRF</label>
+                        <input type="number" step="0.01" id="irrf">
+                    </div>
+                    <div class="input-group">
+                        <label>Benefícios</label>
+                        <input type="number" step="0.01" id="beneficios" required>
+                    </div>
+                </div>
 
-            <input type="hidden" id="role" value="folhadepagamento">
+                <input type="hidden" id="role" value="folhadepagamento">
 
                 <div class="modal-actions">
                     <button type="button" class="btn-cancelar" id="btn-fechar-modal">Cancelar</button>
@@ -127,9 +125,9 @@
                 </div>
             </form>
         </div>
-        </div>
+    </div>
        
-     <script src="../JavaScript/FolhaPagamento.js"></script>
-     <script src="../auth-guard.js"></script>
+    <script src="../JavaScript/FolhaPagamento.js"></script>
+    <script src="../auth-guard.js"></script>
 </body>
 </html>
