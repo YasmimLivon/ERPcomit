@@ -38,16 +38,23 @@ function renderizarTabela(lista) {
     const corpoTabela = document.getElementById('tabela-corpo');
     if (!corpoTabela) return;
 
+    if (!lista || !Array.isArray(lista)) {
+        corpoTabela.innerHTML = "";
+        return;
+    }
+
     corpoTabela.innerHTML = lista.map(f => `
         <tr>
             <td>${f.nome}</td>
             <td>${f.email}</td>
-            <td>${f.telefone}</td>
+            <td>${f.telefone || '---'}</td>
             <td>${f.cargo}</td>
-            <td>R$ ${parseFloat(f.salario).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
-            <td style="display: flex; gap: 10px;">
-                <button class="btn-edit" onclick="editarFuncionario(${f.id})">Editar</button>
-                <button class="btn-delete" onclick="excluirFuncionario(${f.id})">🗑️</button>
+            <td>R$ ${parseFloat(f.salario || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+            <td>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-edit" onclick="editarFuncionario(${f.id})">Editar</button>
+                    <button class="btn-delete" onclick="excluirFuncionario(${f.id})">🗑️</button>
+                </div>
             </td>
         </tr>
     `).join('');
@@ -82,14 +89,14 @@ const getFormData = () => ({
     email: document.getElementById('email').value,
     telefone: document.getElementById('telefone').value,
     cargo: document.getElementById('cargo-select').value,
-    salario: parseFloat(document.getElementById('salario').value),
+    salario: parseFloat(document.getElementById('salario').value) || 0,
     password: document.getElementById('senha')?.value || ""
 });
 
 async function manipularSubmit(e) {
     e.preventDefault();
     const btnSalvar = document.getElementById('btn-salvar-modal');
-    const id = btnSalvar.dataset.idAtual;
+    const id = btnSalvar ? btnSalvar.dataset.idAtual : null;
     const dados = getFormData();
 
     try {
@@ -114,16 +121,19 @@ window.editarFuncionario = async function(id) {
         const f = listaFuncionariosGlobal.find(item => item.id === id);
         if (!f) return;
 
-        document.getElementById('nome').value = f.nome;
-        document.getElementById('email').value = f.email;
+        document.getElementById('nome').value = f.nome || '';
+        document.getElementById('email').value = f.email || '';
         document.getElementById('telefone').value = f.telefone || '';
-        document.getElementById('cargo-select').value = f.cargo;
-        document.getElementById('salario').value = f.salario;
+        document.getElementById('cargo-select').value = f.cargo || '';
+        document.getElementById('salario').value = f.salario || 0;
         
         const btnSalvar = document.getElementById('btn-salvar-modal');
-        btnSalvar.dataset.idAtual = id;
-        btnSalvar.innerText = "Atualizar";
-        document.getElementById('modal-container').style.display = 'flex';
+        if (btnSalvar) {
+            btnSalvar.dataset.idAtual = id;
+            btnSalvar.innerText = "Atualizar";
+        }
+        const modal = document.getElementById('modal-container');
+        if (modal) modal.style.display = 'flex';
     } catch (error) {
         alert("Erro ao carregar dados para edição.");
     }
@@ -142,10 +152,9 @@ window.excluirFuncionario = async function(id) {
 
 // --- Gerenciamento do Modal e Eventos ---
 
-const modal = document.getElementById('modal-container');
-const formCadastro = document.getElementById('form-cadastro');
-
 const fecharModal = () => {
+    const modal = document.getElementById('modal-container');
+    const formCadastro = document.getElementById('form-cadastro');
     if (modal) modal.style.display = 'none';
     if (formCadastro) formCadastro.reset();
     const btnSalvar = document.getElementById('btn-salvar-modal');
@@ -158,14 +167,30 @@ const fecharModal = () => {
 // --- Inicialização ---
 
 document.addEventListener('DOMContentLoaded', () => {
+    const formCadastro = document.getElementById('form-cadastro');
+    
+    // Carrega a listagem base de funcionários
+    carregarTabeladeFuncionarios();
+
+    // 📜 CONTROLE DE SCROLL AUTOMÁTICO PARA A LISTAGEM DE FUNCIONÁRIOS
+    const tabelaCorpo = document.getElementById('tabela-corpo');
+    if (tabelaCorpo) {
+        const tabelaPai = tabelaCorpo.closest('table')?.parentElement;
+        if (tabelaPai) {
+            tabelaPai.style.maxHeight = "500px"; // Limita o tamanho vertical máximo do box
+            tabelaPai.style.overflowY = "auto";  // Ativa a barra de rolagem (scroll)
+            tabelaPai.style.overflowX = "auto";  // Garante responsividade horizontal
+        }
+    }
+
     if (formCadastro) {
-        carregarTabeladeFuncionarios();
         formCadastro.addEventListener('submit', manipularSubmit);
     }
 
     document.getElementById('btn-abrir-modal')?.addEventListener('click', () => {
         fecharModal(); // Limpa antes de abrir novo
-        modal.style.display = 'flex';
+        const modal = document.getElementById('modal-container');
+        if (modal) modal.style.display = 'flex';
     });
 
     document.getElementById('btn-fechar-modal')?.addEventListener('click', fecharModal);
@@ -176,4 +201,14 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem(TOKEN_KEY);
         location.href = "../Login.html";
     });
+
+    // Fechar se clicar fora da caixa branca do modal
+    const modalContainer = document.getElementById('modal-container');
+    if (modalContainer) {
+        window.addEventListener('click', (event) => {
+            if (event.target === modalContainer) {
+                fecharModal();
+            }
+        });
+    }
 });

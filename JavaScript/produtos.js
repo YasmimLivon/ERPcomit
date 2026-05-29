@@ -36,8 +36,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 🔹 MODAL
-    if (openModalBtn) openModalBtn.onclick = () => modal.style.display = "flex";
-    if (closeModalBtn) closeModalBtn.onclick = () => modal.style.display = "none";
+    if (openModalBtn) openModalBtn.onclick = () => { if (modal) modal.style.display = "flex"; };
+    if (closeModalBtn) closeModalBtn.onclick = () => { if (modal) modal.style.display = "none"; };
+
+    // Fechar se clicar fora da caixa branca do modal
+    if (modal) {
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+    }
 
     // 🔹 LISTA
     let listaProdutos = [];
@@ -59,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const data = await res.json();
-            listaProdutos = data;
+            listaProdutos = data || [];
             renderTabela(listaProdutos);
 
         } catch (error) {
@@ -73,24 +82,27 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!tabela) return;
         tabela.innerHTML = "";
 
-        lista.forEach(p => {
-            tabela.innerHTML += `
-                <tr>
-                    <td>${p.nome}</td>
-                    <td>R$ ${(p.precoUnitario ?? 0).toFixed(2)}</td>
-                    <td>${p.codigo ?? "-"}</td>
-                    <td>${p.estoqueAtual ?? 0}</td>
-                    <td>${p.tipo ?? "-"}</td>
-                    <td>${p.ativo ? "✔️" : "❌"}</td>
-                    <td>
-                        <button class="btn-delete" data-id="${p.id}">🗑️</button>
-                    </td>
-                </tr>
-            `;
-        });
+        if (lista && Array.isArray(lista)) {
+            lista.forEach(p => {
+                const precoUnitario = parseFloat(p.precoUnitario ?? 0);
+                tabela.innerHTML += `
+                    <tr>
+                        <td>${p.nome}</td>
+                        <td>${precoUnitario.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                        <td>${p.codigo ?? "-"}</td>
+                        <td>${p.estoqueAtual ?? 0}</td>
+                        <td>${p.tipo ?? "-"}</td>
+                        <td>${p.ativo ? "✔️" : "❌"}</td>
+                        <td>
+                            <button class="btn-delete" data-id="${p.id}">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
     }
 
-    // 🔹 EXCLUIR (CORRIGIDO)
+    // 🔹 EXCLUIR
     if (tabela) {
         tabela.addEventListener("click", async (e) => {
             if (!e.target.classList.contains("btn-delete")) return;
@@ -100,7 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!confirm("Deseja excluir este produto?")) return;
 
             try {
-                // 🔥 SINTAXE CORRIGIDA AQUI: O '$' agora está corretamente dentro do padrão do template literal
                 const res = await fetch(`${API_GET}/${id}`, {
                     method: "DELETE",
                     headers: {
@@ -141,20 +152,21 @@ document.addEventListener("DOMContentLoaded", () => {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            if (!nomeInput.value.trim()) {
+            if (!nomeInput || !nomeInput.value.trim()) {
                 alert("Nome é obrigatório!");
                 return;
             }
 
+            const rawPreco = precoInput ? precoInput.value.toString() : "0";
             const body = {
                 id: 0,
                 nome: nomeInput.value.trim(),
                 descricao: nomeInput.value.trim(),
-                precoUnitario: Number(precoInput.value.replace(",", ".")) || 0,
-                estoqueAtual: Number(quantidadeInput.value) || 0,
-                codigo: codigoInput.value.trim() || "SEM-CODIGO",
-                tipo: tipoInput.value.trim() || "Geral",
-                ativo: ativoInput.checked
+                precoUnitario: Number(rawPreco.replace(",", ".")) || 0,
+                estoqueAtual: quantidadeInput ? Number(quantidadeInput.value) : 0,
+                codigo: (codigoInput && codigoInput.value.trim()) || "SEM-CODIGO",
+                tipo: (tipoInput && tipoInput.value.trim()) || "Geral",
+                ativo: ativoInput ? ativoInput.checked : true
             };
 
             console.log("ENVIANDO:", body);
@@ -182,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 alert("Produto cadastrado com sucesso!");
 
-                modal.style.display = "none";
+                if (modal) modal.style.display = "none";
                 form.reset();
 
                 carregarProdutos();
@@ -194,6 +206,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 🔹 INIT
+    // 🔹 INIT E CONTROLE DE CONTAINER DE SCROLL
     carregarProdutos();
+
+    // 📜 ADICIONA COMPORTAMENTO DE SCROLL AUTOMÁTICO NA TABELA CASO ELA SEJA MUITO GRANDE
+    const tabelaCorpo = document.getElementById('tabela-corpo');
+    if (tabelaCorpo) {
+        const tabelaPai = tabelaCorpo.closest('table')?.parentElement;
+        if (tabelaPai) {
+            tabelaPai.style.maxHeight = "500px"; // Teto visual padrão do painel
+            tabelaPai.style.overflowY = "auto";  // Ativa a rolagem vertical interna
+            tabelaPai.style.overflowX = "auto";  // Garante integridade horizontal em resoluções menores
+        }
+    }
 });
