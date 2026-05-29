@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const TOKEN_KEY = "app_auth_token";
-    const API_BASE = "http://localhost:5000/api/Pedidos";
-    const API_PARCEIROS = "http://localhost:5000/api/Parceiros/Get-Clientes";
-    const API_PRODUTOS = "http://localhost:5000/api/Produtos";
-    const API_FINANCEIRO = "http://localhost:5000/api/Financeiro"; // 🔹 Adicionado para integração
+    const API_BASE = "http://localhost:5243/api/Pedidos";
+    const API_PARCEIROS = "http://localhost:5243/api/Parceiros/Get-Clientes";
+    const API_PRODUTOS = "http://localhost:5243/api/Produtos";
+    const API_FINANCEIRO = "http://localhost:5243/api/Financeiro"; 
 
     // 🔹 LOGOUT
     document.getElementById("btn-sair")?.addEventListener("click", () => {
@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Configura a data e hora local de hoje no input datetime-local
     function resetarDataInput() {
+        if (!dataPedidoInput) return;
         const agora = new Date();
         agora.setMinutes(agora.getMinutes() - agora.getTimezoneOffset());
         dataPedidoInput.value = agora.toISOString().slice(0, 16);
@@ -56,24 +57,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 🔹 INTERAÇÕES DO MODAL
-    openModalBtn.onclick = () => {
-        form.reset();
-        itensCarrinhoTemporario = [];
-        atualizarVisualizacaoCarrinho();
-        resetarDataInput();
-        modal.style.display = "flex";
-    };
+    if (openModalBtn) {
+        openModalBtn.onclick = () => {
+            if (form) form.reset();
+            itensCarrinhoTemporario = [];
+            atualizarVisualizacaoCarrinho();
+            resetarDataInput();
+            if (modal) modal.style.display = "flex";
+        };
+    }
     
-    closeModalBtn.onclick = () => modal.style.display = "none";
+    if (closeModalBtn) {
+        closeModalBtn.onclick = () => {
+            if (modal) modal.style.display = "none";
+        };
+    }
 
-    window.onclick = (e) => {
-        if (e.target === modal) {
+    window.addEventListener('click', (e) => {
+        if (modal && e.target === modal) {
             modal.style.display = "none";
         }
-    };
+    });
 
     // 🔹 CARREGAR LISTAGEM DE PRODUTOS NO SELECT
     async function carregarProdutosNoSelect() {
+        if (!produtoIdInput) return;
         try {
             const response = await fetch(API_PRODUTOS);
             if (!response.ok) throw new Error("Erro na requisição de produtos");
@@ -81,13 +89,15 @@ document.addEventListener("DOMContentLoaded", () => {
             cacheProdutos = await response.json();
             produtoIdInput.innerHTML = '<option value="">Selecione um produto</option>';
 
-            cacheProdutos.forEach(prod => {
-                produtoIdInput.innerHTML += `
-                    <option value="${prod.id}">
-                        ${prod.nome} (Estoque: ${prod.estoqueAtual ?? 0})
-                    </option>
-                `;
-            });
+            if (cacheProdutos && Array.isArray(cacheProdutos)) {
+                cacheProdutos.forEach(prod => {
+                    produtoIdInput.innerHTML += `
+                        <option value="${prod.id}">
+                            ${prod.nome} (Estoque: ${prod.estoqueAtual ?? 0})
+                        </option>
+                    `;
+                });
+            }
         } catch (error) {
             console.error("Erro ao carregar produtos para o formulário:", error);
             produtoIdInput.innerHTML = '<option value="">Erro ao carregar produtos</option>';
@@ -95,60 +105,66 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Gatilho para preencher o preço unitário sugerido ao mudar o produto
-    produtoIdInput.addEventListener("change", () => {
-        const idSelecionado = Number(produtoIdInput.value);
-        const produtoEncontrado = cacheProdutos.find(p => p.id === idSelecionado);
-        
-        if (produtoEncontrado) {
-            precoUnitarioInput.value = (produtoEncontrado.preco || produtoEncontrado.precoVenda || 0).toFixed(2);
-            quantidadeInput.value = 1; 
-        } else {
-            precoUnitarioInput.value = "";
-            quantidadeInput.value = "";
-        }
-    });
+    if (produtoIdInput) {
+        produtoIdInput.addEventListener("change", () => {
+            const idSelecionado = Number(produtoIdInput.value);
+            const produtoEncontrado = cacheProdutos.find(p => p.id === idSelecionado);
+            
+            if (produtoEncontrado && precoUnitarioInput && quantidadeInput) {
+                precoUnitarioInput.value = (produtoEncontrado.preco || produtoEncontrado.precoVenda || 0).toFixed(2);
+                quantidadeInput.value = 1; 
+            } else if (precoUnitarioInput && quantidadeInput) {
+                precoUnitarioInput.value = "";
+                quantidadeInput.value = "";
+            }
+        });
+    }
 
     // 🔹 ADICIONAR PRODUTO NO CARRINHO TEMPORÁRIO (AO CLICAR NO BOTÃO ➕)
-    btnAdicionarProduto.addEventListener("click", () => {
-        const produtoId = Number(produtoIdInput.value);
-        const quantidade = Number(quantidadeInput.value);
-        const precoUnitario = Number(precoUnitarioInput.value);
+    if (btnAdicionarProduto) {
+        btnAdicionarProduto.addEventListener("click", () => {
+            if (!produtoIdInput || !quantidadeInput || !precoUnitarioInput) return;
 
-        if (!produtoId || quantidade <= 0 || isNaN(precoUnitario) || precoUnitario < 0) {
-            alert("⚠️ Selecione um produto and informe quantidade e preço válidos.");
-            return;
-        }
+            const produtoId = Number(produtoIdInput.value);
+            const quantidade = Number(quantidadeInput.value);
+            const precoUnitario = Number(precoUnitarioInput.value);
 
-        const produtoEncontrado = cacheProdutos.find(p => p.id === produtoId);
-        const nomeProduto = produtoEncontrado ? produtoEncontrado.nome : `Produto #${produtoId}`;
-        const totalItem = quantidade * precoUnitario;
+            if (!produtoId || quantidade <= 0 || isNaN(precoUnitario) || precoUnitario < 0) {
+                alert("⚠️ Selecione um produto e informe quantidade e preço válidos.");
+                return;
+            }
 
-        // Adiciona à lista local da sessão do modal
-        itensCarrinhoTemporario.push({
-            id: 0,
-            produtoId: produtoId,
-            quantidade: quantidade,
-            precoUnitario: precoUnitario,
-            total: totalItem, 
-            nomeVisual: nomeProduto 
+            const produtoEncontrado = cacheProdutos.find(p => p.id === produtoId);
+            const nomeProduto = produtoEncontrado ? produtoEncontrado.nome : `Produto #${produtoId}`;
+            const totalItem = quantidade * precoUnitario;
+
+            itensCarrinhoTemporario.push({
+                id: 0,
+                produtoId: produtoId,
+                quantidade: quantity => quantidade,
+                quantidade: quantidade,
+                precoUnitario: precoUnitario,
+                total: totalItem, 
+                nomeVisual: nomeProduto 
+            });
+
+            produtoIdInput.value = "";
+            quantidadeInput.value = "";
+            precoUnitarioInput.value = "";
+
+            atualizarVisualizacaoCarrinho();
         });
-
-        // Reseta apenas os campos do bloco de item para permitir nova inserção
-        produtoIdInput.value = "";
-        quantidadeInput.value = "";
-        precoUnitarioInput.value = "";
-
-        atualizarVisualizacaoCarrinho();
-    });
+    }
 
     // Atualiza a listagem visual do preview interno e soma o valor total geral
     function atualizarVisualizacaoCarrinho() {
+        if (!listaItensPreview) return;
         listaItensPreview.innerHTML = "";
         let somaTotalPedido = 0;
 
         if (itensCarrinhoTemporario.length === 0) {
             listaItensPreview.innerHTML = '<li style="color: #999; font-style: italic;">Nenhum produto adicionado ainda.</li>';
-            totalInput.value = "0.00";
+            if (totalInput) totalInput.value = "0.00";
             return;
         }
 
@@ -157,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const li = document.createElement("li");
             li.style.display = "flex";
-            li.style.justify = "space-between";
+            li.style.justifyContent = "space-between";
             li.style.alignItems = "center";
             li.style.marginBottom = "6px";
             li.style.paddingBottom = "4px";
@@ -170,17 +186,19 @@ document.addEventListener("DOMContentLoaded", () => {
             listaItensPreview.appendChild(li);
         });
 
-        totalInput.value = somaTotalPedido.toFixed(2);
+        if (totalInput) totalInput.value = somaTotalPedido.toFixed(2);
     }
 
     // Permite remover um item inserido incorretamente clicando no ❌
-    listaItensPreview.addEventListener("click", (e) => {
-        if (e.target.classList.contains("remover-item")) {
-            const indexParaRemover = Number(e.target.getAttribute("data-index"));
-            itensCarrinhoTemporario.splice(indexParaRemover, 1);
-            atualizarVisualizacaoCarrinho();
-        }
-    });
+    if (listaItensPreview) {
+        listaItensPreview.addEventListener("click", (e) => {
+            if (e.target.classList.contains("remover-item")) {
+                const indexParaRemover = Number(e.target.getAttribute("data-index"));
+                itensCarrinhoTemporario.splice(indexParaRemover, 1);
+                atualizarVisualizacaoCarrinho();
+            }
+        });
+    }
 
     // 🔹 CARREGAR MAPA DE NOMES DE CLIENTES
     async function carregarClientes() {
@@ -188,11 +206,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const res = await fetch(API_PARCEIROS, { headers: getAuthHeaders() });
             if (res.ok) {
                 const clientes = await res.json();
-                clientes.forEach(c => {
-                    const id = c.id || c.Id;
-                    const nome = c.nome || c.Nome;
-                    mapaClientes[id] = nome;
-                });
+                if (clientes && Array.isArray(clientes)) {
+                    clientes.forEach(c => {
+                        const id = c.id || c.Id;
+                        const nome = c.nome || c.Nome;
+                        mapaClientes[id] = nome;
+                    });
+                }
             }
         } catch (error) {
             console.error("Erro ao cruzar dados de clientes:", error);
@@ -211,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const data = await res.json();
-            listaPedidos = data;
+            listaPedidos = data || [];
             renderTabela(listaPedidos);
         } catch (error) {
             console.error("Erro na carga inicial do JS:", error);
@@ -219,139 +239,161 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderTabela(lista) {
+        if (!tabela) return;
         tabela.innerHTML = "";
-        lista.forEach(p => {
-            const dataFormatada = p.dataPedido ? new Date(p.dataPedido).toLocaleDateString('pt-BR') : "-";
-            const nomeCliente = mapaClientes[p.clienteId] || `Cliente #${p.clienteId}`;
-            
-            tabela.innerHTML += `
-                <tr>
-                    <td><strong>#${p.id}</strong></td>
-                    <td>${nomeCliente}</td>
-                    <td>${dataFormatada}</td>
-                    <td><span class="status-badge">${p.status ?? "Pendente"}</span></td>
-                    <td>R$ ${(p.total ?? 0).toFixed(2)}</td>
-                    <td>
-                        <button class="btn-delete" data-id="${p.id}">🗑️</button>
-                    </td>
-                </tr>
-            `;
-        });
+        
+        if (lista && Array.isArray(lista)) {
+            lista.forEach(p => {
+                const dataFormatada = p.dataPedido ? new Date(p.dataPedido).toLocaleDateString('pt-BR') : "-";
+                const nomeCliente = mapaClientes[p.clienteId] || `Cliente #${p.clienteId}`;
+                const totalPedido = parseFloat(p.total ?? 0);
+                
+                tabela.innerHTML += `
+                    <tr>
+                        <td><strong>#${p.id}</strong></td>
+                        <td>${nomeCliente}</td>
+                        <td>${dataFormatada}</td>
+                        <td><span class="status-badge">${p.status ?? "Pendente"}</span></td>
+                        <td>${totalPedido.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                        <td>
+                            <button class="btn-delete" data-id="${p.id}">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
     }
 
     // 🔹 EXCLUSÃO DE PEDIDOS (DELETE)
-    tabela.addEventListener("click", async (e) => {
-        if (!e.target.classList.contains("btn-delete")) return;
-        const id = e.target.getAttribute("data-id");
-        if (!confirm(`Deseja realmente remover o pedido #${id}?`)) return;
+    if (tabela) {
+        tabela.addEventListener("click", async (e) => {
+            if (!e.target.classList.contains("btn-delete")) return;
+            const id = e.target.getAttribute("data-id");
+            if (!confirm(`Deseja realmente remover o pedido #${id}?`)) return;
 
-        try {
-            const res = await fetch(`${API_BASE}/${id}`, {
-                method: "DELETE",
-                headers: getAuthHeaders()
-            });
-            if (res.ok) {
-                alert("Pedido excluído!");
-                carregarPedidos();
+            try {
+                const res = await fetch(`${API_BASE}/${id}`, {
+                    method: "DELETE",
+                    headers: getAuthHeaders()
+                });
+                if (res.ok) {
+                    alert("Pedido excluído!");
+                    carregarPedidos();
+                }
+            } catch (error) {
+                alert("Erro na operação de exclusão.");
             }
-        } catch (error) {
-            alert("Erro na operação de exclusão.");
-        }
-    });
+        });
+    }
 
     // 🔹 FILTRO EM TEMPO REAL
-    filtroInput.addEventListener("input", () => {
-        const valor = filtroInput.value.trim().toLowerCase();
-        if (!valor) {
-            renderTabela(listaPedidos);
-            return;
-        }
-        const filtrados = listaPedidos.filter(p => {
-            const nomeCliente = (mapaClientes[p.clienteId] || "").toLowerCase();
-            const idCliente = (p.clienteId || "").toString();
-            return nomeCliente.includes(valor) || idCliente.includes(valor);
+    if (filtroInput) {
+        filtroInput.addEventListener("input", () => {
+            const valor = filtroInput.value.trim().toLowerCase();
+            if (!valor) {
+                renderTabela(listaPedidos);
+                return;
+            }
+            const filtrados = listaPedidos.filter(p => {
+                const nomeCliente = (mapaClientes[p.clienteId] || "").toLowerCase();
+                const idCliente = (p.clienteId || "").toString();
+                return nomeCliente.includes(valor) || idCliente.includes(valor);
+            });
+            renderTabela(filtrados);
         });
-        renderTabela(filtrados);
-    });
+    }
 
     // 🔹 SALVAR PEDIDO INTEGRADO À API (POST)
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+    if (form) {
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-        if (itensCarrinhoTemporario.length === 0) {
-            alert("❌ Erro: Insira ao menos um produto clicando em 'Adicionar Produto à Lista' antes de enviar!");
-            return;
-        }
-
-        const vlrTotalCalculado = Number(totalInput.value) || 0;
-        const valorDataPura = dataPedidoInput.value.split("T")[0]; 
-
-        const itensTratadosParaEnvio = itensCarrinhoTemporario.map(item => ({
-            id: 0,
-            produtoId: item.produtoId,
-            quantidade: item.quantidade,
-            precoUnitario: item.precoUnitario,
-            total: item.total 
-        }));
-
-        const body = {
-            id: 0,
-            clienteId: Number(clienteIdInput.value),
-            status: statusInput.value.trim(),
-            dataPedido: valorDataPura, 
-            total: vlrTotalCalculado,
-            itens: itensTratadosParaEnvio 
-        };
-
-        try {
-            const res = await fetch(API_BASE, {
-                method: "POST",
-                headers: getAuthHeaders(),
-                body: JSON.stringify(body)
-            });
-
-            if (!res.ok) {
-                const erroServidor = await res.text();
-                alert("Erro ao cadastrar novo pedido: " + erroServidor);
+            if (itensCarrinhoTemporario.length === 0) {
+                alert("❌ Erro: Insira ao menos um produto clicando em 'Adicionar' antes de enviar!");
                 return;
             }
 
-            // 🔹 INTEGRADO: Envia o faturamento do pedido diretamente para a tabela Financeiro do Dashboard
+            const vlrTotalCalculado = Number(totalInput.value) || 0;
+            const valorDataPura = dataPedidoInput.value.split("T")[0]; 
+
+            const itensTratadosParaEnvio = itensCarrinhoTemporario.map(item => ({
+                id: 0,
+                produtoId: item.produtoId,
+                quantidade: item.quantidade,
+                precoUnitario: item.precoUnitario,
+                total: item.total 
+            }));
+
+            const body = {
+                id: 0,
+                clienteId: Number(clienteIdInput.value),
+                status: statusInput.value.trim(),
+                dataPedido: valorDataPura, 
+                total: vlrTotalCalculado,
+                itens: itensTratadosParaEnvio 
+            };
+
             try {
-                const nomeClienteFaturamento = mapaClientes[body.clienteId] || `Cliente #${body.clienteId}`;
-                await fetch(API_FINANCEIRO, {
+                const res = await fetch(API_BASE, {
                     method: "POST",
                     headers: getAuthHeaders(),
-                    body: JSON.stringify({
-                        descricao: `Faturamento - Pedido Efetuado (${nomeClienteFaturamento})`,
-                        valor: vlrTotalCalculado,
-                        tipo: "Vendas", // Classificação para o gráfico de barras
-                        status: "Pago", // Como o pedido foi processado com sucesso, entra como receita realizada
-                        dataVencimento: valorDataPura
-                    })
+                    body: JSON.stringify(body)
                 });
-            } catch (errFin) {
-                console.error("Aviso: Pedido salvo, mas houve erro no envio ao fluxo de caixa:", errFin);
+
+                if (!res.ok) {
+                    const erroServidor = await res.text();
+                    alert("Erro ao cadastrar novo pedido: " + erroServidor);
+                    return;
+                }
+
+                // 🔹 INTEGRADO: Envia o faturamento do pedido diretamente para a tabela Financeiro
+                try {
+                    const nomeClienteFaturamento = mapaClientes[body.clienteId] || `Cliente #${body.clienteId}`;
+                    await fetch(API_FINANCEIRO, {
+                        method: "POST",
+                        headers: getAuthHeaders(),
+                        body: JSON.stringify({
+                            descricao: `Faturamento - Pedido Efetuado (${nomeClienteFaturamento})`,
+                            valor: vlrTotalCalculado,
+                            tipo: "Vendas", 
+                            status: "Pago", 
+                            dataVencimento: valorDataPura
+                        })
+                    });
+                } catch (errFin) {
+                    console.error("Aviso: Pedido salvo, mas houve erro no envio ao fluxo de caixa:", errFin);
+                }
+
+                alert("Pedido gravado e faturamento integrado com sucesso!");
+                if (modal) modal.style.display = "none";
+                
+                form.reset();
+                itensCarrinhoTemporario = [];
+                atualizarVisualizacaoCarrinho();
+                resetarDataInput();
+                
+                carregarPedidos();
+                carregarProdutosNoSelect(); 
+
+            } catch (error) {
+                console.error("ERRO POST PEDIDO:", error);
+                alert("Não foi possível estabelecer contato com o servidor da API.");
             }
+        });
+    }
 
-            alert("Pedido gravado e faturamento integrado com sucesso!");
-            modal.style.display = "none";
-            
-            form.reset();
-            itensCarrinhoTemporario = [];
-            atualizarVisualizacaoCarrinho();
-            resetarDataInput();
-            
-            carregarPedidos();
-            carregarProdutosNoSelect(); // Atualiza os números visuais do estoque no combo box
-
-        } catch (error) {
-            console.error("ERRO POST PEDIDO:", error);
-            alert("Não foi possível estabelecer contato com o servidor da API.");
-        }
-    });
-
-    // 🔹 DISPAROS INICIAIS
+    // 🔹 DISPAROS INICIAIS E AJUSTE DE LAYOUT (SCROLL)
     carregarProdutosNoSelect(); 
-    carregarPedidos();          
+    carregarPedidos(); 
+
+    // 📜 ATIVA O SCROLL NA TABELA CASO COMPORTE MUITOS PEDIDOS
+    const tabelaCorpo = document.getElementById('tabela-corpo');
+    if (tabelaCorpo) {
+        const tabelaPai = tabelaCorpo.closest('table')?.parentElement;
+        if (tabelaPai) {
+            tabelaPai.style.maxHeight = "500px"; // Altura limite fixada
+            tabelaPai.style.overflowY = "auto";  // Ativa rolagem vertical
+            tabelaPai.style.overflowX = "auto";  // Evita quebra lateral
+        }
+    }         
 });

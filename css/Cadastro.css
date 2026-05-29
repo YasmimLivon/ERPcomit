@@ -15,7 +15,12 @@ body {
   align-items: center;
   justify-content: center;
 }
-
+.center{
+  display: flex;
+  margin-top: 15px;
+  align-items: center;
+  justify-content: center;
+}
 .container {
   width: 100%;
   max-width: 1200px;

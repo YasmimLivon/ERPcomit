@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api";
+const API_URL = "http://localhost:5243/api";
 
 document.getElementById("registrationForm").onsubmit = async (e) => {
   e.preventDefault();

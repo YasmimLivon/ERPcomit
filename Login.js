@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://localhost:5243/api';
 const TOKEN_KEY = 'app_auth_token';
 
 // --- FUNÇÃO AUXILIAR: DECODIFICAR A ROLE DO TOKEN JWT ---
