@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5243/api";
+const API_URL = "https://winxs-api.azurewebsites.net/api";
 
 document.getElementById("registrationForm").onsubmit = async (e) => {
   e.preventDefault();
@@ -32,9 +32,9 @@ document.getElementById("registrationForm").onsubmit = async (e) => {
     if (res.ok) {
       alert("Conta criada com sucesso!");
       document.getElementById("registrationForm").reset();
-      
-  
-    window.location.href = "../Login.html";
+
+
+    window.location.href = "../Index.html";
     } else {
       const erroTxt = await res.text();
       alert("Erro ao criar conta: " + erroTxt);

@@ -1,5 +1,5 @@
 const TOKEN_KEY = "app_auth_token";
-const BASE_URL = "http://localhost:5243/api/Funcionarios";
+const BASE_URL = "https://winxs-api.azurewebsites.net/api/Funcionarios";
 
 let listaFuncionariosGlobal = []; // Armazena a lista completa vinda do servidor para busca/filtro
 
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('btn-sair')?.addEventListener('click', () => {
         localStorage.removeItem(TOKEN_KEY);
-        location.href = "../Login.html";
+        location.href = "../Index.html";
     });
 
     // Fechar se clicar fora da caixa branca do modal

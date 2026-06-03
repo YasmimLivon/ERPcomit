@@ -1,12 +1,12 @@
 const TOKEN_KEY = "app_auth_token";
-const apifinanceiro = "http://localhost:5243/api/Financeiro";
+const apifinanceiro = "https://winxs-api.azurewebsites.net/api/Financeiro";
 
 // Botão De Sair Global
 const btnSair = document.getElementById("btn-sair");
 if (btnSair) {
   btnSair.addEventListener("click", () => {
     localStorage.removeItem(TOKEN_KEY);
-    window.location.href = "../Login.html";
+    window.location.href = "../Index.html";
   });
 }
 
