@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const TOKEN_KEY = "app_auth_token";
-    const API_BASE = "http://localhost:5243/api/Pedidos";
-    const API_PRODUTOS = "http://localhost:5243/api/Produtos";
+    const API_BASE = "https://winxs-api.azurewebsites.net/api/Pedidos";
+    const API_PRODUTOS = "https://winxs-api.azurewebsites.net/api/Produtos";
 
     // 🔹 ELEMENTOS DA INTERFACE
     const modal = document.getElementById("pedidoModal");
@@ -441,6 +441,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("btn-sair")?.addEventListener("click", () => {
         localStorage.clear();
-        window.location.href = "../Login.html";
+        window.location.href = "../Index.html";
     });
 });

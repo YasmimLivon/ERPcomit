@@ -1,113 +1,85 @@
-const API_URL = 'http://localhost:5243/api';
+const API_URL = 'https://winxs-api.azurewebsites.net/api';
 const TOKEN_KEY = 'app_auth_token';
 
-// --- FUNÇÃO AUXILIAR: DECODIFICAR A ROLE DO TOKEN JWT ---
-function obterRoleDoToken(token) {
-    try {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const payload = JSON.parse(window.atob(base64));
-        
-        // Retorna a role procurando tanto pela propriedade curta quanto pelo padrão longo do .NET
-        return payload["role"] || payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-    } catch (e) {
-        console.error("Erro ao ler a hierarquia do token:", e);
-        return null;
-    }
-}
+const form = document.getElementById("form-login");
 
-// --- FUNÇÃO DE REDIRECIONAMENTO CORRIGIDA (TODOS PARA O DASHBOARD) ---
-function redirecionarPorHierarquia(token) {
-    const roleUsuario = obterRoleDoToken(token);
+if (form) {
+    const email = document.getElementById("login-email");
+    const senha = document.getElementById("login-senha");
+    const btn = document.getElementById("btn-login");
 
-    // Se o token possuir uma role válida (independente de qual for), vai direto para o Dashboard
-    if (roleUsuario) {
-        window.location.href = "../Pages/Dashboard.html"; 
-    } else {
-        // Se cair aqui, o token está corrompido ou sem permissões associadas
-        alert("⚠️ Usuário sem permissões configuradas no sistema.");
-        localStorage.removeItem(TOKEN_KEY);
-        window.location.href = "Login.html";
-    }
-}
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-function showMessage(texto, type = "error") {
-    const msgBox = document.getElementById("mensagemBox") || document.getElementById("MensagemBox");
-    if (!msgBox) return;
-    
-    msgBox.textContent = texto;
-    msgBox.className = type === "error" ? "msg-error" : "msg-success";
-    msgBox.style.display = "block";
-    msgBox.style.color = type === "error" ? "#ff4d4d" : "#2ecc71"; 
-
-    setTimeout(() => {
-        msgBox.style.display = "none";
-    }, 4000);
-}
-
-// Botao De Sair Global
-const btnSair = document.getElementById("btn-sair");
-if (btnSair) {
-    btnSair.addEventListener("click", () => {
-        localStorage.removeItem(TOKEN_KEY);
-        window.location.href = "Login.html";
-    });
-}
-
-// Login
-const loginForm = document.getElementById("form-login");
-if (loginForm) {
-    const loginEmail = document.getElementById("login-email");
-    const loginPassword = document.getElementById("login-senha");
-    const loginButton = document.getElementById("btn-login");
-
-    // Se já estiver logado antes, intercepta e redireciona direto para o Dashboard
-    const tokenSalvo = localStorage.getItem(TOKEN_KEY);
-    if (tokenSalvo) {
-        redirecionarPorHierarquia(tokenSalvo);
-    }
-
-    loginForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
         try {
-            loginButton.disabled = true;
-            loginButton.textContent = "Entrando...";
+            btn.disabled = true;
+            btn.textContent = "Entrando...";
+
+            // 🔥 ENVIO COMPATÍVEL COM QUALQUER BACKEND
+            const body = {
+                email: email.value,
+                senha: senha.value,
+                password: senha.value,
+                Email: email.value,
+                Password: senha.value
+            };
+
+            console.log("📤 Enviando:", body);
 
             const response = await fetch(`${API_URL}/Login/entrar`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email: loginEmail.value,
-                    password: loginPassword.value
-                })
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
             });
 
-            const dados = await response.json();
+            // 🔥 evita crash se API quebrar
+            let dados = {};
+            try {
+                dados = await response.json();
+            } catch {
+                console.warn("API não retornou JSON");
+            }
 
-            // Verificação específica para erro de credenciais
+            console.log("📥 Resposta:", response.status, dados);
+
+            // 🔴 ERROS
             if (!response.ok) {
                 if (response.status === 401) {
-                    alert("❌ Senha incorreta ou usuário não encontrado!"); 
+                    alert("❌ Email ou senha incorretos");
+                } else if (response.status === 500) {
+                    alert("💥 Erro interno no servidor (backend)");
+                } else {
+                    alert("Erro ao fazer login");
                 }
-                throw new Error(dados.message || "Erro ao fazer login");
+                return;
             }
 
-            // Se a API retornou o token com sucesso
-            if (dados.token) {
-                // 1. Salva o token no navegador
-                localStorage.setItem(TOKEN_KEY, dados.token);
-                
-                // 2. Executa a análise e joga o usuário para o Dashboard
-                redirecionarPorHierarquia(dados.token);
+            // 🔥 TOKEN FLEXÍVEL
+            const token =
+                dados.token ||
+                dados.Token ||
+                dados.accessToken;
+
+            if (!token) {
+                console.error("Sem token:", dados);
+                alert("API não retornou token");
+                return;
             }
 
-        } catch (error) {
-            if (typeof showMessage === "function") {
-                showMessage(error.message, "error");
-            }
+            localStorage.setItem(TOKEN_KEY, token);
+
+            alert("Login realizado com sucesso!");
+
+            window.location.href = "../Pages/Dashboard.html";
+
+        } catch (err) {
+            console.error("Erro geral:", err);
+            alert("Erro de conexão com servidor");
         } finally {
-            loginButton.disabled = false;
-            loginButton.textContent = "Entrar";
+            btn.disabled = false;
+            btn.textContent = "Entrar";
         }
     });
 }

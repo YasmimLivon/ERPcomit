@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const TOKEN_KEY = "app_auth_token";
-    const URL_FINANCEIRO = "http://localhost:5243/api/Financeiro";
-    const URL_PEDIDOS = "http://localhost:5243/api/Pedidos"; 
+    const URL_FINANCEIRO = "https://winxs-api.azurewebsites.net/api/Financeiro";
+    const URL_PEDIDOS = "https://winxs-api.azurewebsites.net/api/Pedidos"; 
 
     // 🔹 CONFIGURAÇÃO DO BOTÃO SAIR
     const btnSair = document.getElementById("btn-sair");
     if (btnSair) {
         btnSair.addEventListener("click", () => {
             localStorage.clear(); 
-            window.location.href = "../Login.html";
+            window.location.href = "../Index.html";
         });
     }
 

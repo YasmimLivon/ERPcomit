@@ -8,7 +8,7 @@ function verificarEControlarAcesso() {
     // 1. BARREIRA DE SEGURANÇA: Se não tem token, chuta de volta para o Login
     if (!token) {
         alert("Acesso negado. Por favor, faça login.");
-        window.location.href = "../Login.html"; 
+        window.location.href = "../Index.html"; 
         return;
     }
 
@@ -26,7 +26,7 @@ function verificarEControlarAcesso() {
     } catch (e) {
         console.error("Erro ao validar permissões do token:", e);
         localStorage.removeItem(TOKEN_KEY);
-        window.location.href = "../Login.html";
+        window.location.href = "../Index.html";
         return;
     }
 

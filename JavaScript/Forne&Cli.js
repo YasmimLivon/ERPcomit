@@ -1,5 +1,5 @@
 const TOKEN_KEY = "app_auth_token";
-const BASE_URL = "http://localhost:5243/api/Parceiros";
+const BASE_URL = "https://winxs-api.azurewebsites.net/api/Parceiros";
 
 let listaParceirosGlobal = []; // Armazena a lista unificada para busca e filtro local
 
@@ -24,7 +24,7 @@ async function apiFetch(endpoint, method = 'GET', data = null) {
         if (response.status === 401) {
             alert("Sessão expirada ou não autorizada. Por favor, faça login novamente.");
             localStorage.removeItem(TOKEN_KEY);
-            window.location.href = "../Login.html";
+            window.location.href = "../Index.html";
             return null;
         }
         
@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('btn-sair')?.addEventListener('click', () => {
         localStorage.removeItem(TOKEN_KEY);
-        location.href = "../Login.html";
+        location.href = "../Index.html";
     });
 
     window.addEventListener('click', (event) => {
