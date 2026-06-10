@@ -411,3 +411,30 @@ tr:hover {
         filter: blur(0);
     }
 }
+.modal-box {
+    width: 100%;
+    max-width: 500px;
+    
+    /* 🔥 CORREÇÃO PRINCIPAL */
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+
+    /* 🔥 GARANTE QUE NÃO ESTOURE */
+    width: 100%;
+}
+
+.input-group {
+    width: 100%;
+    min-width: 0; /* 🔥 ESSENCIAL pra não empurrar layout */
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+}
