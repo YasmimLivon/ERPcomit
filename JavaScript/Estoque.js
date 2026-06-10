@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const TOKEN_KEY = "app_auth_token";
-    const API_URL = "http://localhost:5243/api/Estoque";
-    const API_PRODUTOS = "http://localhost:5243/api/Produtos";
+    const API_URL = "https://winxs-api.azurewebsites.net/api/Estoque";
+    const API_PRODUTOS = "https://winxs-api.azurewebsites.net/api/Produtos";
 
     // 🔹 ELEMENTOS DA INTERFACE
     const btnSair = document.getElementById("btn-sair");
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnSair) {
         btnSair.addEventListener("click", () => {
             localStorage.removeItem(TOKEN_KEY);
-            window.location.href = "../Login.html";
+            window.location.href = "../Index.html";
         });
     }
 
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             if (response.status === 401) {
                 alert("Sessão expirada ou não autorizada. Por favor, faça login novamente.");
-                window.location.href = "../Login.html";
+                window.location.href = "../Index.html";
                 return;
             }
             

@@ -3,14 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const TOKEN_KEY = "app_auth_token";
     
     // 🔹 DECLARAÇÃO DAS ROTAS (CORREÇÃO DO ERRO UNDEFINED)
-    const API_GET = "http://localhost:5243/api/Produtos";
-    const API_BASE = "http://localhost:5243/api/Produtos";
-    const API_POST = "http://localhost:5243/api/Produtos/cadastrar";
+    const API_GET = "https://winxs-api.azurewebsites.net/api/Produtos";
+    const API_BASE = "https://winxs-api.azurewebsites.net/api/Produtos";
+    const API_POST = "https://winxs-api.azurewebsites.net/api/Produtos/cadastrar";
 
     // 🔹 LOGOUT
     document.getElementById("btn-sair")?.addEventListener("click", () => {
         localStorage.clear(); 
-        window.location.href = "../Login.html";
+        window.location.href = "../Index.html";
     });
 
     // 🔹 ELEMENTOS
