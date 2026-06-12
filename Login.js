@@ -24,7 +24,7 @@ if (form) {
                 Password: senha.value
             };
 
-
+            console.log("📤 Enviando:", body);
 
             const response = await fetch(`${API_URL}/Login/entrar`, {
                 method: "POST",
@@ -42,7 +42,7 @@ if (form) {
                 console.warn("API não retornou JSON");
             }
 
-        
+            console.log("📥 Resposta:", response.status, dados);
 
             // 🔴 ERROS
             if (!response.ok) {
